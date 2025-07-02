@@ -1,23 +1,39 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import tseslint from 'typescript-eslint'
-import { globalIgnores } from 'eslint/config'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      js.configs.recommended,
-      tseslint.configs.recommended,
-      reactHooks.configs['recommended-latest'],
-      reactRefresh.configs.vite,
+module.exports = {
+  parser: "@typescript-eslint/parser",
+  plugins: ["@typescript-eslint", "prettier", "import"],
+  extends: [
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:prettier/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/recommended",
+    "plugin:import/typescript",
+  ],
+  rules: {
+    "react/jsx-filename-extension": ["warn", { extensions: [".tsx"] }],
+    "import/extensions": "off",
+    "react/require-default-props": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/function-component-definition": [
+      "error",
+      {
+        namedComponents: ["arrow-function"],
+      },
     ],
-    languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
+    "prettier/prettier": [
+      "error",
+      {
+        endOfLine: "auto",
+      },
+    ],
+    "import/no-extraneous-dependencies": [
+      "error",
+      { devDependencies: ["prettier.config.js"] },
+    ],
+  },
+  settings: {
+    "import/resolver": {
+      typescript: {},
     },
   },
-])
+};
