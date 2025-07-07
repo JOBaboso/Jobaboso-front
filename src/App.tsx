@@ -1,16 +1,12 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import SignUpPage from './pages/signup/SignUpPage' 
+import { ReactNode } from 'react';
+import './index.css';
 
-
-function App() {
+const App = ({ children }: { children?: ReactNode }) => {
   return (
-    <div>
-      <SignUpPage />
-    </div>
-  )
-}
+    <>
+      {children}
+    </>
+  );
+};
 
-export default App
+export default App;
