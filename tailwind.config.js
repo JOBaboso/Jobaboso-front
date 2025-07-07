@@ -37,7 +37,7 @@ export default {
       height: {
         header: '104px',
         sidebar: '1120px',
-        footer: '80px',
+        footer: '50px',
       },
       width: {
         sidebar: '256px',
