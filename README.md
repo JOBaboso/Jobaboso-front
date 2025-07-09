@@ -8,7 +8,7 @@
 1. git fetch origin
 2. git pull origin main
 
-"feat/투두페이지" 
+"feat/투두페이지" 완성
 1. git add .
 2. git commit -m "feat : 투두페이지 완성"
 3. git push origin HEAD
