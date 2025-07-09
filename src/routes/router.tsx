@@ -3,8 +3,8 @@ import { createBrowserRouter, useRoutes } from 'react-router-dom';
 import MainLayout from "@layout/MainLayout";
 import AuthLayout from "@layout/AuthLayout";
 import HomePage from '@pages/home/HomePage'; 
-import SignupTypePage from '@pages/signup/SignUpTypePage';
-import SignInPage from '@pages/signin/SignInPage';
+import SignupTypePage from '@pages/auth/SignUpTypePage';
+import SignInPage from '@pages/auth/SignInPage';
 
 const router = () =>
   createBrowserRouter([
@@ -20,8 +20,8 @@ const router = () =>
     path: "/auth",
     element: <AuthLayout />,
     children: [
-      { path: "signIn", element: <SignInPage /> },
-      { path: "signUpType", element: <SignupTypePage /> },
+      { path: "signin", element: <SignInPage /> },
+      { path: "signup/type", element: <SignupTypePage /> },
     ],
   },
 ]);
