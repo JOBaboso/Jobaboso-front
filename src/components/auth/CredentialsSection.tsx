@@ -20,10 +20,11 @@ export const CredentialsSection: React.FC<Props> = ({
     <InputWithButton
       id="username"
       label="아이디"
-      placeholder="8~16자 사이의 영문, 숫자, 특수문자를 포함해서 입력해 주세요."
+      placeholder="아이디를 입력 후 중복 확인해 주세요."
       buttonText="중복확인"
       onButtonClick={onCheckUsername}
-      error={usernameError}
+      // error={usernameError}
+      error = "이미 사용 중인 아이디입니다. 다른 아이디를 입력해 주세요!"
     />
 
     <InputField

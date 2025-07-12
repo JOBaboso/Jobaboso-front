@@ -16,7 +16,7 @@ export const InputField: React.FC<InputFieldProps> = ({
   error,
 }) => {
   return (
-    <div className="w-[586px] mx-auto">
+    <div className="w-full] mx-auto my-0">
       {/* 레이블 */}
       <label
         htmlFor={id}
@@ -43,17 +43,15 @@ export const InputField: React.FC<InputFieldProps> = ({
           focus:outline-none focus:border-mainBlue focus:ring-1 focus:ring-mainBlue
         "
       />
-      {error && (
-        <p className="
-          mt-1
-          ml-8             /* 입력 텍스트 시작 위치와 맞춤 */
-          text-[12px]      /* 12px */
-          leading-[20px]   /* 20px */
-          text-[#FF3636]   /* #FF3636 */
-        ">
-          {error}
-        </p>
-      )}
+      {/* 에러 메시지 */}
+      <p
+        className="
+          text-[12px]
+          text-[#FF3636]
+        "
+      >
+        {error ?? '\u00A0'}
+      </p>
     </div>
   );
 };
