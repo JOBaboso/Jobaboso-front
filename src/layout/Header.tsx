@@ -13,7 +13,7 @@ const Header = () => {
         <Link to="/auth/SignIn" className="hover:underline hover:text-mainBlue">
           로그인
         </Link>
-        <Link to="/auth/SignUpType" className="hover:underline hover:text-mainBlue">
+        <Link to="/auth/signup/type" className="hover:underline hover:text-mainBlue">
           회원가입
         </Link>
       </nav>
