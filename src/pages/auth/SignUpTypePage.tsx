@@ -1,6 +1,6 @@
 import { FaUser, FaBuilding, FaUniversity } from "react-icons/fa";
-import Card from "@components/auth/Card";
-import Button from "@components/auth/Button";
+import Card from "@components/common/Card";
+import Button from "@components/common/Button";
 import { useNavigate } from "react-router-dom";
 
 const SignupTypePage = () => {
