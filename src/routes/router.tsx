@@ -5,6 +5,7 @@ import AuthLayout from "@layout/AuthLayout";
 import HomePage from '@pages/home/HomePage'; 
 import SignupTypePage from '@pages/auth/SignUpTypePage';
 import SignInPage from '@pages/auth/SignInPage';
+import { SignUpPersonalPage } from '@pages/auth/SignUpPersonalPage'
 
 const router = () =>
   createBrowserRouter([
@@ -22,6 +23,7 @@ const router = () =>
     children: [
       { path: "signin", element: <SignInPage /> },
       { path: "signup/type", element: <SignupTypePage /> },
+      { path: "signup/personal", element: <SignUpPersonalPage /> },
     ],
   },
 ]);
