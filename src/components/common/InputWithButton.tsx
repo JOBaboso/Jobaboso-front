@@ -20,7 +20,7 @@ export const InputWithButton: React.FC<InputWithButtonProps> = ({
   error,
 }) => {
   return (
-    <div className="w-[586px] mx-auto">
+    <div className="w-full mx-auto my-0">
       {/* 레이블 */}
       <label
         htmlFor={id}
@@ -38,6 +38,7 @@ export const InputWithButton: React.FC<InputWithButtonProps> = ({
           placeholder={placeholder}
           className="
             flex-1
+            w-3/4
             h-[66px]
             px-4
             bg-white
@@ -53,12 +54,13 @@ export const InputWithButton: React.FC<InputWithButtonProps> = ({
           type="button"
           onClick={onButtonClick}
           className="
-            w-[154px] h-[66px]
+            w-1/4 
+            h-[66px]
             bg-mainBlue
             border border-gray-200 border-l-0
             rounded-r-xl
             text-h4 font-medium text-white
-            hover:opacity-90
+            hover:opacity-50
           "
         >
           {buttonText}
@@ -66,11 +68,14 @@ export const InputWithButton: React.FC<InputWithButtonProps> = ({
       </div>
 
       {/* 에러 메시지 */}
-      {error && (
-        <p className="mt-1 ml-8 text-[12px] leading-[20px] text-[#FF3636]">
-          {error}
-        </p>
-      )}
+      <p
+        className="
+          text-[12px]
+          text-[#FF3636]
+        "
+      >
+        {error ?? '\u00A0'}
+      </p>
     </div>
   );
 };
