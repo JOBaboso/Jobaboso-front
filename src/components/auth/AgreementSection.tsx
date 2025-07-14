@@ -23,20 +23,20 @@ interface Props {
 export const AgreementSection: React.FC<Props> = ({ onAllChecked }) => {
   const [checkedAll, setCheckedAll] = useState(false);
   const [checkedList, setCheckedList] = useState<Record<string, boolean>>(
-    Object.fromEntries(agreementsData.map(a => [a.id, false]))
+    Object.fromEntries(agreementsData.map((a) => [a.id, false]))
   );
 
   const handleCheckAll = (e: ChangeEvent<HTMLInputElement>) => {
     const all = e.target.checked;
     setCheckedAll(all);
-    setCheckedList(Object.fromEntries(agreementsData.map(a => [a.id, all])));
+    setCheckedList(Object.fromEntries(agreementsData.map((a) => [a.id, all])));
   };
 
   const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
     const { id, checked } = e.target;
     const next = { ...checkedList, [id]: checked };
     setCheckedList(next);
-    setCheckedAll(agreementsData.every(a => next[a.id]));
+    setCheckedAll(agreementsData.every((a) => next[a.id]));
   };
 
   useEffect(() => {
@@ -44,25 +44,26 @@ export const AgreementSection: React.FC<Props> = ({ onAllChecked }) => {
   }, [checkedAll, onAllChecked]);
 
   return (
-    <div className="space-y-8 border border-gray-200 rounded-xl py-[40px] px-[30px]">
+    <div className="space-y-8 rounded-xl border border-gray-200 px-[30px] py-[40px]">
       {/* 전체 동의: 텍스트 왼쪽, 체크박스 오른쪽 */}
       <div className="flex items-center justify-between">
-        <span className="text-gray-700 text-h3">
-          필수 동의 항목 및 개인정보 수집 및 이용 동의(선택), <br/> 광고성 정보 수신(선택)에 모두 동의합니다.
+        <span className="text-h3 text-gray-700">
+          필수 동의 항목 및 개인정보 수집 및 이용 동의(선택), <br /> 광고성 정보 수신(선택)에 모두
+          동의합니다.
         </span>
         <input
           type="checkbox"
-          className="w-5 h-5 border-gray-300 rounded accent-mainBlue"
+          className="h-5 w-5 rounded border-gray-300 accent-mainBlue"
           checked={checkedAll}
           onChange={handleCheckAll}
         />
       </div>
 
-      <div className="w-[530px] h-0 border-t border-gray-200" />
+      <div className="h-0 w-[530px] border-t border-gray-200" />
 
       {/* 개별 동의 리스트 */}
       <ul className="space-y-3">
-        {agreementsData.map(a => (
+        {agreementsData.map((a) => (
           <li key={a.id} className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <span className="text-h4">
@@ -88,7 +89,7 @@ export const AgreementSection: React.FC<Props> = ({ onAllChecked }) => {
             <input
               type="checkbox"
               id={a.id}
-              className="w-5 h-5 border-gray-300 rounded accent-mainBlue"
+              className="h-5 w-5 rounded border-gray-300 accent-mainBlue"
               checked={checkedList[a.id]}
               onChange={handleCheck}
             />

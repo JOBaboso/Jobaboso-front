@@ -7,7 +7,7 @@ interface BinarySelectorProps<T extends string> {
   value: T | '';
   onChange: (value: T) => void;
   labels?: [string, string];
-  error? : string;
+  error?: string;
 }
 
 export const BinarySelector = <T extends string>({
@@ -16,40 +16,28 @@ export const BinarySelector = <T extends string>({
   value,
   onChange,
   labels = options,
-  error
+  error,
 }: BinarySelectorProps<T>) => {
   return (
     <div>
-      <label
-        className="p-1 block mb-2 text-h4 font-medium text-gray-700"
-      >
-        {label}
-      </label>
-      <div className="flex space-x-4 mt-1">
+      <label className="mb-2 block p-1 text-h4 font-medium text-gray-700">{label}</label>
+      <div className="mt-1 flex space-x-4">
         {options.map((option, idx) => (
           <button
             key={option}
             type="button"
             onClick={() => onChange(option)}
-            className={`flex-1 h-[66px] py-3 rounded-xl border transition-all ${
+            className={`h-[66px] flex-1 rounded-xl border py-3 transition-all ${
               value === option
-                ? 'bg-mainBlue text-white border-mainBlue'
-                : 'bg-white text-gray-400 border-gray-200'
+                ? 'border-mainBlue bg-mainBlue text-white'
+                : 'border-gray-200 bg-white text-gray-400'
             }`}
           >
             {labels[idx]}
           </button>
         ))}
       </div>
-      <p
-        className="
-          mt-1
-          text-[12px]
-          text-[#FF3636]
-        "
-      >
-        {error ?? '\u00A0'}
-      </p>
+      <p className="mt-1 text-[12px] text-[#FF3636]">{error ?? '\u00A0'}</p>
     </div>
   );
 };

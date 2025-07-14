@@ -18,20 +18,10 @@ export const PersonalInfoSection: React.FC<Props> = ({
   gender,
   onGenderChange,
 }) => (
-  <div className="space-y-3 mb-10">
-    <InputField
-      id="name"
-      label="이름"
-      placeholder="이름을 입력해 주세요."
-      error={nameError}
-    />
+  <div className="mb-10 space-y-3">
+    <InputField id="name" label="이름" placeholder="이름을 입력해 주세요." error={nameError} />
 
-    <InputField
-      id="birth"
-      label="생년월일"
-      placeholder="예시: 20020208"
-      error={birthError}
-    />
+    <InputField id="birth" label="생년월일" placeholder="예시: 20020208" error={birthError} />
 
     <BinarySelector
       label="성별"
@@ -41,5 +31,7 @@ export const PersonalInfoSection: React.FC<Props> = ({
       onChange={onGenderChange}
       error={genderError}
     />
+
+    <InputField id="email" label="이메일" placeholder="이메일을 입력해주세요." />
   </div>
 );

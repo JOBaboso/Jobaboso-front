@@ -4,11 +4,11 @@ interface ButtonProps {
   onClick?: () => void;
 }
 
-const Button = ({ children, className = "", onClick }: ButtonProps) => {
+const Button = ({ children, className = '', onClick }: ButtonProps) => {
   return (
     <button
       onClick={onClick}
-      className={`flex items-center justify-center gap-2 w-[103px] h-[42px] bg-mainBlue text-white rounded-[12px] text-h4 font-medium leading-none hover:bg-subDarkBlue transition ${className}`}
+      className={`flex h-[42px] w-[103px] items-center justify-center gap-2 rounded-[12px] bg-mainBlue text-h4 font-medium leading-none text-white transition hover:bg-subDarkBlue ${className}`}
     >
       {children}
     </button>

@@ -5,7 +5,7 @@ import { PhoneVerificationSection } from '@components/auth/PhoneVerificationSect
 import { AgreementSection } from '@components/auth/AgreementSection';
 
 const SignupPersonalPage: React.FC = () => {
-  const [gender, setGender] = useState<'male'|'female'|''>('');
+  const [gender, setGender] = useState<'male' | 'female' | ''>('');
   const [allAgreed, setAllAgreed] = useState(false);
 
   const handleAllChecked = (checked: boolean) => {
@@ -13,10 +13,10 @@ const SignupPersonalPage: React.FC = () => {
   };
 
   const handleCheckUsername = () => console.log('아이디 중복 확인');
-  const handleRequestCode   = () => console.log('인증번호 요청');
-  const handleVerifyCode    = () => console.log('인증번호 검증');
-  const handleResendCode    = () => console.log('인증번호 재전송');
-  const onSubmit            = (e: FormEvent) => {
+  const handleRequestCode = () => console.log('인증번호 요청');
+  const handleVerifyCode = () => console.log('인증번호 검증');
+  const handleResendCode = () => console.log('인증번호 재전송');
+  const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (!allAgreed) {
       alert('모든 약관에 동의해 주세요.');
@@ -26,19 +26,16 @@ const SignupPersonalPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen py-12 px-4">
-      <div className="max-w-[586px] mx-auto">
-        <h1 className="text-[40px] font-bold leading-[60px] text-gray-800 text-center mb-8">
+    <div className="min-h-screen px-4 py-12">
+      <div className="mx-auto max-w-[586px]">
+        <h1 className="mb-8 text-center text-[40px] font-bold leading-[60px] text-gray-800">
           개인 회원가입
         </h1>
 
         <form className="space-y-3" onSubmit={onSubmit}>
           <CredentialsSection onCheckUsername={handleCheckUsername} />
 
-          <PersonalInfoSection
-            gender={gender}
-            onGenderChange={setGender}
-          />
+          <PersonalInfoSection gender={gender} onGenderChange={setGender} />
 
           <PhoneVerificationSection
             onRequestCode={handleRequestCode}
@@ -50,7 +47,7 @@ const SignupPersonalPage: React.FC = () => {
 
           <button
             type="submit"
-            className="w-full my-9 py-4 bg-mainBlue text-white text-h2 rounded-xl hover:opacity-50"
+            className="my-9 w-full rounded-xl bg-mainBlue py-4 text-h2 text-white hover:opacity-50"
           >
             가입하기
           </button>

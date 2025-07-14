@@ -44,7 +44,7 @@ export const PhoneVerificationSection: React.FC<Props> = ({
         <button
           type="button"
           onClick={onResendCode}
-          className="w-[120px] h-[66px] bg-gray-200 text-gray-400 text-h4 font-medium rounded-xl hover:opacity-50"
+          className="h-[66px] w-[120px] rounded-xl bg-gray-200 text-h4 font-medium text-gray-400 hover:opacity-50"
         >
           재전송
         </button>
