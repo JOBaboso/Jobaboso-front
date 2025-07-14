@@ -4,7 +4,7 @@ import { PersonalInfoSection } from '@components/auth/PersonalInfoSection';
 import { PhoneVerificationSection } from '@components/auth/PhoneVerificationSection';
 import { AgreementSection } from '@components/auth/AgreementSection';
 
-export const SignUpPersonalPage: React.FC = () => {
+const SignupPersonalPage: React.FC = () => {
   const [gender, setGender] = useState<'male'|'female'|''>('');
   const [allAgreed, setAllAgreed] = useState(false);
 
@@ -32,7 +32,7 @@ export const SignUpPersonalPage: React.FC = () => {
           개인 회원가입
         </h1>
 
-        <form className="space-y-10" onSubmit={onSubmit}>
+        <form className="space-y-3" onSubmit={onSubmit}>
           <CredentialsSection onCheckUsername={handleCheckUsername} />
 
           <PersonalInfoSection
@@ -46,12 +46,11 @@ export const SignUpPersonalPage: React.FC = () => {
             onResendCode={handleResendCode}
           />
 
-          {/* 이제 agreementsData를 넘길 필요 없이 전체 동의 여부만 처리 */}
           <AgreementSection onAllChecked={handleAllChecked} />
 
           <button
             type="submit"
-            className="w-full py-4 bg-mainBlue text-white text-lg font-medium rounded-xl hover:opacity-90"
+            className="w-full my-9 py-4 bg-mainBlue text-white text-h2 rounded-xl hover:opacity-50"
           >
             가입하기
           </button>
@@ -60,3 +59,5 @@ export const SignUpPersonalPage: React.FC = () => {
     </div>
   );
 };
+
+export default SignupPersonalPage;

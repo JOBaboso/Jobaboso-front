@@ -16,7 +16,7 @@ export const CredentialsSection: React.FC<Props> = ({
   passwordError,
   passwordConfirmError,
 }) => (
-  <div className="space-y-6">
+  <div className="space-y-3">
     <InputWithButton
       id="username"
       label="아이디"

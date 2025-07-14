@@ -3,9 +3,12 @@ import { createBrowserRouter, useRoutes } from 'react-router-dom';
 import MainLayout from "@layout/MainLayout";
 import AuthLayout from "@layout/AuthLayout";
 import HomePage from '@pages/home/HomePage'; 
-import SignupTypePage from '@pages/auth/SignUpTypePage';
-import SignInPage from '@pages/auth/SignInPage';
-import { SignUpPersonalPage } from '@pages/auth/SignUpPersonalPage'
+import SignupTypePage from '@pages/auth/SignupTypePage';
+import SigninPage from '@pages/auth/SigninPage';
+import SignupPersonalPage from '@pages/auth/SignupPersonalPage';
+import SignupUniversityPage from '@pages/auth/SignupUniversityPage';
+import SignupCompanyPage from '@pages/auth/SignupCompanyPage';
+
 
 const router = () =>
   createBrowserRouter([
@@ -21,9 +24,11 @@ const router = () =>
     path: "/auth",
     element: <AuthLayout />,
     children: [
-      { path: "signin", element: <SignInPage /> },
+      { path: "signin", element: <SigninPage /> },
       { path: "signup/type", element: <SignupTypePage /> },
-      { path: "signup/personal", element: <SignUpPersonalPage /> },
+      { path: "signup/personal", element: <SignupPersonalPage /> },
+      { path: "signup/company", element: <SignupCompanyPage /> },
+      { path: "signup/university", element: <SignupUniversityPage /> },
     ],
   },
 ]);

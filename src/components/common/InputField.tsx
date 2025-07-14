@@ -16,7 +16,7 @@ export const InputField: React.FC<InputFieldProps> = ({
   error,
 }) => {
   return (
-    <div className="w-full] mx-auto my-0">
+    <div className="w-full mx-auto my-0">
       {/* 레이블 */}
       <label
         htmlFor={id}
@@ -46,6 +46,7 @@ export const InputField: React.FC<InputFieldProps> = ({
       {/* 에러 메시지 */}
       <p
         className="
+          mt-1
           text-[12px]
           text-[#FF3636]
         "

@@ -44,7 +44,7 @@ export const AgreementSection: React.FC<Props> = ({ onAllChecked }) => {
   }, [checkedAll, onAllChecked]);
 
   return (
-    <div className="space-y-4 border border-gray-200 rounded-xl py-[40px] px-[30px]">
+    <div className="space-y-8 border border-gray-200 rounded-xl py-[40px] px-[30px]">
       {/* 전체 동의: 텍스트 왼쪽, 체크박스 오른쪽 */}
       <div className="flex items-center justify-between">
         <span className="text-gray-700 text-h3">
@@ -61,7 +61,7 @@ export const AgreementSection: React.FC<Props> = ({ onAllChecked }) => {
       <div className="w-[530px] h-0 border-t border-gray-200" />
 
       {/* 개별 동의 리스트 */}
-      <ul className="space-y-2">
+      <ul className="space-y-3">
         {agreementsData.map(a => (
           <li key={a.id} className="flex items-center justify-between">
             <div className="flex items-center space-x-2">

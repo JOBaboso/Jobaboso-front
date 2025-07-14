@@ -24,7 +24,7 @@ export const InputWithButton: React.FC<InputWithButtonProps> = ({
       {/* 레이블 */}
       <label
         htmlFor={id}
-        className="block mb-2 text-h4 font-medium text-gray-700"
+        className="p-1 block mb-2 text-h4 font-medium text-gray-700"
       >
         {label}
       </label>
@@ -38,10 +38,10 @@ export const InputWithButton: React.FC<InputWithButtonProps> = ({
           placeholder={placeholder}
           className="
             flex-1
-            w-3/4
             h-[66px]
             px-4
-            bg-white
+            py-[20px]
+          bg-white
             border border-gray-200 border-r-0
             rounded-l-xl
             text-h4 text-gray-700 placeholder-gray-400
@@ -70,6 +70,7 @@ export const InputWithButton: React.FC<InputWithButtonProps> = ({
       {/* 에러 메시지 */}
       <p
         className="
+          mt-1
           text-[12px]
           text-[#FF3636]
         "

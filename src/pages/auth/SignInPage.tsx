@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Button from "@components/common/Button";
 
-const SignInPage = () => {
+const SigninPage = () => {
   const [tab, setTab] = useState<"personal" | "company" | "university">("personal");
 
   const renderTabContent = () => (
@@ -66,4 +66,4 @@ const SignInPage = () => {
   );
 };
 
-export default SignInPage;
+export default SigninPage;
