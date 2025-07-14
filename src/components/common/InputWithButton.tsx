@@ -20,12 +20,9 @@ export const InputWithButton: React.FC<InputWithButtonProps> = ({
   error,
 }) => {
   return (
-    <div className="w-full mx-auto my-0">
+    <div className="mx-auto my-0 w-full">
       {/* 레이블 */}
-      <label
-        htmlFor={id}
-        className="block mb-2 text-h4 font-medium text-gray-700"
-      >
+      <label htmlFor={id} className="mb-2 block p-1 text-h4 font-medium text-gray-700">
         {label}
       </label>
 
@@ -36,46 +33,21 @@ export const InputWithButton: React.FC<InputWithButtonProps> = ({
           id={id}
           type={type}
           placeholder={placeholder}
-          className="
-            flex-1
-            w-3/4
-            h-[66px]
-            px-4
-            bg-white
-            border border-gray-200 border-r-0
-            rounded-l-xl
-            text-h4 text-gray-700 placeholder-gray-400
-            focus:outline-none focus:border-mainBlue focus:ring-1 focus:ring-mainBlue
-          "
+          className="h-[66px] flex-1 rounded-l-xl border border-r-0 border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-700 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
         />
 
         {/* 버튼 */}
         <button
           type="button"
           onClick={onButtonClick}
-          className="
-            w-1/4 
-            h-[66px]
-            bg-mainBlue
-            border border-gray-200 border-l-0
-            rounded-r-xl
-            text-h4 font-medium text-white
-            hover:opacity-50
-          "
+          className="h-[66px] w-1/4 rounded-r-xl border border-l-0 border-gray-200 bg-mainBlue text-h4 font-medium text-white hover:opacity-50"
         >
           {buttonText}
         </button>
       </div>
 
       {/* 에러 메시지 */}
-      <p
-        className="
-          text-[12px]
-          text-[#FF3636]
-        "
-      >
-        {error ?? '\u00A0'}
-      </p>
+      <p className="mt-1 text-[12px] text-[#FF3636]">{error ?? '\u00A0'}</p>
     </div>
   );
 };
