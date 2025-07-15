@@ -1,11 +1,17 @@
 // src/components/auth/CommonSignupFormSection.tsx
 import React, { FormEvent, useState } from 'react';
-import { CredentialsSection } from './CredentialsSection';
+import { AccountInfoSection } from './AccountInfoSection';
 import { PersonalInfoSection } from './PersonalInfoSection';
-import { PhoneVerificationSection } from './PhoneVerificationSection';
+import { ContactInfoSection } from './ContactInfoSection';
 import { AgreementSection } from './AgreementSection';
 
-export const CommonSignupFormSection: React.FC = () => {
+interface CommonSignupFormSectionProps {
+  showPersonalInfo?: boolean; // ← 기본값은 false
+}
+
+export const CommonSignupFormContainer: React.FC<CommonSignupFormSectionProps> = ({
+  showPersonalInfo = false,
+}) => {
   const [gender, setGender] = useState<'male' | 'female' | ''>('');
   const [allAgreed, setAllAgreed] = useState(false);
 
@@ -25,14 +31,17 @@ export const CommonSignupFormSection: React.FC = () => {
 
   return (
     <form className="space-y-3" onSubmit={onSubmit}>
-      <CredentialsSection onCheckUsername={handleCheckUsername} />
-      <PersonalInfoSection gender={gender} onGenderChange={setGender} />
-      <PhoneVerificationSection
+      <AccountInfoSection onCheckUsername={handleCheckUsername} />
+
+      {showPersonalInfo && <PersonalInfoSection gender={gender} onGenderChange={setGender} />}
+
+      <ContactInfoSection
         onRequestCode={handleRequestCode}
         onVerifyCode={handleVerifyCode}
         onResendCode={handleResendCode}
       />
       <AgreementSection onAllChecked={setAllAgreed} />
+
       <button
         type="submit"
         className="my-9 w-full rounded-xl bg-mainBlue py-4 text-h2 text-white hover:opacity-50"

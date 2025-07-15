@@ -13,6 +13,9 @@ export const UniversityInfoSection: React.FC = () => {
         onRightIconClick={() => {}}
       />
 
+      {/* 학과명 작성 */}
+      <InputField id="DepartmentName" label="학과명" placeholder="학과명을 입력해 주세요." />
+
       {/* 재직증명서 */}
       <InputField
         id="CertificationOfEmployment"

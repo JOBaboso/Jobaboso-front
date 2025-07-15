@@ -1,6 +1,6 @@
 import React from 'react';
 import { CompanyInfoSection } from '@components/auth/CompanyInfoSection';
-import { CommonSignupFormSection } from '@components/auth/CommonSignupFormSection';
+import { CommonSignupFormContainer } from '@components/auth/CommonSignupFormContainer';
 
 const SignupCompanyPage: React.FC = () => {
   return (
@@ -14,7 +14,7 @@ const SignupCompanyPage: React.FC = () => {
         <CompanyInfoSection />
 
         <h2 className="mb-4 text-h2 text-gray-900">인사담당자 정보</h2>
-        <CommonSignupFormSection />
+        <CommonSignupFormContainer />
       </div>
     </div>
   );

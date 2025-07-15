@@ -1,5 +1,6 @@
 import React from 'react';
 import { InputWithButton } from '@components/common/InputWithButton';
+import { InputField } from '@components/common/InputField';
 
 interface Props {
   onRequestCode: () => void;
@@ -9,7 +10,7 @@ interface Props {
   verificationError?: string;
 }
 
-export const PhoneVerificationSection: React.FC<Props> = ({
+export const ContactInfoSection: React.FC<Props> = ({
   onRequestCode,
   onVerifyCode,
   onResendCode,
@@ -50,5 +51,6 @@ export const PhoneVerificationSection: React.FC<Props> = ({
         </button>
       </div>
     </div>
+    <InputField id="email" label="이메일" placeholder="이메일을 입력해주세요." />
   </div>
 );
