@@ -5,13 +5,15 @@ import { FiEye, FiEyeOff } from 'react-icons/fi';
 
 interface Props {
   onCheckUsername: () => void;
+  nameError?: string;
   usernameError?: string;
   passwordError?: string;
   passwordConfirmError?: string;
 }
 
-export const CredentialsSection: React.FC<Props> = ({
+export const AccountInfoSection: React.FC<Props> = ({
   onCheckUsername,
+  nameError,
   usernameError,
   passwordError,
   passwordConfirmError,
@@ -52,6 +54,7 @@ export const CredentialsSection: React.FC<Props> = ({
         rightIcon={showPasswordConfirm ? <FiEye size={24} /> : <FiEyeOff size={24} />}
         onRightIconClick={() => setShowPasswordConfirm((prev) => !prev)}
       />
+      <InputField id="name" label="이름" placeholder="이름을 입력해 주세요." error={nameError} />
     </div>
   );
 };

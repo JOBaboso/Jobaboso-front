@@ -16,7 +16,6 @@ const agreementsData: Agreement[] = [
 ];
 
 interface Props {
-  /** 전체 동의 상태가 바뀔 때 호출됩니다 */
   onAllChecked: (allChecked: boolean) => void;
 }
 

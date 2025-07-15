@@ -1,5 +1,5 @@
 import React from 'react';
-import { CommonSignupFormSection } from '@components/auth/CommonSignupFormSection';
+import { CommonSignupFormContainer } from '@components/auth/CommonSignupFormContainer';
 
 const SignupPersonalPage: React.FC = () => {
   return (
@@ -8,7 +8,7 @@ const SignupPersonalPage: React.FC = () => {
         <h1 className="mb-8 text-center text-[40px] font-bold leading-[60px] text-gray-800">
           개인 회원가입
         </h1>
-        <CommonSignupFormSection />
+        <CommonSignupFormContainer showPersonalInfo />
       </div>
     </div>
   );
