@@ -5,14 +5,14 @@ import Footer from './Footer';
 
 const MainLayout = () => {
   return (
-    <div className="flex min-h-screen flex-col bg-white">
+    <div className="flex flex-col min-h-screen bg-white">
       <Header />
 
       <div className="flex flex-1 overflow-hidden">
         <aside className="h-full w-sidebar shrink-0">
           <Sidebar />
         </aside>
-        <main className="flex-1 overflow-y-auto bg-white px-8 py-6">
+        <main className="flex-1 overflow-y-auto bg-white">
           <Outlet />
         </main>
       </div>
