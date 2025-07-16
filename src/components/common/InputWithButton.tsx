@@ -8,6 +8,8 @@ interface InputWithButtonProps {
   buttonText: string;
   onButtonClick: () => void;
   error?: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const InputWithButton: React.FC<InputWithButtonProps> = ({
@@ -18,6 +20,8 @@ export const InputWithButton: React.FC<InputWithButtonProps> = ({
   buttonText,
   onButtonClick,
   error,
+  value,
+  onChange,
 }) => {
   return (
     <div className="mx-auto my-0 w-full">
@@ -33,6 +37,8 @@ export const InputWithButton: React.FC<InputWithButtonProps> = ({
           id={id}
           type={type}
           placeholder={placeholder}
+          value={value}
+          onChange={onChange}
           className="h-[66px] flex-1 rounded-l-xl border border-r-0 border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-700 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
         />
 

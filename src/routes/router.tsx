@@ -29,7 +29,6 @@ const router = () =>
         { path: 'signup/personal', element: <SignupPersonalPage /> },
         { path: 'signup/company', element: <SignupCompanyPage /> },
         { path: 'signup/university', element: <SignupUniversityPage /> },
-        { path: 'test', element: <TestPage /> },
       ],
     },
   ]);
