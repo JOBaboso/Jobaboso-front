@@ -12,7 +12,7 @@ const MainLayout = () => {
         <aside className="h-full w-sidebar shrink-0">
           <Sidebar />
         </aside>
-        <main className="flex-1 overflow-y-auto bg-white">
+        <main className="flex-1 px-8 py-6 overflow-y-auto bg-white">
           <Outlet />
         </main>
       </div>
