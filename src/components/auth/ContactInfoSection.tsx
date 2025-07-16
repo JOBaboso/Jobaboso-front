@@ -8,6 +8,10 @@ interface Props {
   onResendCode: () => void;
   phoneError?: string;
   verificationError?: string;
+  phone: string;
+  onChangePhone: (v: string) => void;
+  email: string;
+  onChangeEmail: (v: string) => void;
 }
 
 export const ContactInfoSection: React.FC<Props> = ({
@@ -16,12 +20,18 @@ export const ContactInfoSection: React.FC<Props> = ({
   onResendCode,
   phoneError,
   verificationError,
+  phone,
+  onChangePhone,
+  email,
+  onChangeEmail,
 }) => (
   <div className="space-y-3">
     {/* 전화번호 입력 */}
     <InputWithButton
       id="phone"
       label="전화번호"
+      value={phone}
+      onChange={e => onChangePhone(e.target.value)}
       placeholder="전화번호를 입력해 주세요."
       buttonText="인증번호 받기"
       onButtonClick={onRequestCode}
@@ -34,6 +44,8 @@ export const ContactInfoSection: React.FC<Props> = ({
         <InputWithButton
           id="verification"
           label="인증번호"
+          value={''}
+          onChange={() => {}}
           placeholder="문자로 전송된 인증번호를 입력해 주세요."
           buttonText="확인"
           onButtonClick={onVerifyCode}
@@ -51,6 +63,6 @@ export const ContactInfoSection: React.FC<Props> = ({
         </button>
       </div>
     </div>
-    <InputField id="email" label="이메일" placeholder="이메일을 입력해주세요." />
+    <InputField id="email" label="이메일" value={email} onChange={e => onChangeEmail(e.target.value)} placeholder="이메일을 입력해 주세요." />
   </div>
 );

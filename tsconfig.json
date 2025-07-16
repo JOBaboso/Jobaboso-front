@@ -11,7 +11,7 @@
       "@pages/*": ["pages/*"],
       "@routes/*": ["routes/*"],
       "@stores/*": ["stores/*"],
-      "@types/*": ["types/*"],
+      "@type/*": ["type/*"],
       "@utils/*": ["utils/*"]
     },
     "target": "ES2022",
