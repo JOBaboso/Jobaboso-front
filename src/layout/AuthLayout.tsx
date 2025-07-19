@@ -1,10 +1,10 @@
 import { Outlet } from 'react-router-dom';
-import Header from './Header';
-import Footer from './Footer';
+import Header from './header/Header';
+import Footer from './footer/Footer';
 
 const SignLayout = () => {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex min-h-screen flex-col">
       <Header />
 
       <main className="flex-1 overflow-y-auto bg-white">

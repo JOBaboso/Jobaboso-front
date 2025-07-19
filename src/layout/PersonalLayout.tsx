@@ -1,16 +1,16 @@
 import { Outlet } from 'react-router-dom';
 import Header from './header/Header';
-import Sidebar from './sidebar/Sidebar';
+import PersonalSidebar from './sidebar/PersonalSidebar';
 import Footer from './footer/Footer';
 
-const MainLayout = () => {
+const PersonalLayout = () => {
   return (
     <div className="flex min-h-screen flex-col bg-white">
       <Header />
 
       <div className="flex flex-1 overflow-hidden">
-        <aside className="h-full w-sidebar shrink-0">
-          <Sidebar />
+        <aside className="h-full w-sidebar shrink-0 border-r border-gray-200">
+          <PersonalSidebar />
         </aside>
         <main className="flex-1 overflow-y-auto bg-white px-8 py-6">
           <Outlet />
@@ -22,4 +22,4 @@ const MainLayout = () => {
   );
 };
 
-export default MainLayout;
+export default PersonalLayout;

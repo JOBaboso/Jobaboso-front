@@ -40,7 +40,7 @@ export default {
         footer: '50px',
       },
       width: {
-        sidebar: '256px',
+        sidebar: '240px',
         container: '1280px',
       },
     },

@@ -2,12 +2,14 @@ import { createBrowserRouter, useRoutes } from 'react-router-dom';
 
 import MainLayout from '@layout/MainLayout';
 import AuthLayout from '@layout/AuthLayout';
+import PersonalLayout from '@layout/PersonalLayout';
 import HomePage from '@pages/home/HomePage';
 import SignupTypePage from '@pages/auth/SignupTypePage';
-import SigninPage from '@pages/auth/SignInPage';
+import SigninPage from '@pages/auth/SigninPage';
 import SignupPersonalPage from '@pages/auth/SignupPersonalPage';
 import SignupUniversityPage from '@pages/auth/SignupUniversityPage';
 import SignupCompanyPage from '@pages/auth/SignupCompanyPage';
+import EditMySpec from '@pages/personal/EditMySpec';
 
 const router = () =>
   createBrowserRouter([
@@ -29,6 +31,11 @@ const router = () =>
         { path: 'signup/company', element: <SignupCompanyPage /> },
         { path: 'signup/university', element: <SignupUniversityPage /> },
       ],
+    },
+    {
+      path: '/personal',
+      element: <PersonalLayout />,
+      children: [{ path: 'editMySpec', element: <EditMySpec /> }],
     },
   ]);
 
