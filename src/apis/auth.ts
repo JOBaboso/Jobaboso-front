@@ -1,5 +1,9 @@
 import api from './api';
-import { SignUpCompanyRequestDto, SignUpPersonalRequestDto } from '@type/authDTO/SignUpDTO';
+import {
+  SignUpCompanyRequestDto,
+  SignUpPersonalRequestDto,
+  SignInRequestDto,
+} from '@type/authDTO/SignUpDTO';
 
 export const postSignUpPersonal = async (request: SignUpPersonalRequestDto) => {
   const response = await api.post('/register/personal', request);
@@ -8,5 +12,10 @@ export const postSignUpPersonal = async (request: SignUpPersonalRequestDto) => {
 
 export const postSignUpCompany = async (request: SignUpCompanyRequestDto) => {
   const response = await api.post('/register/company', request);
+  return response.data;
+};
+
+export const signin = async (request: SignInRequestDto) => {
+  const response = await api.post('/signin', request);
   return response.data;
 };

@@ -4,11 +4,10 @@ import MainLayout from '@layout/MainLayout';
 import AuthLayout from '@layout/AuthLayout';
 import HomePage from '@pages/home/HomePage';
 import SignupTypePage from '@pages/auth/SignupTypePage';
-import SigninPage from '@pages/auth/SigninPage';
+import SigninPage from '@pages/auth/SignInPage';
 import SignupPersonalPage from '@pages/auth/SignupPersonalPage';
 import SignupUniversityPage from '@pages/auth/SignupUniversityPage';
 import SignupCompanyPage from '@pages/auth/SignupCompanyPage';
-import TestPage from '@pages/TestPage';
 
 const router = () =>
   createBrowserRouter([

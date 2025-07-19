@@ -26,3 +26,8 @@ export interface SignUpPersonalRequestDto {
   gender: string; // M or W
   profile_addr: string;
 }
+
+export interface SignInRequestDto {
+  id: string;
+  password: string;
+}
