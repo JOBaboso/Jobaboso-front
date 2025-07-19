@@ -6,7 +6,6 @@ interface InputFieldProps {
   placeholder: string;
   type?: string;
   error?: string;
-
   rightIcon?: ReactNode; // 👈 아이콘 컴포넌트 (예: <FiHelpCircle />)
   onRightIconClick?: () => void;
   value: string;
@@ -39,7 +38,7 @@ export const InputField: React.FC<InputFieldProps> = ({
           placeholder={placeholder}
           value={value}
           onChange={onChange}
-          className="// 아이콘 공간 확보 h-[66px] w-full rounded-xl border border-gray-200 bg-white px-4 py-[20px] pr-[48px] text-h4 text-gray-700 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
+          className="h-[66px] w-full rounded-lg border border-gray-200 bg-white px-4 py-[20px] pr-[48px] text-h4 text-gray-700 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
         />
 
         {rightIcon && (

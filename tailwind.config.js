@@ -7,6 +7,7 @@ export default {
         mainBlue: '#1779FA',
         subSkyBlue: '#00B1FF',
         subDarkBlue: '#00228B',
+        subLightBlue: '#E7F3FF',
         white: '#FFFFFF',
         gray: {
           50: '#F9FAFB',
