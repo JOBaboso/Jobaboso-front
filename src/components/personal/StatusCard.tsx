@@ -9,17 +9,17 @@ interface StatusCardProps {
 
 export const StatusCard: React.FC<StatusCardProps> = ({ icon, label, value }) => {
   const styledIcon = React.cloneElement(icon, {
-    className: 'w-8 h-8 text-gray-500',
+    className: 'w-[1.67vw] h-[1.67vw] text-gray-500',
   });
 
   return (
-    <div className="flex h-[156px] w-full flex-col justify-between rounded-[16px] border border-gray-100 px-6 py-4 shadow-[0_0_4px_rgba(0,0,0,0.1)]">
-      <div className="flex items-center gap-2 text-h2 text-gray-700">
+    <div className="flex h-[8.13vw] w-[17.92vw] flex-col justify-between rounded-[0.83vw] border border-gray-100 px-[1.25vw] py-[0.83vw] shadow-[0_0_4px_rgba(0,0,0,0.1)]">
+      <div className="flex items-center gap-[0.42vw] text-h2 text-gray-700">
         {styledIcon}
         {label}
       </div>
       <div className="flex h-full items-end justify-end">
-        <span className="text-[40px] font-semibold text-gray-700">{value}</span>
+        <span className="text-[2.08vw] font-semibold text-gray-700">{value}</span>
       </div>
     </div>
   );

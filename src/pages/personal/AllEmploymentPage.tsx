@@ -43,10 +43,10 @@ const dummyData: ApplicationRow[] = [
 
 const OverallEmploymentPage: React.FC = () => {
   return (
-    <div className="p-6">
+    <div className="p-[1.25vw]">
       <StatusSection />
-      <div className="mb-4 mt-20 flex items-center gap-2 text-bodyLg text-gray-800">
-        <InformationCircleIcon className="h-5 w-5 shrink-0 self-center" />
+      <div className="mb-[0.83vw] mt-[4.17vw] flex items-center gap-[0.42vw] text-bodyLg text-gray-800">
+        <InformationCircleIcon className="h-[1.04vw] w-[1.04vw] shrink-0 self-center" />
         <span className="leading-none">지원한 기업들이 최신순으로 정렬되어 나열됩니다.</span>
       </div>
       <ApplicationTable rows={dummyData} />
