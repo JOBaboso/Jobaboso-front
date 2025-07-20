@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { signin } from '@apis/auth';
-import { SignInRequestDto } from '@type/authDTO/SignUpDTO';
+import { SignInRequestDto } from '@type/auth/SignUpDTO';
 
 import Button from '@components/common/Button';
 

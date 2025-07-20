@@ -9,7 +9,8 @@ import SigninPage from '@pages/auth/SigninPage';
 import SignupPersonalPage from '@pages/auth/SignupPersonalPage';
 import SignupUniversityPage from '@pages/auth/SignupUniversityPage';
 import SignupCompanyPage from '@pages/auth/SignupCompanyPage';
-import EditMySpec from '@pages/personal/EditMySpec';
+import EditMySpecPage from '@pages/personal/EditMySpecPage';
+import AllEmploymentPage from 'pages/personal/AllEmploymentPage';
 
 const router = () =>
   createBrowserRouter([
@@ -35,7 +36,10 @@ const router = () =>
     {
       path: '/personal',
       element: <PersonalLayout />,
-      children: [{ path: 'editMySpec', element: <EditMySpec /> }],
+      children: [
+        { path: 'editMySpec', element: <EditMySpecPage /> },
+        { path: 'allEmployment', element: <AllEmploymentPage /> },
+      ],
     },
   ]);
 

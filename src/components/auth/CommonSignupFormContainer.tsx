@@ -5,7 +5,7 @@ import { PersonalInfoSection } from './PersonalInfoSection';
 import { ContactInfoSection } from './ContactInfoSection';
 import { AgreementSection } from './AgreementSection';
 import { postSignUpPersonal } from '@apis/auth';
-import { SignUpPersonalRequestDto } from '@type/authDTO/SignUpDTO';
+import { SignUpPersonalRequestDto } from '@type/auth/SignUpDTO';
 
 interface CommonSignupFormSectionProps {
   showPersonalInfo?: boolean; // ← 기본값은 false

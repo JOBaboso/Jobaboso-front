@@ -3,7 +3,7 @@ import {
   SignUpCompanyRequestDto,
   SignUpPersonalRequestDto,
   SignInRequestDto,
-} from '@type/authDTO/SignUpDTO';
+} from '@type/auth/SignUpDTO';
 
 export const postSignUpPersonal = async (request: SignUpPersonalRequestDto) => {
   const response = await api.post('/register/personal', request);
