@@ -10,7 +10,8 @@ import SignupPersonalPage from '@pages/auth/SignupPersonalPage';
 import SignupUniversityPage from '@pages/auth/SignupUniversityPage';
 import SignupCompanyPage from '@pages/auth/SignupCompanyPage';
 import EditMySpecPage from '@pages/personal/EditMySpecPage';
-import AllEmploymentPage from 'pages/personal/AllEmploymentPage';
+import AllEmploymentPage from '@pages/personal/AllEmploymentPage';
+import { CalendarPage } from '@pages/personal/CalendarPage';
 
 const router = () =>
   createBrowserRouter([
@@ -34,11 +35,15 @@ const router = () =>
       ],
     },
     {
-      path: '/personal',
+      path: '/my',
       element: <PersonalLayout />,
       children: [
-        { path: 'editMySpec', element: <EditMySpecPage /> },
-        { path: 'allEmployment', element: <AllEmploymentPage /> },
+        { path: 'resume', element: <HomePage /> },
+        { path: 'resume/edit', element: <EditMySpecPage /> },
+        { path: 'status', element: <AllEmploymentPage /> },
+        { path: 'touch', element: <HomePage /> },
+        { path: 'calendar', element: <CalendarPage /> },
+        { path: 'review', element: <HomePage /> },
       ],
     },
   ]);
