@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
 interface CardProps {
   icon?: ReactNode;
@@ -9,9 +9,9 @@ interface CardProps {
 
 const Card = ({ icon, title, description, children }: CardProps) => {
   return (
-    <div className="flex flex-col w-[370px] h-[345px] p-[36px] bg-white border border-gray-50 rounded-[32px] shadow gap-6">
+    <div className="flex h-[345px] w-[370px] flex-col gap-6 rounded-[32px] border border-gray-50 bg-white p-[36px] shadow">
       {icon && (
-        <div className="w-10 h-10 flex items-center justify-center text-mainBlue text-4xl">
+        <div className="flex h-10 w-10 items-center justify-center text-4xl text-mainBlue">
           {icon}
         </div>
       )}
@@ -20,11 +20,7 @@ const Card = ({ icon, title, description, children }: CardProps) => {
         <p className="text-bodyLg text-gray-700">{description}</p>
       </div>
 
-      {children && (
-        <div className="mt-[42px] ml-[187px]">
-          {children}
-        </div>
-      )}
+      {children && <div className="ml-[187px] mt-[42px]">{children}</div>}
     </div>
   );
 };

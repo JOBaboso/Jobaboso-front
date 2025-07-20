@@ -1,12 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./src/**/*.{js,jsx,ts,tsx,css}"],
+  content: ['./src/**/*.{js,jsx,ts,tsx,css}'],
   theme: {
     extend: {
       colors: {
         mainBlue: '#1779FA',
         subSkyBlue: '#00B1FF',
         subDarkBlue: '#00228B',
+        subLightBlue: '#E7F3FF',
         white: '#FFFFFF',
         gray: {
           50: '#F9FAFB',
@@ -40,7 +41,7 @@ export default {
         footer: '50px',
       },
       width: {
-        sidebar: '256px',
+        sidebar: '240px',
         container: '1280px',
       },
     },
