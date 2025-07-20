@@ -37,23 +37,23 @@ const SigninPage = () => {
         placeholder="아이디를 입력해주세요."
         value={id}
         onChange={(e) => setId(e.target.value)}
-        className="h-[66px] rounded-lg border border-gray-200 px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-mainBlue"
+        className="h-[66px] rounded-lg border border-gray-200 px-4 py-3 text-base focus:outline-none focus:ring-1 focus:ring-mainBlue"
       />
       <input
         type="password"
         placeholder="비밀번호를 입력해주세요."
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        className="h-[66px] rounded-lg border border-gray-200 px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-mainBlue"
+        className="h-[66px] rounded-lg border border-gray-200 px-4 py-3 text-base focus:outline-none focus:ring-1 focus:ring-mainBlue"
       />
     </form>
   );
 
   return (
     <div className="flex w-full flex-col items-center bg-white px-4 py-10">
-      <div className="w-full max-w-[704px] text-center">
+      <div className="h-[153px] w-full max-w-[704px] text-center">
         {/* 타이틀 */}
-        <h2 className="mb-7 text-[40px] font-bold text-gray-800">로그인</h2>
+        <h2 className="m-10 text-[40px] font-bold text-gray-800">로그인</h2>
 
         {/* 탭 */}
         <div className="mb-8 flex justify-center">
@@ -83,7 +83,7 @@ const SigninPage = () => {
         <div className="flex justify-center gap-6">
           {renderTabContent()}
           <div className="flex flex-col items-center">
-            <Button className="mb-2 h-[153px] w-[148px] text-base" onClick={handleLogin}>
+            <Button className="h-full w-[148px]" onClick={handleLogin}>
               로그인
             </Button>
           </div>
