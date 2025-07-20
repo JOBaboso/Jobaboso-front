@@ -41,7 +41,7 @@ export default {
         footer: '50px',
       },
       width: {
-        sidebar: '240px',
+        sidebar: '430px',
         container: '1280px',
       },
     },

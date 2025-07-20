@@ -1,8 +1,8 @@
 // pages/OverallEmploymentPage.tsx
 import React from 'react';
-import { ApplicationTable, ApplicationRow } from '@components/personal/ApplicationTable';
+import { ApplicationTable, ApplicationRow } from '@components/my/ApplicationTable';
 import { InformationCircleIcon } from '@heroicons/react/24/outline';
-import { StatusSection } from '@components/personal/StatusSection';
+import { StatusSection } from '@components/my/StatusSection';
 const dummyData: ApplicationRow[] = [
   {
     id: 1,
@@ -41,9 +41,9 @@ const dummyData: ApplicationRow[] = [
   },
 ];
 
-const OverallEmploymentPage: React.FC = () => {
+const ResumeEditPage: React.FC = () => {
   return (
-    <div className="p-6">
+    <div className="mx-auto w-[1096px]">
       <StatusSection />
       <div className="mb-4 mt-20 flex items-center gap-2 text-bodyLg text-gray-800">
         <InformationCircleIcon className="h-5 w-5 shrink-0 self-center" />
@@ -54,4 +54,4 @@ const OverallEmploymentPage: React.FC = () => {
   );
 };
 
-export default OverallEmploymentPage;
+export default ResumeEditPage;

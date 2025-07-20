@@ -4,7 +4,7 @@ import 'react-calendar/dist/Calendar.css';
 import dayjs from 'dayjs';
 import './CustomCalendar.css'; // 스타일 커스텀용
 import { Callout } from '@components/common/Callout';
-import { InfoTooltip } from '@components/personal/InfoTooltip';
+import { InfoTooltip } from '@components/my/InfoTooltip';
 
 type ScheduleType = '서류' | '면접';
 
@@ -44,10 +44,10 @@ export const CalendarPage = () => {
   };
 
   return (
-    <div className="mx-auto max-w-[800px] p-6">
+    <div className="mx-auto w-[1211px]">
       <h2 className="mb-8 text-[40px] font-bold text-gray-800">캘린더</h2>
 
-      <Callout text="김보영 님의 취업 일정과 관련된 내용이 캘린더에 노출돼요." />
+      <Callout text="김잡메 님의 취업 일정과 관련된 내용이 캘린더에 노출돼요." />
 
       {/* ✅ 커스텀 달 네비게이션 */}
       <div className="mb-2 mt-8 flex items-center justify-between">
@@ -83,7 +83,7 @@ export const CalendarPage = () => {
               {daySchedules.map((s, i) => (
                 <div
                   key={i}
-                  className={`rounded px-1 text-[10px] ${
+                  className={`rounded px-1 text-[14px] ${
                     s.type === '서류'
                       ? 'bg-[#FFF3C9] text-[#B7962C]'
                       : 'bg-subLightBlue text-mainBlue'

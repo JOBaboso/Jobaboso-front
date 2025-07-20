@@ -2,7 +2,7 @@ import TagInput from '@components/common/TagInput';
 import { InputField } from '@components/common/InputField';
 import { useState } from 'react';
 
-const EditMySpecPage = () => {
+const StatusPage = () => {
   const [sentence, setSentence] = useState('');
   const [keywords, setKeywords] = useState<string[]>([]);
 
@@ -32,4 +32,4 @@ const EditMySpecPage = () => {
   );
 };
 
-export default EditMySpecPage;
+export default StatusPage;
