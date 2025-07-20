@@ -28,7 +28,7 @@ const getSchedulesByDate = (date: Date) => {
   return schedules.filter((s) => s.date === dateStr);
 };
 
-export const CalendarPage = () => {
+const CalendarPage = () => {
   const [value, setValue] = useState(new Date());
 
   const handlePrevMonth = () => {
@@ -99,3 +99,5 @@ export const CalendarPage = () => {
     </div>
   );
 };
+
+export default CalendarPage;
