@@ -9,7 +9,7 @@ const PersonalSidebar = () => {
     `block hover:text-mainBlue ${isActive(path) ? 'text-mainBlue font-semibold' : 'text-gray-700'}`;
 
   return (
-    <nav className="h-full w-full px-8 py-8 text-bodyLg">
+    <nav className="min-h-screen w-full px-8 py-8 text-bodyLg">
       <ul className="space-y-6">
         {/* 개인회원 홈 */}
         <li>

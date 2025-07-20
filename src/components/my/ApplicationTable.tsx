@@ -1,6 +1,6 @@
 // components/ApplicationTable.tsx
 import React from 'react';
-import { ApplicationStatus, ApplicationStatusStyleMap } from '@type/personal/ApplicationStatus';
+import { ApplicationStatus, ApplicationStatusStyleMap } from '@type/my/ApplicationStatus';
 
 export interface ApplicationRow {
   id: number;
