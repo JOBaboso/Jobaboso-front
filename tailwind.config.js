@@ -44,6 +44,9 @@ export default {
         sidebar: '430px',
         container: '1280px',
       },
+      boxShadow: {
+        even: '0 0 12px rgba(0, 0, 0, 0.08)',
+      },
     },
   },
   plugins: [],
