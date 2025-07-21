@@ -1,10 +1,40 @@
 import { InputField } from '@components/common/InputField';
 import TagInput from '@components/common/TagInput';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import ResumeSidebar from '@components/my/ResumeSidebar';
+import CustomCheckbox from '@components/common/CustomCheckbox';
+import { FiSearch } from 'react-icons/fi';
+
+interface FormType {
+  name: string;
+  phone: string;
+  gender: string;
+  birth: string;
+  email: string;
+  university: string;
+  major: string;
+  subMajor: string;
+  gpa: string;
+  maxGpa: string;
+  startDate: string;
+  endDate: string;
+  status: string;
+  companies: string[];
+  jobs: string[];
+  regions: string[];
+  detailJob: string;
+  agree: boolean;
+  certificates: any[];
+  activities: any[];
+  contests: string[];
+  projects: string[];
+  bootcamps: string[];
+  research: string[];
+  skills: string[];
+}
 
 const StatusPage = () => {
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<FormType>({
     name: '김보영',
     phone: '010-1111-1234',
     gender: '여성',
@@ -18,17 +48,86 @@ const StatusPage = () => {
     startDate: '2021년 3월',
     endDate: '2026년 2월',
     status: '재학중',
+    companies: ['부산기업 A', '부산기업 B', '부산기업 C', '부산기업 C'],
+    jobs: ['기획·전략', '기획', '마케팅', '디자인'],
+    regions: ['부산전체', '부산진구', '수영구', '해운대구'],
+    detailJob: '',
+    agree: false,
+    certificates: [], // 자격증
+    activities: [],   // 인턴 및 대외활동
+    contests: [],     // 대회 참여 및 수상
+    projects: [],     // 프로젝트 및 동아리
+    bootcamps: [],    // 부트캠프
+    research: [],     // 학부연구생
+    skills: [],       // 스킬
   });
 
   const handleChange = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [field]: e.target.value });
   };
 
+  // 추천 스킬 예시 데이터
+  const recommendedSkills = [
+    'Figma', 'Photoshop', 'Sketch', 'Zeplin', '계획성', 'HTML',
+    'Adobe XD', 'GUI', 'ProPie', '고객지향성', 'Dreamweaver', '플래시',
+    'InDesign', 'UI', '공감능력', 'BX', 'Blender', '프리미어',
+    '와이어프레임', '고객응대'
+  ];
+
+  // 추천 스킬 선택/해제 핸들러
+  const handleSkillToggle = (skill: string) => {
+    if (form.skills.includes(skill)) {
+      setForm({ ...form, skills: form.skills.filter(s => s !== skill) });
+    } else if (form.skills.length < 20) {
+      setForm({ ...form, skills: [...form.skills, skill] });
+    }
+  };
+
+  // 나의 스킬 삭제 핸들러
+  const handleRemoveSkill = (skill: string) => {
+    setForm({ ...form, skills: form.skills.filter(s => s !== skill) });
+  };
+
+  // 각 섹션 ref 생성
+  const sectionRefs: Record<string, React.RefObject<HTMLDivElement | null>> = {
+    '인적사항': useRef<HTMLDivElement>(null),
+    '학력': useRef<HTMLDivElement>(null),
+    '희망 근무 조건': useRef<HTMLDivElement>(null),
+    '보유역량': useRef<HTMLDivElement>(null),
+    '스킬': useRef<HTMLDivElement>(null),
+  };
+
+  const [currentSection, setCurrentSection] = useState<string>('인적사항');
+
+  // 스크롤 위치에 따라 현재 섹션 감지
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const offsets = Object.entries(sectionRefs).map(([label, ref]) => {
+        if (!ref.current) return { label, offset: Infinity };
+        const rect = ref.current.getBoundingClientRect();
+        return { label, offset: Math.abs(rect.top - 100) }; // 100px 오프셋(헤더 등 고려)
+      });
+      offsets.sort((a, b) => a.offset - b.offset);
+      setCurrentSection(offsets[0].label);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // 목차 클릭 시 해당 섹션으로 스크롤
+  const handleSectionClick = (label: string) => {
+    const ref = sectionRefs[label];
+    if (ref && ref.current) {
+      ref.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   return (
     <div className="flex justify-center w-full">
       {/* 왼쪽: 기존 이력서 편집 내용 */}
       <div className="mx-auto w-[1096px] ml-52">
-        {/* 👋 인사 박스 */}
+        {/* 인사 박스 */}
         <div className="flex items-center justify-between w-[925px] px-7 py-5 bg-white shadow-even rounded-3xl my-24 relative overflow-hidden" >
           {/* 파란 원 두 개 - 이미지 뒤에 겹치게 */}
           <div className="absolute z-0 w-[100px] h-[100px] bg-blue-300 rounded-full right-[70px] bottom-[18px] opacity-50" />
@@ -46,8 +145,8 @@ const StatusPage = () => {
           />
         </div>
 
-        {/* 🧍 인적사항 */}
-        <div className="mb-16">
+        {/* 인적사항 */}
+        <div ref={sectionRefs['인적사항']} id="section-personal" className="mb-16">
           <h2 className="mb-10 font-semibold text-gray-800 text-h2">인적사항</h2>
           <div className="grid grid-cols-[700px_200px] gap-6">
             <div className="grid grid-cols-[212px_278px_149px] gap-6">
@@ -81,8 +180,8 @@ const StatusPage = () => {
           </div>
         </div>
 
-        {/* 🎓 학력 */}
-        <div>
+        {/* 학력 */}
+        <div ref={sectionRefs['학력']} id="section-education" className="mb-16">
           <h2 className="mb-10 font-semibold text-gray-800 text-h2">학력</h2>
           <div className="grid grid-cols-[217px_260px_260px] gap-6">
             <InputField id="university" label="학교명" placeholder="학교명을 입력하세요" value={form.university} onChange={handleChange('university')} />
@@ -108,21 +207,217 @@ const StatusPage = () => {
             </div>
           </div>
           <div className="mt-4">
-            <label className="inline-flex items-center text-bodyLg">
-              <input type="checkbox" className="mr-2" />
-              <span>해당 정보를 학교 교직원에게 공개하는 것에 동의합니다.</span>
+            <label className="inline-flex items-center gap-2 cursor-pointer">
+              <CustomCheckbox checked={form.agree} onChange={e => setForm({ ...form, agree: e.target.checked })} />
+              <span className="text-bodyLg">
+                해당 정보를 학교 교직원에게 공개하는 것에 동의합니다.
+              </span>
             </label>
           </div>
         </div>
 
-        {/* 등록 버튼 */}
-        <div className="flex justify-end mt-6">
-          <button className="px-6 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700">등록하기</button>
+        {/* 희망 근무 조건 */}
+        <div ref={sectionRefs['희망 근무 조건']} id="section-hope" className="mb-16 w-[862px]">
+          <h2 className="mb-10 font-semibold text-gray-800 text-h2">희망 근무 조건</h2>
+
+          {/* 기업 */}
+          <div className="mb-8">
+            <TagInput
+              id="companies"
+              label="기업"
+              placeholder="기업을 입력하세요"
+              value={form.companies}
+              onChange={val => setForm({ ...form, companies: val })}
+            />
+          </div>
+
+          {/* 직군 */}
+          <div className="mb-8">
+            <TagInput
+              id="jobs"
+              label="직군"
+              placeholder="직군을 입력하세요"
+              value={form.jobs}
+              onChange={val => setForm({ ...form, jobs: val })}
+            />
+          </div>
+
+          {/* 세부직군 */}
+          <div className="mb-8">
+            <div className="mb-2 font-medium text-gray-700 text-h4">세부직군</div>
+            <textarea
+              className="w-full min-h-[120px] rounded-xl border border-gray-200 bg-white px-6 py-4 text-gray-600 placeholder-gray-400 resize-none text-h4"
+              placeholder="세부 직군을 입력해주세요."
+              value={form.detailJob}
+              onChange={e => setForm({ ...form, detailJob: e.target.value })}
+            />
+          </div>
+
+          {/* 근무지역 */}
+          <div>
+            <TagInput
+              id="regions"
+              label="근무지역"
+              placeholder="근무지역을 입력하세요"
+              value={form.regions}
+              onChange={val => setForm({ ...form, regions: val })}
+            />
+          </div>
         </div>
+
+        {/* 등록 버튼 위에 보유역량 섹션 추가 */}
+        {/* 보유역량 */}
+        <div ref={sectionRefs['보유역량']} id="section-ability" className="mb-16 w-[862px]">
+          <h2 className="mb-10 font-semibold text-gray-800 text-h2">보유역량</h2>
+          {/* 자격증 */}
+          <div className="mb-8">
+            <div className="flex items-center mb-2">
+              <label className="font-medium text-gray-700 text-h4">자격증</label>
+              <button className="px-2 py-1 ml-auto text-sm font-medium rounded-full text-mainBlue bg-subLightBlue">추가하기</button>
+            </div>
+            <div className="flex gap-4 mb-2">
+              <input className="flex-1 h-[66px] rounded-lg border border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue" placeholder="자격증명을 검색해주세요." />
+              <input className="w-1/4 h-[66px] rounded-lg border border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue" placeholder="발행처" />
+              <input className="w-1/4 h-[66px] rounded-lg border border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue" placeholder="취득월" />
+            </div>
+          </div>
+          {/* 인턴 및 대외활동 */}
+          <div className="mb-8">
+            <div className="flex items-center mb-2">
+              <label className="font-medium text-gray-700 text-h4">인턴 및 대외활동</label>
+              <button className="px-2 py-1 ml-auto text-sm font-medium rounded-full text-mainBlue bg-subLightBlue">추가하기</button>
+            </div>
+            <div className="flex gap-4 mb-2">
+              <input className="w-1/2 h-[66px] rounded-lg border border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue" placeholder="활동구분" />
+              <input className="w-1/2 h-[66px] rounded-lg border border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue" placeholder="회사/기관/단체명" />
+              <div className="flex">
+                <input
+                  className="w-1/2 h-[66px] border border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-600 placeholder-gray-400 
+                            focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue
+                            rounded-l-lg rounded-r-none"
+                  placeholder="시작년월"
+                />
+                <input
+                  className="w-1/2 h-[66px] border-t border-b border-r border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-600 placeholder-gray-400 
+                            focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue
+                            rounded-l-none rounded-r-lg"
+                  placeholder="종료년월"
+                />
+              </div>
+            </div>
+            <textarea className="w-full min-h-[80px] rounded-xl border border-gray-200 bg-white px-6 py-4 text-h4 text-gray-600 placeholder-gray-400 resize-none mb-2 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue" placeholder="직무와 관련된 경험에 대해 작성하시는 게 좋아요!" />
+          </div>
+          {/* 대회 */}
+          <div className="mb-8">
+            <TagInput
+              id="contests"
+              label="대회 참여 및 수상"
+              placeholder="대회명, 수상내역 등 입력"
+              value={form.contests}
+              onChange={val => setForm({ ...form, contests: val })}
+            />
+          </div>
+          {/* 프로젝트 및 동아리 */}
+          <div className="mb-8">
+            <TagInput
+              id="projects"
+              label="프로젝트 및 동아리"
+              placeholder="프로젝트명, 동아리명 등 입력"
+              value={form.projects}
+              onChange={val => setForm({ ...form, projects: val })}
+            />
+          </div>
+          {/* 부트캠프 */}
+          <div className="mb-8">
+            <TagInput
+              id="bootcamps"
+              label="부트캠프"
+              placeholder="부트캠프명 등 입력"
+              value={form.bootcamps}
+              onChange={val => setForm({ ...form, bootcamps: val })}
+            />
+          </div>
+          {/* 학부연구생 */}
+          <div className="mb-8">
+            <TagInput
+              id="research"
+              label="학부연구생"
+              placeholder="연구실명, 지도교수 등 입력"
+              value={form.research}
+              onChange={val => setForm({ ...form, research: val })}
+            />
+          </div>
+        </div>
+
+        {/* 등록 버튼 위에 스킬 섹션 추가 */}
+       {/* 스킬 */}
+       <div ref={sectionRefs['스킬']} id="section-skill" className="mb-16 w-[862px]">
+         <h2 className="mb-10 font-semibold text-gray-800 text-h2">스킬</h2>
+         <div className="relative mb-6">
+           <input
+             className="w-full h-[56px] rounded-lg border border-gray-200 bg-white pl-12 pr-4 py-3 text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
+             placeholder="찾으시는 스킬을 검색해보세요."
+             disabled
+           />
+           <FiSearch className="absolute text-xl text-gray-400 -translate-y-1/2 left-4 top-1/2" />
+         </div>
+         <div className="flex items-center justify-between mb-4">
+           <span className="px-4 py-2 font-semibold text-gray-700 border rounded-full border-mainBlue text-h4">UI·UX 디자이너</span>
+           <span className="text-xs text-gray-400 cursor-pointer">전체보기</span>
+         </div>
+         <div className="mb-2 text-gray-500 text-bodyLg">선택하신 직무에 맞는 스킬을 추천해드려요!</div>
+         <div className="flex flex-wrap gap-2 mb-8">
+           {recommendedSkills.map(skill => (
+             <button
+               key={skill}
+               type="button"
+               className={
+                 form.skills.includes(skill)
+                   ? 'bg-subLightBlue text-mainBlue px-4 py-2 rounded-xl text-h4 font-medium flex items-center gap-1 border border-mainBlue shadow-none'
+                   : ' text-gray-600 px-4 py-2 rounded-xl text-h4 font-medium flex items-center gap-1 border border-gray-100 shadow-none'
+               }
+               style={{ minWidth: 'fit-content' }}
+               onClick={() => handleSkillToggle(skill)}
+             >
+               {form.skills.includes(skill)
+                 ? <span className="mr-1 text-lg">✓</span>
+                 : <span className="mr-1 text-lg">+</span>
+               }
+               {skill}
+             </button>
+           ))}
+         </div>
+         <div className="p-6 border border-gray-200 rounded-xl">
+           <div className="flex items-center gap-2 mb-2 font-semibold text-gray-700 text-h4">
+             나의 스킬 <span className="text-sm">({form.skills.length}/20)</span>
+           </div>
+           <div className="mb-2 text-gray-500 text-bodyLg">{form.name} 님이 선택하신 스킬을 기반으로 추천해드려요!</div>
+           <div className="flex flex-wrap gap-2">
+             {form.skills.map(skill => (
+               <span
+                 key={skill}
+                 className="flex items-center gap-1 px-4 py-2 font-medium border shadow-none rounded-xl bg-subLightBlue border-mainBlue text-mainBlue text-h4"
+               >
+                 {skill}
+                 <button
+                   type="button"
+                   className="ml-1 text-lg text-mainBlue hover:text-blue-800"
+                   onClick={() => handleRemoveSkill(skill)}
+                 >
+                   ×
+                 </button>
+               </span>
+             ))}
+           </div>
+         </div>
+       </div>
       </div>
+      
       {/* 오른쪽: 사이드바 */}
       <div className="mr-32">
-        <ResumeSidebar />
+        <div className="fixed top-60 right-32 w-[240px] z-30">
+          <ResumeSidebar currentSection={currentSection} onSectionClick={handleSectionClick} />
+        </div>
       </div>
     </div>
   );
