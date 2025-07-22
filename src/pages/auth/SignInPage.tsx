@@ -6,13 +6,13 @@ import Button from '@components/common/Button';
 
 const SigninPage = () => {
   const [tab, setTab] = useState<'personal' | 'company' | 'university'>('personal');
-  const [id, setId] = useState('');
+  const [user_id, setUserId] = useState('');
   const [password, setPassword] = useState('');
   const [keepLogin, setKeepLogin] = useState(false);
 
   const handleLogin = async () => {
     try {
-      const payload: SignInRequestDto = { id, password };
+      const payload: SignInRequestDto = { user_id, password };
       const data = await signin(payload);
 
       console.log('✅ 로그인 성공:', data);
@@ -35,8 +35,8 @@ const SigninPage = () => {
       <input
         type="text"
         placeholder="아이디를 입력해주세요."
-        value={id}
-        onChange={(e) => setId(e.target.value)}
+        value={user_id}
+        onChange={(e) => setUserId(e.target.value)}
         className="h-[66px] rounded-lg border border-gray-200 px-4 py-3 text-base focus:outline-none focus:ring-1 focus:ring-mainBlue"
       />
       <input
