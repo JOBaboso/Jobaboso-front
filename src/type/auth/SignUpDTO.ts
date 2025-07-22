@@ -28,6 +28,6 @@ export interface SignUpPersonalRequestDto {
 }
 
 export interface SignInRequestDto {
-  id: string;
+  user_id: string;
   password: string;
 }
