@@ -17,6 +17,7 @@ interface Props {
   usernameError?: string;
   passwordError?: string;
   passwordConfirmError?: string;
+  isCheckingUsername?: boolean;
 }
 
 export const AccountInfoSection: React.FC<Props> = ({
@@ -33,6 +34,7 @@ export const AccountInfoSection: React.FC<Props> = ({
   usernameError,
   passwordError,
   passwordConfirmError,
+  isCheckingUsername = false,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
@@ -49,6 +51,7 @@ export const AccountInfoSection: React.FC<Props> = ({
         buttonText="중복확인"
         onButtonClick={onCheckUsername}
         error={usernameError}
+        disabled={isCheckingUsername}
       />
 
       {/* 비밀번호 */}

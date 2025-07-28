@@ -6,25 +6,19 @@ import { BinarySelector } from '@components/common/BinarySelector';
 interface Props {
   birthError?: string;
   genderError?: string;
-  addressError?: string;
   gender: 'M' | 'W' | '';
   onGenderChange: (g: 'M' | 'W') => void;
   birthDate: string;
   onChangeBirthDate: (v: string) => void;
-  profileAddr: string;
-  onChangeProfileAddr: (v: string) => void;
 }
 
 export const PersonalInfoSection: React.FC<Props> = ({
   birthError,
   genderError,
   gender,
-  addressError,
   onGenderChange,
   birthDate,
   onChangeBirthDate,
-  profileAddr,
-  onChangeProfileAddr,
 }) => (
   <div className="mb-10 space-y-3">
     <InputField
@@ -43,14 +37,6 @@ export const PersonalInfoSection: React.FC<Props> = ({
       value={gender}
       onChange={onGenderChange}
       error={genderError}
-    />
-    <InputField
-      id="address"
-      label="주소"
-      value={profileAddr}
-      onChange={(e) => onChangeProfileAddr(e.target.value)}
-      placeholder="예시: 부산광역시 금정구"
-      error={addressError}
     />
   </div>
 );

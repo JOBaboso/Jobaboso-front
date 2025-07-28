@@ -10,6 +10,7 @@ interface InputWithButtonProps {
   error?: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  disabled?: boolean;
 }
 
 export const InputWithButton: React.FC<InputWithButtonProps> = ({
@@ -22,6 +23,7 @@ export const InputWithButton: React.FC<InputWithButtonProps> = ({
   error,
   value,
   onChange,
+  disabled = false,
 }) => {
   return (
     <div className="mx-auto my-0 w-full">
@@ -40,13 +42,15 @@ export const InputWithButton: React.FC<InputWithButtonProps> = ({
           value={value}
           onChange={onChange}
           className="h-[66px] flex-1 rounded-l-xl border border-r-0 border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-700 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
+          disabled={disabled}
         />
 
         {/* 버튼 */}
         <button
           type="button"
           onClick={onButtonClick}
-          className="h-[66px] w-1/4 rounded-r-xl border border-l-0 border-gray-200 bg-mainBlue text-h4 font-medium text-white hover:opacity-50"
+          className="h-[66px] w-1/4 rounded-r-xl border border-l-0 border-gray-200 bg-mainBlue text-h4 font-medium text-white hover:opacity-50 disabled:opacity-30 disabled:cursor-not-allowed"
+          disabled={disabled}
         >
           {buttonText}
         </button>
