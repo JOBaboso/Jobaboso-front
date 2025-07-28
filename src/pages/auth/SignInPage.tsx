@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { signin } from '@apis/auth';
 import { SignInRequestDto } from '@type/auth/SignUpDTO';
+import { useNavigate } from 'react-router-dom';
 
 import Button from '@components/common/Button';
 
@@ -10,6 +11,8 @@ const SigninPage = () => {
   const [password, setPassword] = useState('');
   const [keepLogin, setKeepLogin] = useState(false);
 
+  const navigate = useNavigate();
+
   const handleLogin = async () => {
     try {
       const payload: SignInRequestDto = { user_id, password };
@@ -17,21 +20,30 @@ const SigninPage = () => {
 
       console.log('✅ 로그인 성공:', data);
 
-      if (keepLogin) {
-        // 예: 토큰이나 사용자 정보를 localStorage에 저장
-        localStorage.setItem('token', data.token); // ← 백엔드 응답에 따라 조정
-      }
+      // 토큰 저장
+      localStorage.setItem('access_token', data.access_token);
+      localStorage.setItem('refresh_token', data.refresh_token);
+      localStorage.setItem('user_type', data.user_type);
 
-      // 이후 페이지 이동 또는 상태 갱신
-      // 예: router.push('/dashboard') 등
+      // 로그인 성공 시 메인 페이지로 이동
+      navigate('/');
     } catch (error: any) {
-      console.error('❌ 로그인 실패:', error.response?.data?.message || error.message);
-      alert('로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.');
+      console.error('❌ 로그인 실패:', error.response?.data);
+      const message =
+        error.response?.data?.detail || error.response?.data?.message || error.message;
+      alert(`로그인에 실패했습니다.\n${message}`);
     }
   };
 
+  // 🚨 엔터 키로 로그인 실행을 위해 폼에 onSubmit 추가
   const renderTabContent = () => (
-    <form className="flex flex-1 flex-col gap-5" onSubmit={(e) => e.preventDefault()}>
+    <form
+      className="flex flex-1 flex-col gap-5"
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleLogin();
+      }}
+    >
       <input
         type="text"
         placeholder="아이디를 입력해주세요."
