@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react'; // useRef 추가
 import { signin } from '@apis/auth';
 import { SignInRequestDto } from '@type/auth/SignUpDTO';
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +11,7 @@ const SigninPage = () => {
   const [password, setPassword] = useState('');
   const [keepLogin, setKeepLogin] = useState(false);
 
+  const passwordRef = useRef<HTMLInputElement>(null); // 비밀번호 input ref
   const navigate = useNavigate();
 
   const handleLogin = async () => {
@@ -49,13 +50,26 @@ const SigninPage = () => {
         placeholder="아이디를 입력해주세요."
         value={user_id}
         onChange={(e) => setUserId(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            passwordRef.current?.focus(); // 엔터 시 비번 input으로 focus
+          }
+        }}
         className="h-[66px] rounded-lg border border-gray-200 px-4 py-3 text-base focus:outline-none focus:ring-1 focus:ring-mainBlue"
       />
       <input
+        ref={passwordRef}
         type="password"
         placeholder="비밀번호를 입력해주세요."
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            handleLogin(); // 엔터 시 로그인
+          }
+        }}
         className="h-[66px] rounded-lg border border-gray-200 px-4 py-3 text-base focus:outline-none focus:ring-1 focus:ring-mainBlue"
       />
     </form>
