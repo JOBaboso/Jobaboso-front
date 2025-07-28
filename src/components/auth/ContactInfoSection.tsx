@@ -12,6 +12,12 @@ interface Props {
   onChangePhone: (v: string) => void;
   email: string;
   onChangeEmail: (v: string) => void;
+  verificationCode: string;
+  onChangeVerificationCode: (v: string) => void;
+  isVerified: boolean;
+  isRequestingCode: boolean;
+  canVerify: boolean;
+  emailError?: string;
 }
 
 export const ContactInfoSection: React.FC<Props> = ({
@@ -24,6 +30,12 @@ export const ContactInfoSection: React.FC<Props> = ({
   onChangePhone,
   email,
   onChangeEmail,
+  verificationCode,
+  onChangeVerificationCode,
+  isVerified,
+  isRequestingCode,
+  canVerify,
+  emailError,
 }) => (
   <div className="space-y-3">
     {/* 전화번호 입력 */}
@@ -31,11 +43,12 @@ export const ContactInfoSection: React.FC<Props> = ({
       id="phone"
       label="전화번호"
       value={phone}
-      onChange={e => onChangePhone(e.target.value)}
-      placeholder="전화번호를 입력해 주세요."
+      onChange={(e) => onChangePhone(e.target.value)}
+      placeholder="예시: 010-1234-5678"
       buttonText="인증번호 받기"
       onButtonClick={onRequestCode}
       error={phoneError}
+      disabled={isRequestingCode}
     />
 
     {/* 인증번호 입력 + 확인 + 재전송 */}
@@ -44,12 +57,13 @@ export const ContactInfoSection: React.FC<Props> = ({
         <InputWithButton
           id="verification"
           label="인증번호"
-          value={''}
-          onChange={() => {}}
+          value={verificationCode}
+          onChange={(e) => onChangeVerificationCode(e.target.value)}
           placeholder="문자로 전송된 인증번호를 입력해 주세요."
           buttonText="확인"
           onButtonClick={onVerifyCode}
           error={verificationError}
+          disabled={isVerified}
         />
       </div>
 
@@ -63,6 +77,13 @@ export const ContactInfoSection: React.FC<Props> = ({
         </button>
       </div>
     </div>
-    <InputField id="email" label="이메일" value={email} onChange={e => onChangeEmail(e.target.value)} placeholder="이메일을 입력해 주세요." />
+    <InputField
+      id="email"
+      label="이메일"
+      value={email}
+      onChange={(e) => onChangeEmail(e.target.value)}
+      placeholder="이메일을 입력해 주세요."
+      error={emailError}
+    />
   </div>
 );
