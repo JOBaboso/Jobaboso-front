@@ -4,6 +4,7 @@ interface ResumeSidebarProps {
   currentSection: string;
   onSectionClick: (section: string) => void;
   onSave: () => void;
+  isAgreed: boolean;
 }
 
 const sidebarItems = [
@@ -54,7 +55,7 @@ const sidebarItems = [
   },
 ];
 
-export default function ResumeSidebar({ currentSection, onSectionClick, onSave }: ResumeSidebarProps) {
+export default function ResumeSidebar({ currentSection, onSectionClick, onSave, isAgreed }: ResumeSidebarProps) {
   return (
     <div className="flex flex-col items-center">
       <div className="w-[240px] bg-white rounded-2xl border border-gray-200 py-7 px-6 shadow-sm">
@@ -76,7 +77,17 @@ export default function ResumeSidebar({ currentSection, onSectionClick, onSave }
           })}
         </ul>
       </div>
-      <button className="w-[240px] mt-6 h-12 bg-mainBlue text-white rounded-xl font-semibold text-lg" onClick={onSave}>등록하기</button>
+      <button 
+        className={`w-[240px] mt-6 h-12 rounded-xl font-semibold text-lg ${
+          isAgreed 
+            ? 'text-white cursor-pointer bg-mainBlue hover:bg-blue-600' 
+            : 'text-gray-500 bg-gray-300 cursor-not-allowed'
+        }`} 
+        onClick={isAgreed ? onSave : undefined}
+        disabled={!isAgreed}
+      >
+        등록하기
+      </button>
     </div>
   );
 } 
