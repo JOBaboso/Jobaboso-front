@@ -3,15 +3,16 @@ import { createBrowserRouter, useRoutes } from 'react-router-dom';
 import MainLayout from '@layout/MainLayout';
 import AuthLayout from '@layout/AuthLayout';
 import PersonalLayout from '@layout/PersonalLayout';
-import HomePage from '@pages/home/HomePage';
-import SignupTypePage from '@pages/auth/SignupTypePage';
-import SigninPage from '@pages/auth/SigninPage';
-import SignupPersonalPage from '@pages/auth/SignupPersonalPage';
+import HomePage from '@pages/Home/HomePage';
+import SignupTypePage from '@pages/auth/SignUpTypePage';
+import SigninPage from '@pages/auth/SignInPage';
+import SignupPersonalPage from '@pages/auth/SignUpPersonalPage';
 import SignupUniversityPage from '@pages/auth/SignupUniversityPage';
 import SignupCompanyPage from '@pages/auth/SignupCompanyPage';
 import ResumeEditPage from '@pages/my/ResumeEditPage';
+import ResumePage from '@pages/my/ResumePage' ;
 import StatusPage from '@pages/my/StatusPage';
-import { CalendarPage } from '@pages/my/CalendarPage';
+import CalendarPage from '@pages/my/CalendarPage';
 import TouchPage from '@pages/my/TouchPage';
 
 const router = () =>
@@ -39,7 +40,7 @@ const router = () =>
       path: '/my',
       element: <PersonalLayout />,
       children: [
-        { path: 'resume', element: <HomePage /> },
+        { path: 'resume', element: <ResumePage /> },
         { path: 'resume/edit', element: <ResumeEditPage /> },
         { path: 'status', element: <StatusPage /> },
         { path: 'touch', element: <TouchPage /> },

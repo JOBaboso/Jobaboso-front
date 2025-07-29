@@ -53,6 +53,7 @@ const TagInput = ({ id, label, placeholder = ' ', value, onChange, error }: TagI
         ))}
 
         <input
+          id={id}
           type="text"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
