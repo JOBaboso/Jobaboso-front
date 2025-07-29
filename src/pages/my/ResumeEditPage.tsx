@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import ResumeSidebar from '@components/my/ResumeSidebar';
 import CustomCheckbox from '@components/common/CustomCheckbox';
 import { FiSearch } from 'react-icons/fi';
+import api from '@apis/api';
 
 interface FormType {
   name: string;
@@ -15,14 +16,12 @@ interface FormType {
   major: string;
   subMajor: string;
   gpa: string;
-  maxGpa: string;
   startDate: string;
   endDate: string;
   status: string;
   companies: string[];
   jobs: string[];
   regions: string[];
-  detailJob: string;
   agree: boolean;
   certificates: any[];
   activities: any[];
@@ -44,14 +43,12 @@ const StatusPage = () => {
     major: '국어국문학과',
     subMajor: '영어영문학과',
     gpa: '3.89',
-    maxGpa: '4.5',
     startDate: '2021년 3월',
     endDate: '2026년 2월',
     status: '재학중',
-    companies: ['부산기업 A', '부산기업 B', '부산기업 C', '부산기업 C'],
-    jobs: ['기획·전략', '기획', '마케팅', '디자인'],
-    regions: ['부산전체', '부산진구', '수영구', '해운대구'],
-    detailJob: '',
+    companies: [],
+    jobs: [],
+    regions: [],
     agree: false,
     certificates: [], // 자격증
     activities: [],   // 인턴 및 대외활동
@@ -123,6 +120,47 @@ const StatusPage = () => {
     }
   };
 
+  // 저장(등록) 버튼 클릭 시 API 요청
+  const handleSave = async () => {
+    const accessToken = localStorage.getItem('access_token');
+    
+    if (!accessToken) {
+      alert('로그인이 필요합니다.');
+      return;
+    }
+
+    const body = {
+      skills: form.skills.map(skill => ({ skill_name: skill })),
+      projects: [], // form.projects에서 변환 필요(현재 string[]이므로 실제 프로젝트 객체로 확장 필요)
+      activities: [], // form.activities에서 변환 필요(현재 any[])
+      certificates: [], // form.certificates에서 변환 필요(현재 any[])
+      education: {
+        school_name: '더미대학교',
+        major: '더미전공',
+        admission_year: '2020-03-01',
+        graduation_year: '2024-02-01',
+        status: '재학중',
+        score: 4.2
+      },
+      hope: {
+        company: '',
+        job: '',
+        region: ''
+      }
+    };
+
+    try {
+      const res = await api.post('/spec/all', body, {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`
+        }
+      });
+      alert('스펙이 성공적으로 저장되었습니다.');
+    } catch (e) {
+      alert('에러 발생: ' + e);
+    }
+  };
+
   return (
     <div className="flex justify-center w-full">
       {/* 왼쪽: 기존 이력서 편집 내용 */}
@@ -170,7 +208,7 @@ const StatusPage = () => {
                 <InputField id="email" label="이메일" placeholder="이메일을 입력하세요" value={form.email} onChange={handleChange('email')} />
               </div>
             </div>
-          <div className="justify-center row-span-2">
+          <div className="row-span-2 justify-center">
             <label className="block p-1 mb-2 font-medium text-gray-700 text-h4">사진 등록</label>
             <div className="w-full h-[220px] border border-gray-200 rounded-xl flex flex-col items-center justify-center text-gray-400 text-[22px] cursor-pointer">
               <span className="text-[32px] mb-2">＋</span>
@@ -190,7 +228,6 @@ const StatusPage = () => {
           </div>
           <div className="grid grid-cols-[124px_124px_180px_180px_180px] gap-6">
             <InputField id="gpa" label="학점" placeholder="학점을 입력하세요" value={form.gpa} onChange={handleChange('gpa')} />
-            <InputField id="maxGpa" label="총점" placeholder="총점을 입력하세요" value={form.maxGpa} onChange={handleChange('maxGpa')} />
             <InputField id="startDate" label="입학년도" placeholder="예: 2021년 3월" value={form.startDate} onChange={handleChange('startDate')} />
             <InputField id="endDate" label="졸업년도" placeholder="예: 2026년 2월" value={form.endDate} onChange={handleChange('endDate')} />
             <div>
@@ -207,7 +244,7 @@ const StatusPage = () => {
             </div>
           </div>
           <div className="mt-4">
-            <label className="inline-flex items-center gap-2 cursor-pointer">
+            <label className="inline-flex gap-2 items-center cursor-pointer">
               <CustomCheckbox checked={form.agree} onChange={e => setForm({ ...form, agree: e.target.checked })} />
               <span className="text-bodyLg">
                 해당 정보를 학교 교직원에게 공개하는 것에 동의합니다.
@@ -242,16 +279,7 @@ const StatusPage = () => {
             />
           </div>
 
-          {/* 세부직군 */}
-          <div className="mb-8">
-            <div className="mb-2 font-medium text-gray-700 text-h4">세부직군</div>
-            <textarea
-              className="w-full min-h-[120px] rounded-xl border border-gray-200 bg-white px-6 py-4 text-gray-600 placeholder-gray-400 resize-none text-h4"
-              placeholder="세부 직군을 입력해주세요."
-              value={form.detailJob}
-              onChange={e => setForm({ ...form, detailJob: e.target.value })}
-            />
-          </div>
+          {/* 세부직군 필드 제거됨 */}
 
           {/* 근무지역 */}
           <div>
@@ -359,10 +387,10 @@ const StatusPage = () => {
              placeholder="찾으시는 스킬을 검색해보세요."
              disabled
            />
-           <FiSearch className="absolute text-xl text-gray-400 -translate-y-1/2 left-4 top-1/2" />
+           <FiSearch className="absolute left-4 top-1/2 text-xl text-gray-400 -translate-y-1/2" />
          </div>
-         <div className="flex items-center justify-between mb-4">
-           <span className="px-4 py-2 font-semibold text-gray-700 border rounded-full border-mainBlue text-h4">UI·UX 디자이너</span>
+         <div className="flex justify-between items-center mb-4">
+           <span className="px-4 py-2 font-semibold text-gray-700 rounded-full border border-mainBlue text-h4">UI·UX 디자이너</span>
            <span className="text-xs text-gray-400 cursor-pointer">전체보기</span>
          </div>
          <div className="mb-2 text-gray-500 text-bodyLg">선택하신 직무에 맞는 스킬을 추천해드려요!</div>
@@ -387,8 +415,8 @@ const StatusPage = () => {
              </button>
            ))}
          </div>
-         <div className="p-6 border border-gray-200 rounded-xl">
-           <div className="flex items-center gap-2 mb-2 font-semibold text-gray-700 text-h4">
+         <div className="p-6 rounded-xl border border-gray-200">
+           <div className="flex gap-2 items-center mb-2 font-semibold text-gray-700 text-h4">
              나의 스킬 <span className="text-sm">({form.skills.length}/20)</span>
            </div>
            <div className="mb-2 text-gray-500 text-bodyLg">{form.name} 님이 선택하신 스킬을 기반으로 추천해드려요!</div>
@@ -396,7 +424,7 @@ const StatusPage = () => {
              {form.skills.map(skill => (
                <span
                  key={skill}
-                 className="flex items-center gap-1 px-4 py-2 font-medium border shadow-none rounded-xl bg-subLightBlue border-mainBlue text-mainBlue text-h4"
+                 className="flex gap-1 items-center px-4 py-2 font-medium rounded-xl border shadow-none bg-subLightBlue border-mainBlue text-mainBlue text-h4"
                >
                  {skill}
                  <button
@@ -416,7 +444,7 @@ const StatusPage = () => {
       {/* 오른쪽: 사이드바 */}
       <div className="mr-32">
         <div className="fixed top-60 right-32 w-[240px] z-30">
-          <ResumeSidebar currentSection={currentSection} onSectionClick={handleSectionClick} />
+          <ResumeSidebar currentSection={currentSection} onSectionClick={handleSectionClick} onSave={handleSave} />
         </div>
       </div>
     </div>

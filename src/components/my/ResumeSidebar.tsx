@@ -3,6 +3,7 @@ import React from 'react';
 interface ResumeSidebarProps {
   currentSection: string;
   onSectionClick: (section: string) => void;
+  onSave: () => void;
 }
 
 const sidebarItems = [
@@ -53,7 +54,7 @@ const sidebarItems = [
   },
 ];
 
-export default function ResumeSidebar({ currentSection, onSectionClick }: ResumeSidebarProps) {
+export default function ResumeSidebar({ currentSection, onSectionClick, onSave }: ResumeSidebarProps) {
   return (
     <div className="flex flex-col items-center">
       <div className="w-[240px] bg-white rounded-2xl border border-gray-200 py-7 px-6 shadow-sm">
@@ -75,7 +76,7 @@ export default function ResumeSidebar({ currentSection, onSectionClick }: Resume
           })}
         </ul>
       </div>
-      <button className="w-[240px] mt-6 h-12 bg-mainBlue text-white rounded-xl font-semibold text-lg">등록하기</button>
+      <button className="w-[240px] mt-6 h-12 bg-mainBlue text-white rounded-xl font-semibold text-lg" onClick={onSave}>등록하기</button>
     </div>
   );
 } 
