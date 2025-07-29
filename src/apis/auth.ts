@@ -17,7 +17,7 @@ export const postSignUpCompany = async (request: SignUpCompanyRequestDto) => {
 };
 
 export const postSignUpUniversity = async (request: SignUpUniversityRequestDto) => {
-  const response = await api.post('/user/register/university', request);
+  const response = await api.post('/user/register/university_staff', request);
   return response.data;
 };
 

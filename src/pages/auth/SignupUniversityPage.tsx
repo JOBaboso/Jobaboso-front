@@ -50,7 +50,7 @@ const SignupUniversityPage: React.FC = () => {
       alert('전화번호는 000-0000-0000 형식으로 입력해 주세요.');
       return;
     }
-    
+
     // 6자리 랜덤 인증번호 생성
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     setSentCode(code);
@@ -187,7 +187,7 @@ const SignupUniversityPage: React.FC = () => {
     const request: SignUpUniversityRequestDto = {
       user_id: userId,
       password,
-      user_type: 'university',
+      user_type: 'university_staff',
       name,
       phone,
       email,
@@ -251,7 +251,9 @@ const SignupUniversityPage: React.FC = () => {
             onChangeVerificationCode={setVerificationCode}
             isVerified={isVerified}
             isRequestingCode={isRequestingCode}
-            canVerify={verificationCode.length === 6 && !isVerified && verificationCode === sentCode}
+            canVerify={
+              verificationCode.length === 6 && !isVerified && verificationCode === sentCode
+            }
             onResendCode={handleResendCode}
             phoneError={phoneError}
             emailError={emailError}
