@@ -54,7 +54,7 @@ export const CommonSignupFormContainer: React.FC<CommonSignupFormSectionProps> =
       alert('전화번호는 000-0000-0000 형식으로 입력해 주세요.');
       return;
     }
-
+    
     // 6자리 랜덤 인증번호 생성
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     setSentCode(code);
@@ -195,7 +195,7 @@ export const CommonSignupFormContainer: React.FC<CommonSignupFormSectionProps> =
     try {
       await postSignUpPersonal(request);
       alert('회원가입이 완료되었습니다.');
-      navigate('/auth/SignIn');
+      navigate('/');
     } catch (err) {
       console.error(err);
       alert('회원가입에 실패했습니다.');
