@@ -9,7 +9,7 @@ interface StatusCardProps {
 
 export const StatusCard: React.FC<StatusCardProps> = ({ icon, label, value }) => {
   const styledIcon = React.cloneElement(icon, {
-    className: 'w-8 h-8 text-gray-500',
+    className: `${icon.props.className ?? ''} w-8 h-8`,
   });
 
   return (
