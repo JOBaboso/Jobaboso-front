@@ -11,7 +11,7 @@ import SignupUniversityPage from '@pages/auth/SignupUniversityPage';
 import SignupCompanyPage from '@pages/auth/SignupCompanyPage';
 import ResumeEditPage from '@pages/my/ResumeEditPage';
 import StatusPage from '@pages/my/StatusPage';
-import CalendarPage from '@pages/my/CalendarPage';
+import { CalendarPage } from '@pages/my/CalendarPage';
 import TouchPage from '@pages/my/TouchPage';
 
 const router = () =>
