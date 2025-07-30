@@ -10,46 +10,46 @@ interface ResumeSidebarProps {
 const sidebarItems = [
   {
     icon: (isActive: boolean) => (
-      <svg width="36" height="36" fill="none" viewBox="0 0 36 36">
-        <circle cx="18" cy="18" r="18" fill={isActive ? '#1976ED' : '#E5EAF2'} />
-        <path d="M18 19.5c2.485 0 7.5 1.243 7.5 3.75V25.5a.75.75 0 0 1-.75.75H11.25a.75.75 0 0 1-.75-.75v-2.25c0-2.507 5.015-3.75 7.5-3.75Zm0-1.5a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z" fill="#fff" />
-      </svg>
+      <div className={`p-2 border rounded-full ${
+            isActive ? 'bg-mainBlue' : 'bg-gray-300'}`}>
+        <img src="/ic_sidebar_profile.svg"></img>
+      </div>
     ),
     label: '인적사항',
   },
   {
     icon: (isActive: boolean) => (
-      <svg width="36" height="36" fill="none" viewBox="0 0 36 36">
-        <circle cx="18" cy="18" r="18" fill={isActive ? '#1976ED' : '#E5EAF2'} />
-        <path d="M18 11l6 3v2c0 3.314-2.686 6-6 6s-6-2.686-6-6v-2l6-3Z" fill={isActive ? '#fff' : '#B0B8C1'} />
-      </svg>
+      <div className={`p-2 border rounded-full ${
+            isActive ? 'bg-mainBlue' : 'bg-gray-300'}`}>
+        <img src="/ic_sidebar_education.svg"></img>
+      </div>
     ),
     label: '학력',
   },
   {
     icon: (isActive: boolean) => (
-      <svg width="36" height="36" fill="none" viewBox="0 0 36 36">
-        <circle cx="18" cy="18" r="18" fill={isActive ? '#1976ED' : '#E5EAF2'} />
-        <path d="M12 24v-6h12v6H12Zm0-8V12h12v4H12Z" fill={isActive ? '#fff' : '#B0B8C1'} />
-      </svg>
+      <div className={`p-2 border rounded-full ${
+            isActive ? 'bg-mainBlue' : 'bg-gray-300'}`}>
+        <img src="/ic_sidebar_hope.svg"></img>
+      </div>
     ),
     label: '희망 근무 조건',
   },
   {
     icon: (isActive: boolean) => (
-      <svg width="36" height="36" fill="none" viewBox="0 0 36 36">
-        <circle cx="18" cy="18" r="18" fill={isActive ? '#1976ED' : '#E5EAF2'} />
-        <path d="M18 11a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 8c2.485 0 7.5 1.243 7.5 3.75V25.5a.75.75 0 0 1-.75.75H11.25a.75.75 0 0 1-.75-.75v-2.75C10.5 20.243 15.515 19 18 19Z" fill={isActive ? '#fff' : '#B0B8C1'} />
-      </svg>
+      <div className={`p-2 border rounded-full ${
+            isActive ? 'bg-mainBlue' : 'bg-gray-300'}`}>
+        <img src="/ic_sidebar_skill_1.svg"></img>
+      </div>
     ),
     label: '보유역량',
   },
   {
     icon: (isActive: boolean) => (
-      <svg width="36" height="36" fill="none" viewBox="0 0 36 36">
-        <circle cx="18" cy="18" r="18" fill={isActive ? '#1976ED' : '#E5EAF2'} />
-        <path d="M12 24v-1.5c0-2.485 5.015-3.75 7.5-3.75s7.5 1.265 7.5 3.75V24H12Zm0-8V12h12v4H12Z" fill={isActive ? '#fff' : '#B0B8C1'} />
-      </svg>
+      <div className={`p-2 border rounded-full ${
+            isActive ? 'bg-mainBlue' : 'bg-gray-300'}`}>
+        <img src="/ic_sidebar_skill_2.svg"></img>
+      </div>
     ),
     label: '스킬',
   },
