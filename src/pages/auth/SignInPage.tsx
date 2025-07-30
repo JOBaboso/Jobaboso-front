@@ -25,6 +25,7 @@ const SigninPage = () => {
       localStorage.setItem('access_token', data.access_token);
       localStorage.setItem('refresh_token', data.refresh_token);
       localStorage.setItem('user_type', data.user_type);
+      localStorage.setItem('name', data.name);
 
       // 로그인 성공 시 메인 페이지로 이동
       navigate('/');
