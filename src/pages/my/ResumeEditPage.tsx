@@ -461,7 +461,7 @@ const StatusPage = () => {
   };
 
   if (loading) {
-    return <div className="flex justify-center items-center h-screen">로딩 중...</div>;
+    return <div className="flex items-center justify-center h-screen">로딩 중...</div>;
   }
 
   return (
@@ -477,7 +477,7 @@ const StatusPage = () => {
             <p className="text-[32px] font-semibold text-gray-600">
               안녕하세요, <span className="text-mainBlue">{form.name}</span> 님!
             </p>
-            <p className="text-gray-600 text-[32px]">기업에게 {form.name} 님에 대해 알려주세요.</p>
+            <p className="text-gray-600 text-[32px]">학교에게 {form.name} 님에 대해 알려주세요.</p>
           </div>
           <img
             src="/ResumeEditBanner.png"
@@ -567,7 +567,7 @@ const StatusPage = () => {
             </div>
           </div>
           <div className="mt-4">
-            <div className="inline-flex gap-2 items-center">
+            <div className="inline-flex items-center gap-2">
               <CustomCheckbox checked={form.agree} onChange={e => setForm({ ...form, agree: e.target.checked })} />
               <span className="text-bodyLg">
                 해당 정보를 학교 교직원에게 공개하는 것에 동의합니다.
@@ -624,13 +624,13 @@ const StatusPage = () => {
               <label htmlFor="cert-name" className="font-medium text-gray-700 text-h4">자격증</label>
               <button 
                 onClick={addCertificate}
-                className="px-2 py-1 ml-auto text-sm font-medium rounded-full transition-colors text-mainBlue bg-subLightBlue hover:bg-blue-100"
+                className="px-2 py-1 ml-auto text-sm font-medium transition-colors rounded-full text-mainBlue bg-subLightBlue hover:bg-blue-100"
               >
                 추가하기
               </button>
             </div>
             {form.certificates.map((cert, index) => (
-              <div key={index} className="flex gap-4 items-center mb-2">
+              <div key={index} className="flex items-center gap-4 mb-2">
                 <input 
                   className="flex-1 h-[66px] rounded-lg border border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue" 
                   placeholder="자격증명을 검색해주세요." 
@@ -674,13 +674,13 @@ const StatusPage = () => {
               <label htmlFor="activity-type" className="font-medium text-gray-700 text-h4">인턴 및 대외활동</label>
               <button 
                 onClick={addActivity}
-                className="px-2 py-1 ml-auto text-sm font-medium rounded-full transition-colors text-mainBlue bg-subLightBlue hover:bg-blue-100"
+                className="px-2 py-1 ml-auto text-sm font-medium transition-colors rounded-full text-mainBlue bg-subLightBlue hover:bg-blue-100"
               >
                 추가하기
               </button>
             </div>
             {form.activities.map((activity, index) => (
-              <div key={index} className="p-4 mb-4 rounded-lg border border-gray-200">
+              <div key={index} className="p-4 mb-4 border border-gray-200 rounded-lg">
                 <div className="flex gap-4 mb-2">
                   <input 
                     className="w-1/2 h-[66px] rounded-lg border border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue" 
@@ -779,13 +779,13 @@ const StatusPage = () => {
               <label htmlFor="project-name" className="font-medium text-gray-700 text-h4">프로젝트 및 동아리</label>
               <button 
                 onClick={addProject}
-                className="px-2 py-1 ml-auto text-sm font-medium rounded-full transition-colors text-mainBlue bg-subLightBlue hover:bg-blue-100"
+                className="px-2 py-1 ml-auto text-sm font-medium transition-colors rounded-full text-mainBlue bg-subLightBlue hover:bg-blue-100"
               >
                 추가하기
               </button>
             </div>
             {form.projects.map((project, index) => (
-              <div key={index} className="p-4 mb-4 rounded-lg border border-gray-200">
+              <div key={index} className="p-4 mb-4 border border-gray-200 rounded-lg">
                 <div className="flex gap-4 mb-2">
                   <input 
                     className="flex-1 h-[66px] rounded-lg border border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue" 
@@ -857,10 +857,10 @@ const StatusPage = () => {
              placeholder="찾으시는 스킬을 검색해보세요."
              disabled
            />
-           <FiSearch className="absolute left-4 top-1/2 text-xl text-gray-400 -translate-y-1/2" />
+           <FiSearch className="absolute text-xl text-gray-400 -translate-y-1/2 left-4 top-1/2" />
          </div>
-         <div className="flex justify-between items-center mb-4">
-           <span className="px-4 py-2 font-semibold text-gray-700 rounded-full border border-mainBlue text-h4">UI·UX 디자이너</span>
+         <div className="flex items-center justify-between mb-4">
+           <span className="px-4 py-2 font-semibold text-gray-700 border rounded-full border-mainBlue text-h4">UI·UX 디자이너</span>
            <span className="text-xs text-gray-400 cursor-pointer">전체보기</span>
          </div>
          <div className="mb-2 text-gray-500 text-bodyLg">선택하신 직무에 맞는 스킬을 추천해드려요!</div>
@@ -885,8 +885,8 @@ const StatusPage = () => {
              </button>
            ))}
          </div>
-         <div className="p-6 rounded-xl border border-gray-200">
-           <div className="flex gap-2 items-center mb-2 font-semibold text-gray-700 text-h4">
+         <div className="p-6 border border-gray-200 rounded-xl">
+           <div className="flex items-center gap-2 mb-2 font-semibold text-gray-700 text-h4">
              나의 스킬 <span className="text-sm">({form.skills.length}/20)</span>
            </div>
            <div className="mb-2 text-gray-500 text-bodyLg">{form.name} 님이 선택하신 스킬을 기반으로 추천해드려요!</div>
@@ -894,7 +894,7 @@ const StatusPage = () => {
              {form.skills.map(skill => (
                <span
                  key={skill}
-                 className="flex gap-1 items-center px-4 py-2 font-medium rounded-xl border shadow-none bg-subLightBlue border-mainBlue text-mainBlue text-h4"
+                 className="flex items-center gap-1 px-4 py-2 font-medium border shadow-none rounded-xl bg-subLightBlue border-mainBlue text-mainBlue text-h4"
                >
                  {skill}
                  <button
