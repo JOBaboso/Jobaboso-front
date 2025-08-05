@@ -225,21 +225,39 @@ const StatusPage = () => {
             <div>
               <p className="inline-block mt-8 text-gray-800 text-h3">희망기업</p>
               <div className="mt-2">
-                <div className="inline-block px-3 py-1 mr-4 bg-gray-100 border border-gray-100 rounded-md">{specData.hope.company}</div>
+                {specData.hope.company ? (
+                  specData.hope.company.split(', ').map((company, index) => (
+                    <div key={index} className="inline-block px-3 py-1 mr-4 bg-gray-100 border border-gray-100 rounded-md">{company.trim()}</div>
+                  ))
+                ) : (
+                  <div className="text-gray-500 text-bodyLg">희망기업 정보가 없습니다</div>
+                )}
               </div>
             </div>
             {/* 희망직군 */}
             <div>
               <p className="inline-block mt-8 text-gray-800 text-h3">희망직군</p>
               <div className="mt-2">
-                <div className="inline-block px-3 py-1 mr-4 bg-gray-100 border border-gray-100 rounded-md">{specData.hope.job}</div>
+                {specData.hope.job ? (
+                  specData.hope.job.split(', ').map((job, index) => (
+                    <div key={index} className="inline-block px-3 py-1 mr-4 bg-gray-100 border border-gray-100 rounded-md">{job.trim()}</div>
+                  ))
+                ) : (
+                  <div className="text-gray-500 text-bodyLg">희망직군 정보가 없습니다</div>
+                )}
               </div>
             </div>
             {/* 근무지역 */}
             <div>
               <p className="inline-block mt-8 text-gray-800 text-h3">근무지역</p>
               <div className="mt-2">
-                <div className="inline-block px-3 py-1 mr-4 bg-gray-100 border border-gray-100 rounded-md">{specData.hope.region}</div>
+                {specData.hope.region ? (
+                  specData.hope.region.split(', ').map((region, index) => (
+                    <div key={index} className="inline-block px-3 py-1 mr-4 bg-gray-100 border border-gray-100 rounded-md">{region.trim()}</div>
+                  ))
+                ) : (
+                  <div className="text-gray-500 text-bodyLg">근무지역 정보가 없습니다</div>
+                )}
               </div>
             </div>
           </div>
