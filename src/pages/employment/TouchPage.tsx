@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchTable, TouchRow } from '@components/my/TouchTable';
+import { TouchTable, TouchRow } from '@components/employment/TouchTable';
 import { Callout } from '@components/common/Callout';
 
 const dummyData: TouchRow[] = [

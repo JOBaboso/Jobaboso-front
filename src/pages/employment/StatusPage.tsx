@@ -1,8 +1,8 @@
 // pages/OverallEmploymentPage.tsx
 import React from 'react';
-import { ApplicationTable, ApplicationRow } from '@components/my/ApplicationTable';
+import { ApplicationTable, ApplicationRow } from '@components/employment/ApplicationTable';
 import { InformationCircleIcon } from '@heroicons/react/24/outline';
-import { StatusSection } from '@components/my/StatusSection';
+import { StatusSection } from '@components/employment/StatusSection';
 const dummyData: ApplicationRow[] = [
   {
     id: 1,
@@ -45,8 +45,8 @@ const ResumeEditPage: React.FC = () => {
   return (
     <div className="mx-auto w-[1096px]">
       <StatusSection />
-      <div className="flex items-center gap-2 mt-20 mb-4 text-gray-800 text-bodyLg">
-        <InformationCircleIcon className="self-center w-5 h-5 shrink-0" />
+      <div className="mb-4 mt-20 flex items-center gap-2 text-bodyLg text-gray-800">
+        <InformationCircleIcon className="h-5 w-5 shrink-0 self-center" />
         <span className="leading-none">지원한 기업들이 최신순으로 정렬되어 나열됩니다.</span>
       </div>
       <ApplicationTable rows={dummyData} />
