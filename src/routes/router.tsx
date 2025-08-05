@@ -2,15 +2,15 @@ import { createBrowserRouter, useRoutes } from 'react-router-dom';
 
 import MainLayout from '@layout/MainLayout';
 import AuthLayout from '@layout/AuthLayout';
-import PersonalLayout from '@layout/PersonalLayout';
+import MyLayout from '@layout/MyLayout';
 import HomePage from '@pages/Home/HomePage';
 import SignupTypePage from '@pages/auth/SignUpTypePage';
 import SigninPage from '@pages/auth/SignInPage';
 import SignupPersonalPage from '@pages/auth/SignUpPersonalPage';
 import SignupUniversityPage from '@pages/auth/SignupUniversityPage';
 import SignupCompanyPage from '@pages/auth/SignupCompanyPage';
-import ResumeEditPage from '@pages/my/ResumeEditPage';
-import ResumePage from '@pages/my/ResumePage' ;
+import SpecEditPage from '@pages/my/SpecEditPage';
+import SpecPage from '@pages/my/SpecPage';
 import StatusPage from '@pages/my/StatusPage';
 import CalendarPage from '@pages/my/CalendarPage';
 import TouchPage from '@pages/my/TouchPage';
@@ -38,10 +38,10 @@ const router = () =>
     },
     {
       path: '/my',
-      element: <PersonalLayout />,
+      element: <MyLayout />,
       children: [
-        { path: 'resume', element: <ResumePage /> },
-        { path: 'resume/edit', element: <ResumeEditPage /> },
+        { path: 'spec', element: <SpecPage /> },
+        { path: 'spec/edit', element: <SpecEditPage /> },
         { path: 'status', element: <StatusPage /> },
         { path: 'touch', element: <TouchPage /> },
         { path: 'calendar', element: <CalendarPage /> },

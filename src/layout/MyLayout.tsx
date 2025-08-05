@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Header from './header/Header';
-import PersonalSidebar from './sidebar/PersonalSidebar';
+import MySidebar from './sidebar/MySidebar';
 import Footer from './footer/Footer';
 
-const PersonalLayout = () => {
+const MyLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
@@ -19,7 +19,7 @@ const PersonalLayout = () => {
         {/* PC용 사이드바 */}
         <aside className="hidden w-[260px] shrink-0 border-r border-gray-200 md:block">
           <div className="h-full">
-            <PersonalSidebar />
+            <MySidebar />
           </div>
         </aside>
 
@@ -30,7 +30,7 @@ const PersonalLayout = () => {
             <div className="fixed inset-0 bg-black bg-opacity-30" onClick={closeSidebar} />
             {/* 사이드바 */}
             <aside className="relative z-50 w-[240px] border-r border-gray-200 bg-white shadow-md">
-              <PersonalSidebar />
+              <MySidebar />
             </aside>
           </div>
         )}
@@ -46,4 +46,4 @@ const PersonalLayout = () => {
   );
 };
 
-export default PersonalLayout;
+export default MyLayout;

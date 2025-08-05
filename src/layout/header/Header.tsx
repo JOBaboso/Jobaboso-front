@@ -1,6 +1,12 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { BellIcon, MagnifyingGlassIcon, UserIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
+import {
+  BellIcon,
+  MagnifyingGlassIcon,
+  UserIcon,
+  ChevronDownIcon,
+  Bars3Icon,
+} from '@heroicons/react/24/outline';
 
 interface HeaderProps {
   onToggleSidebar?: () => void;
@@ -41,22 +47,10 @@ const Header = ({ onToggleSidebar }: HeaderProps) => {
       <div className="flex items-center gap-3">
         {/* 햄버거 버튼: 모바일에서만 보임 */}
         <button onClick={onToggleSidebar} className="md:hidden" aria-label="사이드바 열기">
-          <svg
-            className="h-6 w-6 text-gray-700"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M4 6h16M4 12h16M4 18h16"
-            />
-          </svg>
+          <Bars3Icon className="h-6 w-6 text-gray-700" />
         </button>
 
-        <Link to="/" className="ml-[148px] flex items-center">
+        <Link to="/" className="ml-[30px] flex items-center">
           <img src="/jobmate.svg" alt="JobMate" className="h-[42px] w-[145px]" />
         </Link>
 
@@ -64,24 +58,14 @@ const Header = ({ onToggleSidebar }: HeaderProps) => {
         {isLoggedIn && (
           <nav className="ml-20 hidden items-center space-x-[76px] md:flex">
             <Link
-              to="/lounge"
+              to="/employment"
               className={`text-[20px] font-medium leading-[28px] transition-colors ${
-                location.pathname.startsWith('/lounge')
+                location.pathname.startsWith('/employment')
                   ? 'text-mainBlue'
                   : 'text-gray-700 hover:text-mainBlue'
               }`}
             >
-              커리어 라운지
-            </Link>
-            <Link
-              to="/challenge"
-              className={`text-[20px] font-medium leading-[28px] transition-colors ${
-                location.pathname.startsWith('/challenge')
-                  ? 'text-mainBlue'
-                  : 'text-gray-700 hover:text-mainBlue'
-              }`}
-            >
-              나의 챌린지
+              나의 취업 현황
             </Link>
             <Link
               to="/benchmark"
@@ -94,14 +78,24 @@ const Header = ({ onToggleSidebar }: HeaderProps) => {
               스펙 벤치마크
             </Link>
             <Link
-              to="/my"
+              to="/challenge"
               className={`text-[20px] font-medium leading-[28px] transition-colors ${
-                location.pathname.startsWith('/my')
+                location.pathname.startsWith('/challenge')
                   ? 'text-mainBlue'
                   : 'text-gray-700 hover:text-mainBlue'
               }`}
             >
-              마이페이지
+              나의 챌린지
+            </Link>
+            <Link
+              to="/lounge"
+              className={`text-[20px] font-medium leading-[28px] transition-colors ${
+                location.pathname.startsWith('/lounge')
+                  ? 'text-mainBlue'
+                  : 'text-gray-700 hover:text-mainBlue'
+              }`}
+            >
+              커리어 라운지
             </Link>
           </nav>
         )}
@@ -122,31 +116,40 @@ const Header = ({ onToggleSidebar }: HeaderProps) => {
             </button>
 
             {/* 사용자 프로필 아이콘 */}
-            <button className="p-2 text-gray-600 hover:text-mainBlue" aria-label="프로필">
-              <UserIcon className="h-7 w-7" />
-            </button>
+            <Link to="/my" className="flex items-center gap-2 p-1 hover:opacity-80">
+              <button
+                className={`flex items-center justify-center rounded-full transition-colors ${
+                  location.pathname.startsWith('/my')
+                    ? 'border-mainBlue'
+                    : 'border-gray-300 hover:border-mainBlue'
+                }`}
+                aria-label="프로필"
+              >
+                <img src="/ic_profile.svg" alt="프로필" className="h-7 w-7" />
+              </button>
 
-            {/* 사용자 이름 */}
-            <span className="font-medium text-[20px] leading-[28px] text-gray-700">{userName}</span>
-
-            {/* 로그아웃 버튼 */}
-            <button
-              onClick={handleLogout}
-              className="font-medium text-[20px] leading-[28px] text-gray-700 hover:text-mainBlue hover:none"
-            >
-              로그아웃
-            </button>
+              {/* 사용자 이름 */}
+              <span
+                className={`text-[20px] font-medium leading-[28px] transition-colors ${
+                  location.pathname.startsWith('/my') ? 'text-mainBlue' : 'text-gray-700'
+                }`}
+              >
+                {userName}
+              </span>
+            </Link>
 
             {/* 서비스 토글 버튼 */}
-            <div className="relative">
-              <button 
+            <div className="relative mr-5">
+              <button
                 onClick={() => setIsServiceMenuOpen(!isServiceMenuOpen)}
                 className="flex h-[38px] items-center justify-between rounded-full border border-gray-200 bg-white px-4 text-gray-700 transition-colors hover:bg-gray-50"
               >
-                <span className="text-h3 m-4">기업서비스</span>
-                <ChevronDownIcon className={`h-4 w-4 transition-transform ${isServiceMenuOpen ? 'rotate-180' : ''}`} />
+                <span className="m-4 text-h3">기업서비스</span>
+                <ChevronDownIcon
+                  className={`h-4 w-4 transition-transform ${isServiceMenuOpen ? 'rotate-180' : ''}`}
+                />
               </button>
-              
+
               {/* 드롭다운 메뉴 */}
               {isServiceMenuOpen && (
                 <div className="absolute right-0 top-full mt-1 rounded-lg border border-gray-200 bg-white shadow-lg">
@@ -161,14 +164,20 @@ const Header = ({ onToggleSidebar }: HeaderProps) => {
             </div>
           </>
         ) : (
-          <>
-            <Link to="/auth/signin" className="hover:text-mainBlue hover:underline">
+          <div className="mr-5 flex flex-col items-center space-y-2 md:flex-row md:space-x-6 md:space-y-0">
+            <Link
+              to="/auth/signin"
+              className="hover:none text-[20px] font-medium leading-[28px] hover:text-mainBlue"
+            >
               로그인
             </Link>
-            <Link to="/auth/signup/type" className="hover:text-mainBlue hover:underline">
+            <Link
+              to="/auth/signup/type"
+              className="hover:none text-[20px] font-medium leading-[28px] hover:text-mainBlue"
+            >
               회원가입
             </Link>
-          </>
+          </div>
         )}
       </nav>
     </header>

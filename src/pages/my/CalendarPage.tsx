@@ -44,7 +44,7 @@ const CalendarPage = () => {
   };
 
   return (
-    <div className="mx-auto w-[1211px]">
+    <div className="mx-auto w-[1096px]">
       <h2 className="mb-8 text-[40px] font-bold text-gray-800">캘린더</h2>
 
       <Callout text="김잡메 님의 취업 일정과 관련된 내용이 캘린더에 노출돼요." />
