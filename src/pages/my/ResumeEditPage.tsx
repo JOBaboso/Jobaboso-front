@@ -1,6 +1,7 @@
 import { InputField } from '@components/common/InputField';
 import TagInput from '@components/common/TagInput';
 import { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ResumeSidebar from '@components/my/ResumeSidebar';
 import CustomCheckbox from '@components/common/CustomCheckbox';
 import { FiSearch, FiPlus, FiX } from 'react-icons/fi';
@@ -59,6 +60,7 @@ interface FormType {
 }
 
 const StatusPage = () => {
+  const navigate = useNavigate();
   const [form, setForm] = useState<FormType>({
     name: '',
     phone: '',
@@ -455,6 +457,8 @@ const StatusPage = () => {
     try {
       const res = await api.post('/spec/all', body);
       alert('스펙이 성공적으로 저장되었습니다.');
+      // 저장 성공 시 ResumePage로 이동
+      navigate('/my/resume');
     } catch (e) {
       alert('에러 발생: ' + e);
     }
@@ -469,7 +473,7 @@ const StatusPage = () => {
       {/* 왼쪽: 기존 이력서 편집 내용 */}
       <div className="mx-auto w-[1096px] ml-52">
         {/* 인사 박스 */}
-        <div className="flex items-center justify-between w-[925px] px-7 py-5 bg-white shadow-even rounded-3xl my-24 relative overflow-hidden" >
+        <div className="flex items-center justify-between w-[925px] px-7 py-5 bg-white shadow-even rounded-3xl mb-14 mt-10 relative overflow-hidden" >
           {/* 파란 원 두 개 - 이미지 뒤에 겹치게 */}
           <div className="absolute z-0 w-[100px] h-[100px] bg-blue-300 rounded-full right-[70px] bottom-[18px] opacity-50" />
           <div className="absolute z-0 w-[140px] h-[140px] bg-blue-300 rounded-full right-[-20px] bottom-[-50px] opacity-50" />
