@@ -78,14 +78,14 @@ const Header = ({ onToggleSidebar }: HeaderProps) => {
               스펙 벤치마크
             </Link>
             <Link
-              to="/challenge"
+              to="/mission"
               className={`text-[20px] font-medium leading-[28px] transition-colors ${
-                location.pathname.startsWith('/challenge')
+                location.pathname.startsWith('/mission')
                   ? 'text-mainBlue'
                   : 'text-gray-700 hover:text-mainBlue'
               }`}
             >
-              나의 챌린지
+              나의 미션
             </Link>
             <Link
               to="/lounge"

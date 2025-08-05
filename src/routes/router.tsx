@@ -3,17 +3,19 @@ import { createBrowserRouter, useRoutes } from 'react-router-dom';
 import MainLayout from '@layout/MainLayout';
 import AuthLayout from '@layout/AuthLayout';
 import MyLayout from '@layout/MyLayout';
-import HomePage from '@pages/Home/HomePage';
-import SignupTypePage from '@pages/auth/SignUpTypePage';
-import SigninPage from '@pages/auth/SignInPage';
-import SignupPersonalPage from '@pages/auth/SignUpPersonalPage';
+import EmploymentLayout from '@layout/EmploymentLayout';
 import SignupUniversityPage from '@pages/auth/SignupUniversityPage';
 import SignupCompanyPage from '@pages/auth/SignupCompanyPage';
 import SpecEditPage from '@pages/my/SpecEditPage';
 import SpecPage from '@pages/my/SpecPage';
-import StatusPage from '@pages/my/StatusPage';
-import CalendarPage from '@pages/my/CalendarPage';
-import TouchPage from '@pages/my/TouchPage';
+import StatusPage from '@pages/employment/StatusPage';
+import CalendarPage from '@pages/employment/CalendarPage';
+import TouchPage from '@pages/employment/TouchPage';
+import LoungeLayout from '@layout/LoungeLayout';
+import HomePage from '@pages/home/HomePage';
+import SigninPage from '@pages/auth/SigninPage';
+import SignupTypePage from '@pages/auth/SignupTypePage';
+import SignupPersonalPage from '@pages/auth/SignupPersonalPage';
 
 const router = () =>
   createBrowserRouter([
@@ -42,10 +44,34 @@ const router = () =>
       children: [
         { path: 'spec', element: <SpecPage /> },
         { path: 'spec/edit', element: <SpecEditPage /> },
+      ],
+    },
+    {
+      path: '/employment',
+      element: <EmploymentLayout />,
+      children: [
         { path: 'status', element: <StatusPage /> },
         { path: 'touch', element: <TouchPage /> },
         { path: 'calendar', element: <CalendarPage /> },
         { path: 'review', element: <HomePage /> },
+      ],
+    },
+    {
+      path: '/benchmark',
+      element: <MyLayout />,
+      children: [],
+    },
+    {
+      path: '/mission',
+      element: <MyLayout />,
+      children: [],
+    },
+    {
+      path: '/lounge',
+      element: <LoungeLayout />,
+      children: [
+        { path: 'community', element: <StatusPage /> }, // 취업 이야기 페이지로 변경
+        { path: 'corporate', element: <StatusPage /> }, // 기업 컨텐츠로 변경
       ],
     },
   ]);
