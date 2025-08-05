@@ -4,7 +4,7 @@ import 'react-calendar/dist/Calendar.css';
 import dayjs from 'dayjs';
 import './CustomCalendar.css'; // 스타일 커스텀용
 import { Callout } from '@components/common/Callout';
-import { InfoTooltip } from '@components/my/InfoTooltip';
+import { InfoTooltip } from '@components/employment/InfoTooltip';
 
 type ScheduleType = '서류' | '면접';
 

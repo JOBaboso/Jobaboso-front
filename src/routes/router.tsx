@@ -4,6 +4,8 @@ import MainLayout from '@layout/MainLayout';
 import AuthLayout from '@layout/AuthLayout';
 import MyLayout from '@layout/MyLayout';
 import EmploymentLayout from '@layout/EmploymentLayout';
+import BenchmarkLayout from '@layout/BenchmarkLayout';
+import MissionLayout from '@layout/MissionLayout';
 import SignupUniversityPage from '@pages/auth/SignupUniversityPage';
 import SignupCompanyPage from '@pages/auth/SignupCompanyPage';
 import SpecEditPage from '@pages/my/SpecEditPage';
@@ -16,6 +18,10 @@ import HomePage from '@pages/home/HomePage';
 import SigninPage from '@pages/auth/SigninPage';
 import SignupTypePage from '@pages/auth/SignupTypePage';
 import SignupPersonalPage from '@pages/auth/SignupPersonalPage';
+import ListPage from '@pages/benchmark/ListPage';
+import HistoryPage from '@pages/mission/HistoryPage';
+import CommunityPage from '@pages/lounge/CommunityPage';
+import CorporatePage from '@pages/lounge/CorporatePage';
 
 const router = () =>
   createBrowserRouter([
@@ -58,20 +64,20 @@ const router = () =>
     },
     {
       path: '/benchmark',
-      element: <MyLayout />,
-      children: [],
+      element: <BenchmarkLayout />,
+      children: [{ path: 'list', element: <ListPage /> }], //변경해도 됨
     },
     {
       path: '/mission',
-      element: <MyLayout />,
-      children: [],
+      element: <MissionLayout />,
+      children: [{ path: 'history', element: <HistoryPage /> }], //변경해도 됨
     },
     {
       path: '/lounge',
       element: <LoungeLayout />,
       children: [
-        { path: 'community', element: <StatusPage /> }, // 취업 이야기 페이지로 변경
-        { path: 'corporate', element: <StatusPage /> }, // 기업 컨텐츠로 변경
+        { path: 'community', element: <CommunityPage /> },
+        { path: 'corporate', element: <CorporatePage /> },
       ],
     },
   ]);

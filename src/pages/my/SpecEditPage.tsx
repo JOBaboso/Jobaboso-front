@@ -2,7 +2,7 @@ import { InputField } from '@components/common/InputField';
 import TagInput from '@components/common/TagInput';
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import ResumeSidebar from '@components/my/ResumeSidebar';
+import ResumeSidebar from '@components/employment/ResumeSidebar';
 import CustomCheckbox from '@components/common/CustomCheckbox';
 import { FiSearch, FiPlus, FiX } from 'react-icons/fi';
 import api from '@apis/api';
