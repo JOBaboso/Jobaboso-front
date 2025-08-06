@@ -43,14 +43,14 @@ const dummyData: ApplicationRow[] = [
 
 const ResumeEditPage: React.FC = () => {
   return (
-    <div className="mx-auto w-[1096px]">
+    <>
       <StatusSection />
       <div className="mb-4 mt-20 flex items-center gap-2 text-bodyLg text-gray-800">
         <InformationCircleIcon className="h-5 w-5 shrink-0 self-center" />
         <span className="leading-none">지원한 기업들이 최신순으로 정렬되어 나열됩니다.</span>
       </div>
       <ApplicationTable rows={dummyData} />
-    </div>
+    </>
   );
 };
 
