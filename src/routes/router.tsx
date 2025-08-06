@@ -13,6 +13,7 @@ import SpecPage from '@pages/my/SpecPage';
 import StatusPage from '@pages/employment/StatusPage';
 import CalendarPage from '@pages/employment/CalendarPage';
 import TouchPage from '@pages/employment/TouchPage';
+import ReviewPage from '@pages/employment/ReviewPage';
 import LoungeLayout from '@layout/LoungeLayout';
 import HomePage from '@pages/home/HomePage';
 import SigninPage from '@pages/auth/SigninPage';
@@ -59,7 +60,7 @@ const router = () =>
         { path: 'status', element: <StatusPage /> },
         { path: 'touch', element: <TouchPage /> },
         { path: 'calendar', element: <CalendarPage /> },
-        { path: 'review', element: <HomePage /> },
+        { path: 'review', element: <ReviewPage /> },
       ],
     },
     {

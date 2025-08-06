@@ -22,7 +22,6 @@ export const StatusSection = () => {
 
   return (
     <section className="space-y-4">
-      <h2 className="mb-8 text-[40px] font-bold text-gray-800">전체 지원 현황</h2>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <StatusCard
           icon={<CheckCircleIcon className="h-5 w-5 text-[#27B122]" />}

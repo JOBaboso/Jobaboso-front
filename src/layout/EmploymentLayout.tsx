@@ -1,14 +1,39 @@
 import { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import Header from './header/Header';
 import EmploymentSidebar from './sidebar/EmploymentSidebar';
 import Footer from './footer/Footer';
 
-const MyLayout = () => {
+interface EmploymentLayoutProps {
+  title?: string;
+}
+
+const MyLayout: React.FC<EmploymentLayoutProps> = ({ title }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const location = useLocation();
 
   const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
   const closeSidebar = () => setIsSidebarOpen(false);
+
+  // 페이지별 제목 매핑
+  const getPageTitle = () => {
+    if (title) return title;
+
+    switch (location.pathname) {
+      case '/employment/status':
+        return '전체 지원 현황';
+      case '/employment/calendar':
+        return '캘린더';
+      case '/employment/touch':
+        return '찜 제안 확인';
+      case '/employment/review':
+        return '나의 취업 후기';
+      default:
+        return '';
+    }
+  };
+
+  const pageTitle = getPageTitle();
 
   return (
     <div className="flex min-h-screen flex-col bg-white">
@@ -37,7 +62,12 @@ const MyLayout = () => {
 
         {/* 메인 콘텐츠 */}
         <main className="flex-1 overflow-y-auto px-4 py-6 md:px-8">
-          <Outlet />
+          <div className="mx-auto w-[1096px]">
+            {pageTitle && (
+              <h2 className="mb-8 mt-8 text-[40px] font-bold text-gray-800">{pageTitle}</h2>
+            )}
+            <Outlet />
+          </div>
         </main>
       </div>
 
