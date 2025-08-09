@@ -16,15 +16,16 @@ interface HopeType {
 interface ProjectType {
   name: string;
   description: string;
-  period: string;
+  start_date: string;
+  end_date: string;
+  period?: string; // UI 표시용 (선택적)
 }
 
 interface ActivityType {
   type: string;
-  organization: string;
-  startDate: string;
-  endDate: string;
-  description: string;
+  title: string;
+  detail: string;
+  activity_date: string;
 }
 
 interface CertificateType {
@@ -74,7 +75,7 @@ const StatusPage = () => {
     startDate: '2021-03',
     endDate: '2026-02',
     status: '재학중',
-    agree: false,
+    agree: true,
     companies: [],
     jobs: [],
     regions: [],
@@ -207,8 +208,22 @@ const StatusPage = () => {
           jobs: data.hope?.job ? [data.hope.job] : [],
           regions: data.hope?.region ? [data.hope.region] : [],
           // 기타
-          projects: data.projects || [],
-          activities: data.activities || [],
+          projects: data.projects?.map((project: any) => ({
+            name: project.project_name || '',
+            description: project.description || '',
+            start_date: project.start_date || '',
+            end_date: project.end_date || '',
+            period: project.start_date && project.end_date ? `${project.start_date} ~ ${project.end_date}` : ''
+          })) || [],
+          activities: data.activities?.map((activity: any) => ({
+            type: activity.type === '인턴' ? 'intern' : 
+                  activity.type === '동아리' ? 'club' : 
+                  activity.type === '대회' ? 'contest' : 
+                  activity.type || '',
+            title: activity.title || '',
+            detail: activity.detail || '',
+            activity_date: activity.activity_date || ''
+          })) || [],
           certificates:
             data.certificates?.map((cert: any) => ({
               name: cert.cert_name || '',
@@ -235,23 +250,32 @@ const StatusPage = () => {
   // 프로젝트 추가
   const addProject = () => {
     const nameInput = document.getElementById('project-name') as HTMLInputElement;
-    const periodInput = document.getElementById('project-period') as HTMLInputElement;
+    const startInput = document.getElementById('project-start') as HTMLInputElement;
+    const endInput = document.getElementById('project-end') as HTMLInputElement;
     const descInput = document.getElementById('project-desc') as HTMLTextAreaElement;
 
-    if (nameInput && periodInput && descInput) {
+    if (nameInput && startInput && endInput && descInput) {
       const name = nameInput.value;
-      const period = periodInput.value;
+      const startDate = parseDate(startInput.value);
+      const endDate = parseDate(endInput.value);
       const description = descInput.value;
 
-      if (name && period && description) {
+      if (name && startDate && endDate && description) {
         setForm({
           ...form,
-          projects: [...form.projects, { name, description, period }],
+          projects: [...form.projects, { 
+            name, 
+            description, 
+            start_date: startDate,
+            end_date: endDate,
+            period: `${startDate} ~ ${endDate}` // UI 표시용
+          }],
         });
 
         // 입력창 초기화
         nameInput.value = '';
-        periodInput.value = '';
+        startInput.value = '';
+        endInput.value = '';
         descInput.value = '';
       } else {
         alert('모든 필드를 입력해주세요.');
@@ -276,33 +300,63 @@ const StatusPage = () => {
       setForm({ ...form, projects: newProjects });
     };
 
-  // 활동 추가
-  const addActivity = () => {
-    const typeInput = document.getElementById('activity-type') as HTMLInputElement;
-    const orgInput = document.getElementById('activity-org') as HTMLInputElement;
-    const startInput = document.getElementById('activity-start') as HTMLInputElement;
-    const endInput = document.getElementById('activity-end') as HTMLInputElement;
-    const descInput = document.getElementById('activity-desc') as HTMLTextAreaElement;
+  // 동아리 추가
+  const addClub = () => {
+    const clubNameInput = document.getElementById('club-name') as HTMLInputElement;
+    const clubStartInput = document.getElementById('club-start') as HTMLInputElement;
+    const clubDescInput = document.getElementById('club-desc') as HTMLTextAreaElement;
 
-    if (typeInput && orgInput && startInput && endInput && descInput) {
-      const type = typeInput.value;
-      const organization = orgInput.value;
-      const startDate = parseDate(startInput.value);
-      const endDate = parseDate(endInput.value);
-      const description = descInput.value;
+    if (clubNameInput && clubStartInput && clubDescInput) {
+      const name = clubNameInput.value;
+      const startDate = parseDate(clubStartInput.value);
+      const description = clubDescInput.value;
 
-      if (type && organization && startDate && endDate && description) {
+      if (name && startDate && description) {
+        // activities에 club 타입으로 추가
         setForm({
           ...form,
-          activities: [...form.activities, { type, organization, startDate, endDate, description }],
+          activities: [...form.activities, { 
+            type: 'club', 
+            title: name, 
+            activity_date: startDate, 
+            detail: description
+          }],
+        });
+
+        // 입력창 초기화
+        clubNameInput.value = '';
+        clubStartInput.value = '';
+        clubDescInput.value = '';
+      } else {
+        alert('모든 필드를 입력해주세요.');
+      }
+    }
+  };
+
+  // 활동 추가
+  const addActivity = () => {
+    const typeInput = document.getElementById('activity-type') as HTMLSelectElement;
+    const titleInput = document.getElementById('activity-title') as HTMLInputElement;
+    const dateInput = document.getElementById('activity-date') as HTMLInputElement;
+    const detailInput = document.getElementById('activity-detail') as HTMLTextAreaElement;
+
+    if (typeInput && titleInput && dateInput && detailInput) {
+      const type = typeInput.value;
+      const title = titleInput.value;
+      const activity_date = parseDate(dateInput.value);
+      const detail = detailInput.value;
+
+      if (type && title && activity_date && detail) {
+        setForm({
+          ...form,
+          activities: [...form.activities, { type, title, activity_date, detail }],
         });
 
         // 입력창 초기화
         typeInput.value = '';
-        orgInput.value = '';
-        startInput.value = '';
-        endInput.value = '';
-        descInput.value = '';
+        titleInput.value = '';
+        dateInput.value = '';
+        detailInput.value = '';
       } else {
         alert('모든 필드를 입력해주세요.');
       }
@@ -320,7 +374,7 @@ const StatusPage = () => {
   // 활동 변경
   const handleActivityChange =
     (index: number, field: keyof ActivityType) =>
-    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
       const newActivities = [...form.activities];
       newActivities[index] = { ...newActivities[index], [field]: e.target.value };
       setForm({ ...form, activities: newActivities });
@@ -453,7 +507,12 @@ const StatusPage = () => {
 
     const body = {
       skills: form.skills.map((skill) => ({ skill_name: skill })),
-      projects: form.projects,
+      projects: form.projects.map((project) => ({
+        project_name: project.name,
+        description: project.description,
+        start_date: project.start_date,
+        end_date: project.end_date
+      })),
       activities: form.activities,
       certificates: form.certificates.map((cert) => ({
         cert_name: cert.name,
@@ -481,19 +540,19 @@ const StatusPage = () => {
     try {
       const res = await api.post('/spec/all', body);
       alert('스펙이 성공적으로 저장되었습니다.');
-      // 저장 성공 시 ResumePage로 이동
-      navigate('/my/resume');
+      // 저장 성공 시 SpecPage로 이동
+      navigate('/my/spec');
     } catch (e) {
       alert('에러 발생: ' + e);
     }
   };
 
   if (loading) {
-    return <div className="flex h-screen items-center justify-center">로딩 중...</div>;
+    return <div className="flex justify-center items-center h-screen">로딩 중...</div>;
   }
 
   return (
-    <div className="flex w-full justify-center">
+    <div className="flex justify-center w-full">
       {/* 왼쪽: 기존 이력서 편집 내용 */}
       <div className="mx-auto ml-52 w-[1096px]">
         {/* 인사 박스 */}
@@ -516,7 +575,7 @@ const StatusPage = () => {
 
         {/* 인적사항 */}
         <div ref={sectionRefs['인적사항']} id="section-personal" className="mb-16">
-          <h2 className="mb-10 text-h2 font-semibold text-gray-800">인적사항</h2>
+          <h2 className="mb-10 font-semibold text-gray-800 text-h2">인적사항</h2>
           <div className="grid grid-cols-[700px] gap-6">
             <div className="grid grid-cols-[212px_278px_149px] gap-6">
               {/* 1행 */}
@@ -537,7 +596,7 @@ const StatusPage = () => {
               <div>
                 <label
                   htmlFor="gender"
-                  className="mb-2 block p-1 text-h4 font-medium text-gray-700"
+                  className="block p-1 mb-2 font-medium text-gray-700 text-h4"
                 >
                   성별
                 </label>
@@ -574,8 +633,8 @@ const StatusPage = () => {
 
         {/* 학력 */}
         <div ref={sectionRefs['학력']} id="section-education" className="mb-16">
-          <h2 className="mb-10 text-h2 font-semibold text-gray-800">학력</h2>
-          <div className="grid grid-cols-[217px_260px_260px] gap-6">
+          <h2 className="mb-10 font-semibold text-gray-800 text-h2">학력</h2>
+          <div className="grid grid-cols-[237px_280px] gap-6">
             <InputField
               id="university"
               label="학교명"
@@ -589,13 +648,6 @@ const StatusPage = () => {
               placeholder="학과를 입력하세요"
               value={form.major}
               onChange={handleChange('major')}
-            />
-            <InputField
-              id="subMajor"
-              label="복수/부전공"
-              placeholder="복수/부전공을 입력하세요"
-              value={form.subMajor}
-              onChange={handleChange('subMajor')}
             />
           </div>
           <div className="grid grid-cols-[124px_180px_180px_180px] gap-6">
@@ -623,7 +675,7 @@ const StatusPage = () => {
               onChange={(e) => setForm({ ...form, endDate: formatYearMonthInput(e.target.value) })}
             />
             <div>
-              <label htmlFor="status" className="mb-2 block p-1 text-h4 font-medium text-gray-700">
+              <label htmlFor="status" className="block p-1 mb-2 font-medium text-gray-700 text-h4">
                 상태
               </label>
               <select
@@ -639,7 +691,10 @@ const StatusPage = () => {
             </div>
           </div>
           <div className="mt-4">
-            <div className="inline-flex items-center gap-2">
+            <div 
+              className="inline-flex gap-2 items-center cursor-pointer"
+              onClick={() => setForm({ ...form, agree: !form.agree })}
+            >
               <CustomCheckbox
                 checked={form.agree}
                 onChange={(e) => setForm({ ...form, agree: e.target.checked })}
@@ -653,7 +708,7 @@ const StatusPage = () => {
 
         {/* 희망 근무 조건 */}
         <div ref={sectionRefs['희망 근무 조건']} id="section-hope" className="mb-16 w-[862px]">
-          <h2 className="mb-10 text-h2 font-semibold text-gray-800">희망 근무 조건</h2>
+          <h2 className="mb-10 font-semibold text-gray-800 text-h2">희망 근무 조건</h2>
 
           {/* 기업 */}
           <div className="mb-8">
@@ -691,23 +746,23 @@ const StatusPage = () => {
 
         {/* 보유역량 */}
         <div ref={sectionRefs['보유역량']} id="section-ability" className="mb-16 w-[862px]">
-          <h2 className="mb-10 text-h2 font-semibold text-gray-800">보유역량</h2>
+          <h2 className="mb-10 font-semibold text-gray-800 text-h2">보유역량</h2>
 
           {/* 자격증 */}
           <div className="mb-8">
-            <div className="mb-2 flex items-center">
-              <label htmlFor="cert-name" className="text-h4 font-medium text-gray-700">
+            <div className="flex items-center mb-2">
+              <label htmlFor="cert-name" className="font-medium text-gray-700 text-h4">
                 자격증
               </label>
               <button
                 onClick={addCertificate}
-                className="ml-auto rounded-full bg-subLightBlue px-2 py-1 text-sm font-medium text-mainBlue transition-colors hover:bg-blue-100"
+                className="px-2 py-1 ml-auto text-sm font-medium rounded-full transition-colors bg-subLightBlue text-mainBlue hover:bg-blue-100"
               >
                 추가하기
               </button>
             </div>
             {form.certificates.map((cert, index) => (
-              <div key={index} className="mb-2 flex items-center gap-4">
+              <div key={index} className="flex gap-4 items-center mb-2">
                 <input
                   className="h-[66px] flex-1 rounded-lg border border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
                   placeholder="자격증명을 검색해주세요."
@@ -716,7 +771,7 @@ const StatusPage = () => {
                 />
                 <input
                   className="h-[66px] w-1/4 rounded-lg border border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
-                  placeholder="발행처"
+                  placeholder="합격여부"
                   value={cert.issuer}
                   onChange={handleCertificateChange(index, 'issuer')}
                 />
@@ -741,7 +796,7 @@ const StatusPage = () => {
                 </button>
               </div>
             ))}
-            <div className="mb-2 flex gap-4">
+            <div className="flex gap-4 mb-2">
               <input
                 id="cert-name"
                 className="h-[66px] flex-1 rounded-lg border border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
@@ -750,69 +805,64 @@ const StatusPage = () => {
               <input
                 id="cert-issuer"
                 className="h-[66px] w-1/4 rounded-lg border border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
-                placeholder="발행처"
+                placeholder="합격여부"
               />
               <input
                 id="cert-date"
                 className="h-[66px] w-1/4 rounded-lg border border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
                 placeholder="YYYY-MM-DD"
-                onChange={(e) => (e.target.value = formatDateInput(e.target.value))}
+                onChange={(e) => {
+                  const formattedValue = formatDateInput(e.target.value);
+                  e.target.value = formattedValue;
+                }}
               />
             </div>
           </div>
 
           {/* 인턴 및 대외활동 */}
           <div className="mb-8">
-            <div className="mb-2 flex items-center">
-              <label htmlFor="activity-type" className="text-h4 font-medium text-gray-700">
+            <div className="flex items-center mb-2">
+              <label htmlFor="activity-type" className="font-medium text-gray-700 text-h4">
                 인턴 및 대외활동
               </label>
               <button
                 onClick={addActivity}
-                className="ml-auto rounded-full bg-subLightBlue px-2 py-1 text-sm font-medium text-mainBlue transition-colors hover:bg-blue-100"
+                className="px-2 py-1 ml-auto text-sm font-medium rounded-full transition-colors bg-subLightBlue text-mainBlue hover:bg-blue-100"
               >
                 추가하기
               </button>
             </div>
-            {form.activities.map((activity, index) => (
-              <div key={index} className="mb-4 rounded-lg border border-gray-200 p-4">
-                <div className="mb-2 flex gap-4">
+            {form.activities.filter(activity => activity.type !== 'club').map((activity, index) => (
+              <div key={index} className="p-4 mb-4 rounded-lg border border-gray-200">
+                <div className="flex gap-4 mb-2">
+                  <div className="w-1/2">
+                    <select
+                      className="h-[66px] w-full rounded-lg border border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
+                      value={activity.type}
+                      onChange={handleActivityChange(index, 'type')}
+                    >
+                      <option value="">활동구분을 선택하세요</option>
+                      <option value="intern">인턴</option>
+                      <option value="contest">대회</option>
+                    </select>
+                  </div>
                   <input
                     className="h-[66px] w-1/2 rounded-lg border border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
-                    placeholder="활동구분"
-                    value={activity.type}
-                    onChange={handleActivityChange(index, 'type')}
-                  />
-                  <input
-                    className="h-[66px] w-1/2 rounded-lg border border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
-                    placeholder="회사/기관/단체명"
-                    value={activity.organization}
-                    onChange={handleActivityChange(index, 'organization')}
+                    placeholder="활동명/제목"
+                    value={activity.title}
+                    onChange={handleActivityChange(index, 'title')}
                   />
                 </div>
-                <div className="mb-2 flex gap-4">
+                <div className="flex gap-4 mb-2">
                   <input
-                    className="h-[66px] w-1/2 rounded-lg border border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
+                    className="h-[66px] w-full rounded-lg border border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
                     placeholder="YYYY-MM-DD"
-                    value={activity.startDate}
+                    value={activity.activity_date}
                     onChange={(e) => {
                       const newActivities = [...form.activities];
                       newActivities[index] = {
                         ...newActivities[index],
-                        startDate: formatDateInput(e.target.value),
-                      };
-                      setForm({ ...form, activities: newActivities });
-                    }}
-                  />
-                  <input
-                    className="h-[66px] w-1/2 rounded-lg border border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
-                    placeholder="YYYY-MM-DD"
-                    value={activity.endDate}
-                    onChange={(e) => {
-                      const newActivities = [...form.activities];
-                      newActivities[index] = {
-                        ...newActivities[index],
-                        endDate: formatDateInput(e.target.value),
+                        activity_date: formatDateInput(e.target.value),
                       };
                       setForm({ ...form, activities: newActivities });
                     }}
@@ -821,9 +871,9 @@ const StatusPage = () => {
                 <div className="flex gap-2">
                   <textarea
                     className="min-h-[80px] flex-1 resize-none rounded-xl border border-gray-200 bg-white px-6 py-4 text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
-                    placeholder="직무와 관련된 경험에 대해 작성하시는 게 좋아요!"
-                    value={activity.description}
-                    onChange={handleActivityChange(index, 'description')}
+                    placeholder="활동 상세 내용을 입력하세요"
+                    value={activity.detail}
+                    onChange={handleActivityChange(index, 'detail')}
                   />
                   <button
                     onClick={() => removeActivity(index)}
@@ -834,36 +884,39 @@ const StatusPage = () => {
                 </div>
               </div>
             ))}
-            <div className="mb-2 flex gap-4">
+            <div className="flex gap-4 mb-2">
+              <div className="w-1/2">
+                <select
+                  id="activity-type"
+                  className="h-[66px] w-full rounded-lg border border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
+                >
+                  <option value="">활동구분을 선택하세요</option>
+                  <option value="intern">인턴</option>
+                  <option value="club">동아리</option>
+                  <option value="contest">대회</option>
+                </select>
+              </div>
               <input
-                id="activity-type"
+                id="activity-title"
                 className="h-[66px] w-1/2 rounded-lg border border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
-                placeholder="활동구분"
-              />
-              <input
-                id="activity-org"
-                className="h-[66px] w-1/2 rounded-lg border border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
-                placeholder="회사/기관/단체명"
+                placeholder="활동명/제목"
               />
             </div>
-            <div className="mb-2 flex gap-4">
+            <div className="flex gap-4 mb-2">
               <input
-                id="activity-start"
-                className="h-[66px] w-1/2 rounded-lg border border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
+                id="activity-date"
+                className="h-[66px] w-full rounded-lg border border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
                 placeholder="YYYY-MM-DD"
-                onChange={(e) => (e.target.value = formatDateInput(e.target.value))}
-              />
-              <input
-                id="activity-end"
-                className="h-[66px] w-1/2 rounded-lg border border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
-                placeholder="YYYY-MM-DD"
-                onChange={(e) => (e.target.value = formatDateInput(e.target.value))}
+                onChange={(e) => {
+                  const formattedValue = formatDateInput(e.target.value);
+                  e.target.value = formattedValue;
+                }}
               />
             </div>
             <textarea
-              id="activity-desc"
+              id="activity-detail"
               className="mb-2 min-h-[80px] w-full resize-none rounded-xl border border-gray-200 bg-white px-6 py-4 text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
-              placeholder="직무와 관련된 경험에 대해 작성하시는 게 좋아요!"
+              placeholder="활동 상세 내용을 입력하세요"
             />
           </div>
 
@@ -878,33 +931,53 @@ const StatusPage = () => {
             />
           </div>
 
-          {/* 프로젝트 및 동아리 */}
+          {/* 프로젝트 */}
           <div className="mb-8">
-            <div className="mb-2 flex items-center">
-              <label htmlFor="project-name" className="text-h4 font-medium text-gray-700">
-                프로젝트 및 동아리
+            <div className="flex items-center mb-2">
+              <label htmlFor="project-name" className="font-medium text-gray-700 text-h4">
+                프로젝트
               </label>
               <button
                 onClick={addProject}
-                className="ml-auto rounded-full bg-subLightBlue px-2 py-1 text-sm font-medium text-mainBlue transition-colors hover:bg-blue-100"
+                className="px-2 py-1 ml-auto text-sm font-medium rounded-full transition-colors bg-subLightBlue text-mainBlue hover:bg-blue-100"
               >
                 추가하기
               </button>
             </div>
             {form.projects.map((project, index) => (
-              <div key={index} className="mb-4 rounded-lg border border-gray-200 p-4">
-                <div className="mb-2 flex gap-4">
+              <div key={index} className="p-4 mb-4 rounded-lg border border-gray-200">
+                <div className="flex gap-4 mb-2">
                   <input
                     className="h-[66px] flex-1 rounded-lg border border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
-                    placeholder="프로젝트명/동아리명"
+                    placeholder="프로젝트명"
                     value={project.name}
                     onChange={handleProjectChange(index, 'name')}
                   />
                   <input
                     className="h-[66px] w-1/3 rounded-lg border border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
-                    placeholder="기간"
-                    value={project.period}
-                    onChange={handleProjectChange(index, 'period')}
+                    placeholder="시작일 (YYYY-MM-DD)"
+                    value={project.start_date}
+                    onChange={(e) => {
+                      const newProjects = [...form.projects];
+                      newProjects[index] = {
+                        ...newProjects[index],
+                        start_date: formatDateInput(e.target.value),
+                      };
+                      setForm({ ...form, projects: newProjects });
+                    }}
+                  />
+                  <input
+                    className="h-[66px] w-1/3 rounded-lg border border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
+                    placeholder="종료일 (YYYY-MM-DD)"
+                    value={project.end_date}
+                    onChange={(e) => {
+                      const newProjects = [...form.projects];
+                      newProjects[index] = {
+                        ...newProjects[index],
+                        end_date: formatDateInput(e.target.value),
+                      };
+                      setForm({ ...form, projects: newProjects });
+                    }}
                   />
                 </div>
                 <div className="flex gap-2">
@@ -923,16 +996,29 @@ const StatusPage = () => {
                 </div>
               </div>
             ))}
-            <div className="mb-2 flex gap-4">
+            <div className="flex gap-4 mb-2">
               <input
                 id="project-name"
                 className="h-[66px] flex-1 rounded-lg border border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
-                placeholder="프로젝트명/동아리명"
+                placeholder="프로젝트명"
               />
               <input
-                id="project-period"
+                id="project-start"
                 className="h-[66px] w-1/3 rounded-lg border border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
-                placeholder="기간"
+                placeholder="시작일 (YYYY-MM-DD)"
+                onChange={(e) => {
+                  const formattedValue = formatDateInput(e.target.value);
+                  e.target.value = formattedValue;
+                }}
+              />
+              <input
+                id="project-end"
+                className="h-[66px] w-1/3 rounded-lg border border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
+                placeholder="종료일 (YYYY-MM-DD)"
+                onChange={(e) => {
+                  const formattedValue = formatDateInput(e.target.value);
+                  e.target.value = formattedValue;
+                }}
               />
             </div>
             <textarea
@@ -942,32 +1028,110 @@ const StatusPage = () => {
             />
           </div>
 
-          {/* 부트캠프 */}
+          {/* 동아리 */}
           <div className="mb-8">
-            <TagInput
-              id="bootcamps"
-              label="부트캠프"
-              placeholder="부트캠프명 등 입력"
-              value={form.bootcamps}
-              onChange={(val) => setForm({ ...form, bootcamps: val })}
-            />
-          </div>
+            <div className="flex items-center mb-2">
+              <label htmlFor="club-name" className="font-medium text-gray-700 text-h4">
+                동아리
+              </label>
+              <button
+                onClick={addClub}
+                className="px-2 py-1 ml-auto text-sm font-medium rounded-full transition-colors bg-subLightBlue text-mainBlue hover:bg-blue-100"
+              >
+                추가하기
+              </button>
+            </div>
+            {/* 기존 동아리 목록 */}
+            {form.activities.filter(activity => activity.type === 'club').map((club, index) => {
+              const clubIndex = form.activities.findIndex(a => a === club);
+              return (
+                <div key={clubIndex} className="p-4 mb-4 rounded-lg border border-gray-200">
+                  <div className="flex gap-4 mb-2">
+                    <input
+                      className="h-[66px] flex-1 rounded-lg border border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
+                      placeholder="동아리명"
+                      value={club.title}
+                      onChange={(e) => {
+                        const newActivities = [...form.activities];
+                        newActivities[clubIndex] = {
+                          ...newActivities[clubIndex],
+                          title: e.target.value,
+                        };
+                        setForm({ ...form, activities: newActivities });
+                      }}
+                    />
+                                         <input
+                       className="h-[66px] w-1/2 rounded-lg border border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
+                       placeholder="시작일 (YYYY-MM-DD)"
+                       value={club.activity_date}
+                       onChange={(e) => {
+                         const newActivities = [...form.activities];
+                         newActivities[clubIndex] = {
+                           ...newActivities[clubIndex],
+                           activity_date: formatDateInput(e.target.value),
+                         };
+                         setForm({ ...form, activities: newActivities });
+                       }}
+                     />
 
-          {/* 학부연구생 */}
-          <div className="mb-8">
-            <TagInput
-              id="research"
-              label="학부연구생"
-              placeholder="연구실명, 지도교수 등 입력"
-              value={form.research}
-              onChange={(val) => setForm({ ...form, research: val })}
+                  </div>
+                  <div className="flex gap-2">
+                    <textarea
+                      className="min-h-[80px] flex-1 resize-none rounded-xl border border-gray-200 bg-white px-6 py-4 text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
+                      placeholder="동아리 활동 내용을 입력하세요"
+                      value={club.detail}
+                      onChange={(e) => {
+                        const newActivities = [...form.activities];
+                        newActivities[clubIndex] = {
+                          ...newActivities[clubIndex],
+                          detail: e.target.value,
+                        };
+                        setForm({ ...form, activities: newActivities });
+                      }}
+                    />
+                    <button
+                      onClick={() => {
+                        setForm({
+                          ...form,
+                          activities: form.activities.filter((_, i) => i !== clubIndex),
+                        });
+                      }}
+                      className="self-start p-2 text-red-500 transition-colors hover:text-red-700"
+                    >
+                      <FiX size={20} />
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+            <div className="flex gap-4 mb-2">
+              <input
+                id="club-name"
+                className="h-[66px] flex-1 rounded-lg border border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
+                placeholder="동아리명"
+              />
+              <input
+                id="club-start"
+                className="h-[66px] w-1/2 rounded-lg border border-gray-200 bg-white px-4 py-[20px] text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
+                placeholder="시작일 (YYYY-MM-DD)"
+                onChange={(e) => {
+                  const formattedValue = formatDateInput(e.target.value);
+                  e.target.value = formattedValue;
+                }}
+              />
+
+            </div>
+            <textarea
+              id="club-desc"
+              className="mb-2 min-h-[80px] w-full resize-none rounded-xl border border-gray-200 bg-white px-6 py-4 text-h4 text-gray-600 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
+              placeholder="동아리 활동 내용을 입력하세요"
             />
           </div>
         </div>
 
         {/* 스킬 */}
         <div ref={sectionRefs['스킬']} id="section-skill" className="mb-16 w-[862px]">
-          <h2 className="mb-10 text-h2 font-semibold text-gray-800">스킬</h2>
+          <h2 className="mb-10 font-semibold text-gray-800 text-h2">스킬</h2>
           <label htmlFor="skill-search" className="sr-only">
             스킬 검색
           </label>
@@ -978,18 +1142,18 @@ const StatusPage = () => {
               placeholder="찾으시는 스킬을 검색해보세요."
               disabled
             />
-            <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-xl text-gray-400" />
+            <FiSearch className="absolute left-4 top-1/2 text-xl text-gray-400 -translate-y-1/2" />
           </div>
-          <div className="mb-4 flex items-center justify-between">
-            <span className="rounded-full border border-mainBlue px-4 py-2 text-h4 font-semibold text-gray-700">
+          <div className="flex justify-between items-center mb-4">
+            <span className="px-4 py-2 font-semibold text-gray-700 rounded-full border border-mainBlue text-h4">
               UI·UX 디자이너
             </span>
-            <span className="cursor-pointer text-xs text-gray-400">전체보기</span>
+            <span className="text-xs text-gray-400 cursor-pointer">전체보기</span>
           </div>
-          <div className="mb-2 text-bodyLg text-gray-500">
+          <div className="mb-2 text-gray-500 text-bodyLg">
             선택하신 직무에 맞는 스킬을 추천해드려요!
           </div>
-          <div className="mb-8 flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 mb-8">
             {recommendedSkills.map((skill) => (
               <button
                 key={skill}
@@ -1011,18 +1175,18 @@ const StatusPage = () => {
               </button>
             ))}
           </div>
-          <div className="rounded-xl border border-gray-200 p-6">
-            <div className="mb-2 flex items-center gap-2 text-h4 font-semibold text-gray-700">
+          <div className="p-6 rounded-xl border border-gray-200">
+            <div className="flex gap-2 items-center mb-2 font-semibold text-gray-700 text-h4">
               나의 스킬 <span className="text-sm">({form.skills.length}/20)</span>
             </div>
-            <div className="mb-2 text-bodyLg text-gray-500">
+            <div className="mb-2 text-gray-500 text-bodyLg">
               {form.name} 님이 선택하신 스킬을 기반으로 추천해드려요!
             </div>
             <div className="flex flex-wrap gap-2">
               {form.skills.map((skill) => (
                 <span
                   key={skill}
-                  className="flex items-center gap-1 rounded-xl border border-mainBlue bg-subLightBlue px-4 py-2 text-h4 font-medium text-mainBlue shadow-none"
+                  className="flex gap-1 items-center px-4 py-2 font-medium rounded-xl border shadow-none border-mainBlue bg-subLightBlue text-h4 text-mainBlue"
                 >
                   {skill}
                   <button

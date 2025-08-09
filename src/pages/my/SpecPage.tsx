@@ -352,17 +352,51 @@ const StatusPage = () => {
                     className="grid grid-cols-3 gap-4 border-x-0 border-y-[1.5px] border-gray-300 bg-gray-50 px-6 py-4"
                   >
                     <div className="text-bodyLg text-gray-700">
-                      {activity.startDate && activity.endDate
-                        ? `${activity.startDate} ~ ${activity.endDate}`
-                        : activity.period || ''}
+                      {activity.activity_date || ''}
                     </div>
-                    <div className="text-bodyLg text-gray-700">{activity.organization || ''}</div>
-                    <div className="text-bodyLg text-gray-700">{activity.type || ''}</div>
+                    <div className="text-bodyLg text-gray-700">{activity.title || ''}</div>
+                    <div className="text-bodyLg text-gray-700">
+                      {activity.type === 'intern' ? '인턴' : 
+                       activity.type === 'club' ? '동아리' : 
+                       activity.type === 'contest' ? '대회' : 
+                       activity.type || ''}
+                    </div>
                   </div>
                 ))
               ) : (
                 <div className="grid grid-cols-3 gap-4 border-x-0 border-y-[1.5px] border-gray-300 bg-gray-50 px-6 py-4">
                   <div className="text-bodyLg text-gray-700">인턴/대외활동 정보가 없습니다</div>
+                  <div className="text-bodyLg text-gray-700"></div>
+                  <div className="text-bodyLg text-gray-700"></div>
+                </div>
+              )}
+            </div>
+
+            {/* 프로젝트 */}
+            <div>
+              <p className="mb-4 mt-10 text-h3 font-medium text-gray-800">프로젝트</p>
+              {specData.projects && specData.projects.length > 0 ? (
+                specData.projects.map((project, index) => (
+                  <div
+                    key={index}
+                    className="grid grid-cols-3 gap-4 border-x-0 border-y-[1.5px] border-gray-300 bg-gray-50 px-6 py-4"
+                  >
+                    <div className="text-bodyLg text-gray-700">
+                      {project.start_date && project.end_date
+                        ? `${project.start_date} ~ ${project.end_date}`
+                        : project.period || ''}
+                    </div>
+                    <div className="text-bodyLg text-gray-700">
+                      {project.project_name || project.name || ''}
+                    </div>
+                    <div className="text-bodyLg text-gray-700">
+                      {project.description || ''}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="grid grid-cols-3 gap-4 border-x-0 border-y-[1.5px] border-gray-300 bg-gray-50 px-6 py-4">
+                  <div className="text-bodyLg text-gray-700">프로젝트 정보가 없습니다</div>
                   <div className="text-bodyLg text-gray-700"></div>
                   <div className="text-bodyLg text-gray-700"></div>
                 </div>
