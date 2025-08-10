@@ -11,11 +11,11 @@ const MyLayout = () => {
   const closeSidebar = () => setIsSidebarOpen(false);
 
   return (
-    <div className="flex min-h-screen flex-col bg-white">
+    <div className="flex flex-col min-h-screen bg-white">
       {/* Header에 토글 버튼 추가 */}
       <Header onToggleSidebar={toggleSidebar} />
 
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex overflow-hidden flex-1">
         {/* PC용 사이드바 */}
         <aside className="hidden w-[260px] shrink-0 border-r border-gray-200 md:block">
           <div className="h-full">
@@ -25,7 +25,7 @@ const MyLayout = () => {
 
         {/* 모바일용 사이드바 (오버레이) */}
         {isSidebarOpen && (
-          <div className="fixed inset-0 z-50 flex md:hidden">
+          <div className="flex fixed inset-0 z-50 md:hidden">
             {/* 오버레이 */}
             <div className="fixed inset-0 bg-black bg-opacity-30" onClick={closeSidebar} />
             {/* 사이드바 */}
@@ -36,7 +36,7 @@ const MyLayout = () => {
         )}
 
         {/* 메인 콘텐츠 */}
-        <main className="flex-1 overflow-y-auto px-4 py-6 md:px-8">
+        <main className="overflow-y-auto flex-1 px-4 py-6 md:px-8">
           <Outlet />
         </main>
       </div>
