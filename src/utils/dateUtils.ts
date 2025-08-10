@@ -1,4 +1,4 @@
-// YYYY-MM-DD 형식을 "YYYY년 MM월" 형식으로 변환하는 함수
+// YYYY-MM-DD 또는 YYYY-MM 형식을 "YYYY년 MM월" 형식으로 변환하는 함수
 export const formatDateToKorean = (dateString: string): string => {
   if (!dateString) return '';
 
@@ -10,12 +10,60 @@ export const formatDateToKorean = (dateString: string): string => {
     return `${year}년 ${month}월`;
   }
 
+  // YYYY-MM 형식인 경우
+  const yearMonthMatch = dateString.match(/^(\d{4})-(\d{2})$/);
+  if (yearMonthMatch) {
+    const year = yearMonthMatch[1];
+    const month = parseInt(yearMonthMatch[2], 10).toString(); // 앞의 0 제거
+    return `${year}년 ${month}월`;
+  }
+
   // 이미 "YYYY년 MM월" 형식인 경우 그대로 반환
   if (dateString.includes('년') && dateString.includes('월')) {
     return dateString;
   }
 
   return dateString;
+};
+
+// "0000년 0월" 형식을 "0000-00-01" 형식으로 변환하는 함수
+export const parseYearMonthKorean = (dateString: string): string => {
+  if (!dateString) return '';
+
+  // "2021년 3월" 형식을 "2021-03-01"로 변환
+  const yearMatch = dateString.match(/(\d{4})년/);
+  const monthMatch = dateString.match(/(\d{1,2})월/);
+
+  if (yearMatch && monthMatch) {
+    const year = yearMatch[1];
+    const month = monthMatch[1].padStart(2, '0');
+    return `${year}-${month}-01`;
+  }
+
+  return dateString;
+};
+
+// "0000년 0월" 형식으로 입력 필드 포맷팅
+export const formatYearMonthKoreanInput = (value: string): string => {
+  if (!value) return '';
+
+  // 숫자와 "년", "월"만 허용
+  const cleaned = value.replace(/[^\d년월]/g, '');
+
+  // "년"과 "월" 제거 후 숫자만 추출
+  const numbers = cleaned.replace(/[년월]/g, '');
+
+  if (numbers.length <= 4) {
+    return numbers;
+  } else if (numbers.length <= 6) {
+    const year = numbers.slice(0, 4);
+    const month = parseInt(numbers.slice(4), 10).toString(); // 앞의 0 제거
+    return `${year}년 ${month}월`;
+  } else {
+    const year = numbers.slice(0, 4);
+    const month = parseInt(numbers.slice(4, 6), 10).toString(); // 앞의 0 제거
+    return `${year}년 ${month}월`;
+  }
 };
 
 // 생년월일로부터 나이 계산하는 함수

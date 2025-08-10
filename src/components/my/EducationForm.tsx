@@ -1,11 +1,11 @@
 import React from 'react';
 import { InputField } from '@components/common/InputField';
+import { formatYearMonthKoreanInput } from '@utils/dateUtils';
 
 interface EducationFormProps {
   form: {
     university: string;
     major: string;
-    subMajor: string;
     gpa: string;
     startDate: string;
     endDate: string;
@@ -13,19 +13,23 @@ interface EducationFormProps {
   };
   onChange: (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => void;
   onDateChange: (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onStartDateChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onEndDateChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const EducationForm: React.FC<EducationFormProps> = ({
   form,
   onChange,
   onDateChange,
+  onStartDateChange,
+  onEndDateChange,
 }) => {
   return (
     <div className="mb-16">
       <h2 className="mb-10 font-semibold text-gray-800 text-h2">학력</h2>
       <div className="grid grid-cols-[700px] gap-6">
-        <div className="grid grid-cols-[212px_278px_149px] gap-6">
-          {/* 1행 */}
+        <div className="grid grid-cols-[212px_278px] gap-6">
+          {/* 1행: 학교명, 주전공 */}
           <InputField
             id="university"
             label="학교명"
@@ -40,6 +44,10 @@ const EducationForm: React.FC<EducationFormProps> = ({
             value={form.major}
             onChange={onChange('major')}
           />
+        </div>
+
+        <div className="grid grid-cols-[149px_200px_200px_149px] gap-6">
+          {/* 2행: 학점, 입학년도, 졸업년도, 상태 */}
           <InputField
             id="gpa"
             label="학점"
@@ -47,16 +55,19 @@ const EducationForm: React.FC<EducationFormProps> = ({
             value={form.gpa}
             onChange={onChange('gpa')}
           />
-        </div>
-
-        <div className="grid grid-cols-[212px_278px_149px] gap-6">
-          {/* 2행 */}
           <InputField
-            id="subMajor"
-            label="복수전공"
-            placeholder="복수전공을 입력하세요"
-            value={form.subMajor}
-            onChange={onChange('subMajor')}
+            id="startDate"
+            label="입학년도"
+            placeholder="2021년 3월"
+            value={form.startDate}
+            onChange={onStartDateChange}
+          />
+          <InputField
+            id="endDate"
+            label="졸업년도"
+            placeholder="2026년 2월"
+            value={form.endDate}
+            onChange={onEndDateChange}
           />
           <div>
             <label
@@ -76,24 +87,6 @@ const EducationForm: React.FC<EducationFormProps> = ({
               <option value="휴학">휴학</option>
             </select>
           </div>
-        </div>
-
-        <div className="grid grid-cols-[212px_278px] gap-6">
-          {/* 3행 */}
-          <InputField
-            id="startDate"
-            label="입학년도"
-            placeholder="2021-03"
-            value={form.startDate}
-            onChange={onDateChange('startDate')}
-          />
-          <InputField
-            id="endDate"
-            label="졸업년도"
-            placeholder="2026-02"
-            value={form.endDate}
-            onChange={onDateChange('endDate')}
-          />
         </div>
       </div>
     </div>

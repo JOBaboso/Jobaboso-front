@@ -1,12 +1,14 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FiX, FiSearch } from 'react-icons/fi';
 import ResumeSidebar from '@components/employment/ResumeSidebar';
 import WelcomeBanner from '@components/my/WelcomeBanner';
 import PersonalInfoForm from '@components/my/PersonalInfoForm';
 import EducationForm from '@components/my/EducationForm';
 import HopeForm from '@components/my/HopeForm';
-import SkillsSection from '@components/my/SkillsSection';
-import { formatDateInput, formatYearMonthInput, parseDate } from '@utils/dateUtils';
+import AbilitySection from '@components/my/AbilitySection';
+import SkillSearchSection from '@components/my/SkillSearchSection';
+import { formatDateInput, formatYearMonthInput, formatYearMonthKoreanInput, parseDate, parseYearMonthKorean, formatDateToKorean } from '@utils/dateUtils';
 import { formatPhoneNumber } from '@utils/phoneUtils';
 import api from '@apis/api';
 
@@ -38,7 +40,6 @@ interface FormType {
   email: string;
   university: string;
   major: string;
-  subMajor: string;
   gpa: string;
   startDate: string;
   endDate: string;
@@ -66,10 +67,9 @@ const SpecEditPage = () => {
     email: '',
     university: '',
     major: '',
-    subMajor: '',
     gpa: '',
-    startDate: '2021-03',
-    endDate: '2026-02',
+    startDate: '2021년 3월',
+    endDate: '2026년 2월',
     status: '재학중',
     agree: true,
     companies: [],
@@ -87,6 +87,14 @@ const SpecEditPage = () => {
   const [loading, setLoading] = useState(false);
   const [currentSection, setCurrentSection] = useState('인적사항');
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+
+  // 추천 스킬 목록
+  const recommendedSkills = [
+    'Figma', 'Adobe XD', 'Sketch', 'InVision', 'Zeplin', 'Principle',
+    'Photoshop', 'Illustrator', 'After Effects', 'Premiere Pro',
+    'HTML/CSS', 'JavaScript', 'React', 'Vue.js', 'Angular',
+    'User Research', 'Usability Testing', 'Wireframing', 'Prototyping'
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -127,8 +135,8 @@ const SpecEditPage = () => {
             university: data.education?.school_name || '',
             major: data.education?.major || '',
             gpa: data.education?.score?.toString() || '',
-            startDate: data.education?.admission_year || '2021-03',
-            endDate: data.education?.graduation_year || '2026-02',
+            startDate: data.education?.admission_year ? formatDateToKorean(data.education.admission_year) : '2021년 3월',
+            endDate: data.education?.graduation_year ? formatDateToKorean(data.education.graduation_year) : '2026년 2월',
             status: data.education?.status || '재학중',
             companies: data.hope?.company ? data.hope.company.split(', ') : [],
             jobs: data.hope?.job ? data.hope.job.split(', ') : [],
@@ -208,8 +216,8 @@ const SpecEditPage = () => {
       education: {
         school_name: form.university,
         major: form.major,
-        admission_year: parseDate(form.startDate),
-        graduation_year: parseDate(form.endDate),
+        admission_year: parseYearMonthKorean(form.startDate),
+        graduation_year: parseYearMonthKorean(form.endDate),
         status: form.status,
         score: parseFloat(form.gpa),
       },
@@ -227,6 +235,109 @@ const SpecEditPage = () => {
     } catch (e) {
       alert('에러 발생: ' + e);
     }
+  };
+
+  const handleSkillToggle = (skill: string) => {
+    if (form.skills.includes(skill)) {
+      setForm(prev => ({
+        ...prev,
+        skills: prev.skills.filter(s => s !== skill)
+      }));
+    } else if (form.skills.length < 20) {
+      setForm(prev => ({
+        ...prev,
+        skills: [...prev.skills, skill]
+      }));
+    }
+  };
+
+  const handleRemoveSkill = (skillToRemove: string) => {
+    setForm(prev => ({
+      ...prev,
+      skills: prev.skills.filter(skill => skill !== skillToRemove)
+    }));
+  };
+
+  const addCertificate = () => {
+    setForm(prev => ({
+      ...prev,
+      certificates: [...prev.certificates, { name: '', issuer: '', date: '' }]
+    }));
+  };
+
+  const removeCertificate = (index: number) => {
+    setForm(prev => ({
+      ...prev,
+      certificates: prev.certificates.filter((_, i) => i !== index)
+    }));
+  };
+
+  const handleCertificateChange = (index: number, field: keyof CertificateType) => (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const newCertificates = [...form.certificates];
+    newCertificates[index] = {
+      ...newCertificates[index],
+      [field]: e.target.value,
+    };
+    setForm({ ...form, certificates: newCertificates });
+  };
+
+  const addActivity = () => {
+    setForm(prev => ({
+      ...prev,
+      activities: [...prev.activities, { type: '', title: '', detail: '', activity_date: '' }]
+    }));
+  };
+
+  const removeActivity = (index: number) => {
+    setForm(prev => ({
+      ...prev,
+      activities: prev.activities.filter((_, i) => i !== index)
+    }));
+  };
+
+  const handleActivityChange = (index: number, field: keyof ActivityType) => (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
+    const newActivities = [...form.activities];
+    newActivities[index] = {
+      ...newActivities[index],
+      [field]: e.target.value,
+    };
+    setForm({ ...form, activities: newActivities });
+  };
+
+  const addProject = () => {
+    setForm(prev => ({
+      ...prev,
+      projects: [...prev.projects, { name: '', description: '', start_date: '', end_date: '' }]
+    }));
+  };
+
+  const removeProject = (index: number) => {
+    setForm(prev => ({
+      ...prev,
+      projects: prev.projects.filter((_, i) => i !== index)
+    }));
+  };
+
+  const handleProjectChange = (index: number, field: keyof ProjectType) => (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const newProjects = [...form.projects];
+    newProjects[index] = {
+      ...newProjects[index],
+      [field]: e.target.value,
+    };
+    setForm({ ...form, projects: newProjects });
+  };
+
+  const addClub = () => {
+    setForm(prev => ({
+      ...prev,
+      activities: [...prev.activities, { type: 'club', title: '', detail: '', activity_date: '' }]
+    }));
   };
 
   if (loading) {
@@ -251,6 +362,14 @@ const SpecEditPage = () => {
             form={form}
             onChange={handleChange}
             onDateChange={handleDateChange}
+            onStartDateChange={(e) => {
+              const formattedValue = formatYearMonthKoreanInput(e.target.value);
+              setForm(prev => ({ ...prev, startDate: formattedValue }));
+            }}
+            onEndDateChange={(e) => {
+              const formattedValue = formatYearMonthKoreanInput(e.target.value);
+              setForm(prev => ({ ...prev, endDate: formattedValue }));
+            }}
           />
         </div>
 
@@ -265,17 +384,52 @@ const SpecEditPage = () => {
           />
         </div>
 
-        <div ref={(el) => sectionRefs.current['스킬'] = el} id="section-skill">
-          <SkillsSection
-            skills={form.skills}
-            userName={form.name}
-            onSkillRemove={(skillToRemove) => 
-              setForm(prev => ({ 
-                ...prev, 
-                skills: prev.skills.filter(skill => skill !== skillToRemove) 
-              }))
-            }
+        <div ref={(el) => sectionRefs.current['보유역량'] = el} id="section-ability">
+          <AbilitySection
+            certificates={form.certificates}
+            activities={form.activities}
+            contests={form.contests}
+            projects={form.projects}
+            onCertificatesChange={(certificates) => setForm(prev => ({ ...prev, certificates }))}
+            onActivitiesChange={(activities) => setForm(prev => ({ ...prev, activities }))}
+            onContestsChange={(contests) => setForm(prev => ({ ...prev, contests }))}
+            onProjectsChange={(projects) => setForm(prev => ({ ...prev, projects }))}
+            formatDateInput={formatDateInput}
           />
+        </div>
+
+        <div ref={(el) => sectionRefs.current['스킬'] = el} id="section-skill">
+          <h2 className="mb-10 font-semibold text-gray-800 text-h2">스킬</h2>
+          <SkillSearchSection
+            recommendedSkills={recommendedSkills}
+            selectedSkills={form.skills}
+            onSkillToggle={handleSkillToggle}
+          />
+          <div className="p-6 rounded-xl border border-gray-200">
+            <div className="flex gap-2 items-center mb-2 font-semibold text-gray-700 text-h4">
+              나의 스킬 <span className="text-sm">({form.skills.length}/20)</span>
+            </div>
+            <div className="mb-2 text-gray-500 text-bodyLg">
+              {form.name} 님이 선택하신 스킬을 기반으로 추천해드려요!
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {form.skills.map((skill) => (
+                <span
+                  key={skill}
+                  className="flex gap-1 items-center px-4 py-2 font-medium rounded-xl border shadow-none border-mainBlue bg-subLightBlue text-h4 text-mainBlue"
+                >
+                  {skill}
+                  <button
+                    type="button"
+                    className="ml-1 text-lg text-mainBlue hover:text-blue-800"
+                    onClick={() => handleRemoveSkill(skill)}
+                  >
+                    ×
+                  </button>
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
