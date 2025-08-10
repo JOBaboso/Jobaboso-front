@@ -3,7 +3,6 @@ import { getPersonalSpec, PersonalSpecResponse } from '@apis/auth';
 import ProfileCard from '@components/my/ProfileCard';
 import EducationSection from '@components/my/EducationSection';
 import HopeSection from '@components/my/HopeSection';
-import SkillsSection from '@components/my/SkillsSection';
 import { formatDateToKorean, calculateAge, formatBirthDate } from '@utils/dateUtils';
 import { formatPhoneNumber } from '@utils/phoneUtils';
 
@@ -94,22 +93,135 @@ const SpecPage = () => {
         />
 
         {/* 보유역량 1/2 */}
-        <SkillsSection
-          certificates={specData.certificates}
-          activities={specData.activities}
-          projects={specData.projects || []}
-          skills={[]}
-          isFirstSection={true}
-        />
+        <div className="mt-10 w-[1190px] rounded-xl border border-gray-200 p-8">
+          {/* 보유역량 타이틀 */}
+          <div className="mb-6 flex items-center">
+            <img
+              src="/ic_skill_1.svg"
+              alt="보유역량 1"
+              className="z-10 mr-2 w-[35px] object-contain"
+            />
+            <p className="text-h1 font-medium text-gray-800">보유역량</p>
+          </div>
+
+          <div className="mx-10 my-2">
+            {/* 자격증 */}
+            <div>
+              <p className="mb-4 text-h3 font-medium text-gray-800">자격증</p>
+              {specData.certificates.length > 0 ? (
+                specData.certificates.map((cert, index) => (
+                  <div
+                    key={index}
+                    className="grid grid-cols-3 gap-4 border-x-0 border-y-[1.5px] border-gray-300 bg-gray-50 px-6 py-4"
+                  >
+                    <div className="text-bodyLg text-gray-700">
+                      {cert.certificate_date || cert.date || ''}
+                    </div>
+                    <div className="text-bodyLg text-gray-700">
+                      {cert.cert_name || cert.name || ''}
+                    </div>
+                    <div className="text-bodyLg text-gray-700">
+                      {cert.score || cert.issuer || ''}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="grid grid-cols-3 gap-4 border-x-0 border-y-[1.5px] border-gray-300 bg-gray-50 px-6 py-4">
+                  <div className="text-bodyLg text-gray-700">자격증 정보가 없습니다</div>
+                  <div className="text-bodyLg text-gray-700"></div>
+                  <div className="text-bodyLg text-gray-700"></div>
+                </div>
+              )}
+            </div>
+
+            {/* 인턴 및 대외활동 */}
+            <div>
+              <p className="mb-4 mt-10 text-h3 font-medium text-gray-800">인턴 및 대외활동</p>
+              {specData.activities.length > 0 ? (
+                specData.activities.map((activity, index) => (
+                  <div
+                    key={index}
+                    className="grid grid-cols-3 gap-4 border-x-0 border-y-[1.5px] border-gray-300 bg-gray-50 px-6 py-4"
+                  >
+                    <div className="text-bodyLg text-gray-700">
+                      {activity.activity_date || ''}
+                    </div>
+                    <div className="text-bodyLg text-gray-700">{activity.title || ''}</div>
+                    <div className="text-bodyLg text-gray-700">
+                      {activity.type === 'intern' ? '인턴' : 
+                       activity.type === 'club' ? '동아리' : 
+                       activity.type === 'contest' ? '대회' : 
+                       activity.type || ''}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="grid grid-cols-3 gap-4 border-x-0 border-y-[1.5px] border-gray-300 bg-gray-50 px-6 py-4">
+                  <div className="text-bodyLg text-gray-700">인턴/대외활동 정보가 없습니다</div>
+                  <div className="text-bodyLg text-gray-700"></div>
+                  <div className="text-bodyLg text-gray-700"></div>
+                </div>
+              )}
+            </div>
+
+            {/* 프로젝트 */}
+            <div>
+              <p className="mb-4 mt-10 text-h3 font-medium text-gray-800">프로젝트</p>
+              {specData.projects && specData.projects.length > 0 ? (
+                specData.projects.map((project, index) => (
+                  <div
+                    key={index}
+                    className="grid grid-cols-3 gap-4 border-x-0 border-y-[1.5px] border-gray-300 bg-gray-50 px-6 py-4"
+                  >
+                    <div className="text-bodyLg text-gray-700">
+                      {project.start_date && project.end_date
+                        ? `${project.start_date} ~ ${project.end_date}`
+                        : project.period || ''}
+                    </div>
+                    <div className="text-bodyLg text-gray-700">
+                      {project.project_name || project.name || ''}
+                    </div>
+                    <div className="text-bodyLg text-gray-700">
+                      {project.description || ''}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="grid grid-cols-3 gap-4 border-x-0 border-y-[1.5px] border-gray-300 bg-gray-50 px-6 py-4">
+                  <div className="text-bodyLg text-gray-700">프로젝트 정보가 없습니다</div>
+                  <div className="text-bodyLg text-gray-700"></div>
+                  <div className="text-bodyLg text-gray-700"></div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
 
         {/* 보유역량 2/2 */}
-        <SkillsSection
-          certificates={[]}
-          activities={[]}
-          projects={[]}
-          skills={specData.skills}
-          isFirstSection={false}
-        />
+        <div className="mt-10 w-[1190px] rounded-xl border border-gray-200 p-8">
+          <div className="mt-3 flex items-center self-start">
+            <img
+              src="/ic_skill_2.svg"
+              alt="보유역량 2"
+              className="z-10 mr-2 w-[35px] object-contain"
+            />
+            <p className="text-h1 font-medium text-gray-800">보유역량</p>
+          </div>
+          <div className="mx-10 my-10">
+            {specData.skills.length > 0 ? (
+              specData.skills.map((skill, index) => (
+                <span
+                  key={index}
+                  className="mr-4 inline-block items-center gap-1 rounded-xl border border-mainBlue bg-subLightBlue px-4 py-2 text-h4 font-medium text-mainBlue shadow-none"
+                >
+                  {typeof skill === 'string' ? skill : skill.skill_name || '알 수 없는 스킬'}
+                </span>
+              ))
+            ) : (
+              <span className="text-bodyLg text-gray-500">보유 스킬이 없습니다</span>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

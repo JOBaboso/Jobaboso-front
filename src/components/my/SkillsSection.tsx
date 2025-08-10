@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface SkillsSectionProps {
-  skills: string[];
+  skills: (string | { skill_name: string })[];
   userName: string;
   onSkillRemove: (skillToRemove: string) => void;
 }
@@ -22,21 +22,28 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({
           {userName} 님이 선택하신 스킬을 기반으로 추천해드려요!
         </div>
         <div className="flex flex-wrap gap-2">
-          {skills.map((skill) => (
-            <span
-              key={skill}
-              className="flex gap-1 items-center px-4 py-2 font-medium rounded-xl border shadow-none border-mainBlue bg-subLightBlue text-h4 text-mainBlue"
-            >
-              {skill}
-              <button
-                type="button"
-                className="ml-1 text-lg text-mainBlue hover:text-blue-800"
-                onClick={() => onSkillRemove(skill)}
+          {skills.map((skill, index) => {
+            const skillText = typeof skill === 'string' ? skill : 
+                             (skill && typeof skill === 'object' && skill.skill_name ? skill.skill_name : '');
+            
+            if (!skillText) return null;
+            
+            return (
+              <span
+                key={skillText || index}
+                className="flex gap-1 items-center px-4 py-2 font-medium rounded-xl border shadow-none border-mainBlue bg-subLightBlue text-h4 text-mainBlue"
               >
-                ×
-              </button>
-            </span>
-          ))}
+                {skillText}
+                <button
+                  type="button"
+                  className="ml-1 text-lg text-mainBlue hover:text-blue-800"
+                  onClick={() => onSkillRemove(skillText)}
+                >
+                  ×
+                </button>
+              </span>
+            );
+          })}
         </div>
       </div>
     </div>
