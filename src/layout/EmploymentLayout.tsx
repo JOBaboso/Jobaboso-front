@@ -19,6 +19,11 @@ const MyLayout: React.FC<EmploymentLayoutProps> = ({ title }) => {
   const getPageTitle = () => {
     if (title) return title;
 
+    // /employment/application/로 시작하는 경로 체크
+    if (location.pathname.startsWith('/employment/applications/')) {
+      return '지원하기';
+    }
+
     switch (location.pathname) {
       case '/employment/status':
         return '전체 지원 현황';
