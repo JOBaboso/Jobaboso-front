@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { companies, Company } from '../../data/companyPositions';
+import { createApplication } from '../../apis/employment';
 
 const ApplyListPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
 
   // 검색 필터링 - 기업명, 업종으로 검색 가능
   const filteredCompanies = companies.filter((company) => {
@@ -15,10 +18,22 @@ const ApplyListPage: React.FC = () => {
     );
   });
 
-  const handleApply = (companyId: number) => {
-    console.log('지원하기:', { companyId });
-    // 지원 페이지로 이동하거나 모달 열기
-    alert('지원 페이지로 이동합니다.');
+  const handleApply = async (company: Company) => {
+    try {
+      const today = new Date().toISOString();
+      
+      const response = await createApplication({
+        company_name: company.name,
+        position: '', // 빈칸으로 설정
+        application_date: today
+      });
+      
+      // 응답을 받은 후 해당 지원서 상세 페이지로 이동
+      navigate(`/employment/applications/${response.id}`);
+    } catch (error) {
+      console.error('지원서 생성 실패:', error);
+      alert('지원서 생성에 실패했습니다. 다시 시도해주세요.');
+    }
   };
 
   return (
@@ -55,7 +70,7 @@ const ApplyListPage: React.FC = () => {
                 </p>
               </div>
               <button
-                onClick={() => handleApply(company.id)}
+                onClick={() => handleApply(company)}
                 className="rounded-[8px] bg-mainBlue px-6 py-2 font-medium text-white transition-colors hover:bg-blue-700"
               >
                 지원하기
