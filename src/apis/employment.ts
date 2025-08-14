@@ -22,6 +22,14 @@ export interface CreateApplicationRequest {
   application_date: string;
 }
 
+export interface ApplicationsResponse {
+  total_count: number;
+  page: number;
+  page_size: number;
+  total_pages: number;
+  applications: Application[];
+}
+
 // 지원서 생성
 export const createApplication = async (data: CreateApplicationRequest): Promise<Application> => {
   const response = await api.post('/applications', data);
@@ -31,5 +39,19 @@ export const createApplication = async (data: CreateApplicationRequest): Promise
 // 지원서 상세 조회
 export const getApplication = async (id: number): Promise<ApplicationDetail> => {
   const response = await api.get(`/applications/${id}`);
+  return response.data;
+};
+
+// 내 기업 지원 목록 조회
+export const getApplications = async (
+  page: number = 1,
+  pageSize: number = 10
+): Promise<ApplicationsResponse> => {
+  const response = await api.get('/applications', {
+    params: {
+      page,
+      page_size: pageSize
+    }
+  });
   return response.data;
 };

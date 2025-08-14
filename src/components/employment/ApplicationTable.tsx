@@ -12,9 +12,10 @@ export interface ApplicationRow {
 
 interface ApplicationTableProps {
   rows: ApplicationRow[];
+  onRowClick?: (id: number) => void;
 }
 
-export const ApplicationTable: React.FC<ApplicationTableProps> = ({ rows }) => {
+export const ApplicationTable: React.FC<ApplicationTableProps> = ({ rows, onRowClick }) => {
   return (
     <div className="overflow-hidden">
       <table className="w-full border-b border-t border-gray-400 text-left text-h4 text-gray-800">
@@ -32,7 +33,11 @@ export const ApplicationTable: React.FC<ApplicationTableProps> = ({ rows }) => {
         </thead>
         <tbody>
           {rows.map((row) => (
-            <tr key={row.id} className="h-[88px] border-t border-gray-400 hover:bg-gray-50">
+            <tr 
+              key={row.id} 
+              className="h-[88px] border-t border-gray-400 hover:bg-gray-50 cursor-pointer"
+              onClick={() => onRowClick?.(row.id)}
+            >
               <td className="p-4">
                 <input type="checkbox" className="h-4 w-4 accent-blue-600" />
               </td>
