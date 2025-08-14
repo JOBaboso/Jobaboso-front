@@ -5,7 +5,7 @@ import { ApplicationTable, ApplicationRow } from '@components/employment/Applica
 import { InformationCircleIcon } from '@heroicons/react/24/outline';
 import { StatusSection } from '@components/employment/StatusSection';
 import { getApplications, Application } from '../../apis/employment';
-import { ApplicationStatus } from '../../type/my/ApplicationStatus';
+import { ApplicationStatus } from '../../type/Status';
 
 const ResumeEditPage: React.FC = () => {
   const navigate = useNavigate();
@@ -35,32 +35,32 @@ const ResumeEditPage: React.FC = () => {
 
   // API 응답을 ApplicationRow 형식으로 변환
   const convertToApplicationRows = (apps: Application[]): ApplicationRow[] => {
-    return apps.map(app => ({
+    return apps.map((app) => ({
       id: app.id,
       company: app.company_name,
       position: app.position || '미지정',
       date: new Date(app.application_date).toLocaleString('ko-KR'),
-      status: getStatusText(app.status)
+      status: getStatusText(app.status),
     }));
   };
 
   // 상태 텍스트 변환
   const getStatusText = (status: string): ApplicationStatus => {
     const statusMap: { [key: string]: ApplicationStatus } = {
-      'preparing_documents': '서류준비중',
-      'document_accepted': '서류합격',
-      'preparing_interview': '면접준비중',
-      'interview_completed': '면접완료',
-      'pending': '대기중',
-      'final_accepted': '최종합격',
-      'rejected': '불합격'
+      preparing_documents: '서류준비중',
+      document_accepted: '서류합격',
+      preparing_interview: '면접준비중',
+      interview_completed: '면접완료',
+      pending: '대기중',
+      final_accepted: '최종합격',
+      rejected: '불합격',
     };
     return statusMap[status] || '진행중';
   };
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex min-h-screen items-center justify-center">
         <div className="text-lg">로딩 중...</div>
       </div>
     );
@@ -68,7 +68,7 @@ const ResumeEditPage: React.FC = () => {
 
   if (error) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex min-h-screen items-center justify-center">
         <div className="text-lg text-red-600">{error}</div>
       </div>
     );

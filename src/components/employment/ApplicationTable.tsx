@@ -1,13 +1,13 @@
 // components/ApplicationTable.tsx
 import React from 'react';
-import { ApplicationStatus, ApplicationStatusStyleMap } from '@type/my/ApplicationStatus';
+import { Status, StatusStyleMap } from '@type/Status';
 
 export interface ApplicationRow {
   id: number;
   company: string;
   position: string;
   date: string;
-  status: ApplicationStatus;
+  status: Status;
 }
 
 interface ApplicationTableProps {
@@ -33,9 +33,9 @@ export const ApplicationTable: React.FC<ApplicationTableProps> = ({ rows, onRowC
         </thead>
         <tbody>
           {rows.map((row) => (
-            <tr 
-              key={row.id} 
-              className="h-[88px] border-t border-gray-400 hover:bg-gray-50 cursor-pointer"
+            <tr
+              key={row.id}
+              className="h-[88px] cursor-pointer border-t border-gray-400 hover:bg-gray-50"
               onClick={() => onRowClick?.(row.id)}
             >
               <td className="p-4">
@@ -50,9 +50,7 @@ export const ApplicationTable: React.FC<ApplicationTableProps> = ({ rows, onRowC
               <td className="p-4 text-gray-700">{row.position}</td>
               <td className="p-4 text-gray-700">{row.date}</td>
               <td className="p-4">
-                <span
-                  className={`rounded-full border px-3 py-1 ${ApplicationStatusStyleMap[row.status]}`}
-                >
+                <span className={`rounded-full border px-3 py-1 ${StatusStyleMap[row.status]}`}>
                   {row.status}
                 </span>
               </td>
