@@ -12,7 +12,8 @@
       "@routes/*": ["routes/*"],
       "@stores/*": ["stores/*"],
       "@type/*": ["type/*"],
-      "@utils/*": ["utils/*"]
+      "@utils/*": ["utils/*"],
+      "@data/*": ["data/*"]
     },
     "target": "ES2022",
     "lib": ["DOM", "DOM.Iterable", "ES2022"], // 웹 환경 + 최신 JS

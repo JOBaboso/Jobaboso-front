@@ -28,6 +28,8 @@ const MyLayout: React.FC<EmploymentLayoutProps> = ({ title }) => {
         return '찜 제안 확인';
       case '/employment/review':
         return '나의 취업 후기';
+      case '/employment/apply':
+        return '지원하기';
       default:
         return '';
     }

@@ -11,6 +11,8 @@ import SignupCompanyPage from '@pages/auth/SignupCompanyPage';
 import SpecEditPage from '@pages/my/SpecEditPage';
 import SpecPage from '@pages/my/SpecPage';
 import StatusPage from '@pages/employment/StatusPage';
+import ApplyListPage from '@pages/employment/ApplyListPage';
+import ApplicationDetailPage from '@pages/employment/ApplicationDetailPage';
 import CalendarPage from '@pages/employment/CalendarPage';
 import TouchPage from '@pages/employment/TouchPage';
 import ReviewPage from '@pages/employment/ReviewPage';
@@ -58,6 +60,8 @@ const router = () =>
       element: <EmploymentLayout />,
       children: [
         { path: 'status', element: <StatusPage /> },
+        { path: 'apply', element: <ApplyListPage /> },
+        { path: 'applications/:id', element: <ApplicationDetailPage /> },
         { path: 'touch', element: <TouchPage /> },
         { path: 'calendar', element: <CalendarPage /> },
         { path: 'review', element: <ReviewPage /> },
