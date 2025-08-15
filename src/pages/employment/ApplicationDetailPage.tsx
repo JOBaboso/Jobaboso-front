@@ -195,9 +195,7 @@ const ApplicationDetailPage: React.FC = () => {
                 value={selectedPosition}
                 onChange={setSelectedPosition}
                 placeholder="지원 부문을 선택해주세요."
-                height="h-[66px]"
-                textSize="text-lg"
-                className="py-[20px] px-4"
+                label="지원 부문"
               />
             </div>
 
@@ -302,9 +300,8 @@ const ApplicationDetailPage: React.FC = () => {
                 options={statusOptions.map(status => ({ value: status, label: StatusLabelMap[status] }))}
                 value={status}
                 onChange={(value) => setStatus(value as Status)}
-                height="h-[66px]"
-                textSize="text-lg"
-                className="py-[20px] px-4"
+                placeholder="상태를 선택해주세요."
+                label="상태"
               />
             </div>
           </div>
