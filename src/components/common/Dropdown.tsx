@@ -10,22 +10,16 @@ interface DropdownProps {
   options: DropdownOption[];
   value: string;
   onChange: (value: string) => void;
-  placeholder?: string;
-  label?: string;
-  height?: string;
-  textSize?: string;
-  className?: string;
+  placeholder: string;
+  label: string;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
   options,
   value,
   onChange,
-  placeholder = '선택해주세요',
+  placeholder,
   label,
-  height = 'h-[42px]',
-  textSize = 'text-sm',
-  className = ''
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -44,19 +38,17 @@ const Dropdown: React.FC<DropdownProps> = ({
     };
   }, []);
 
-  const selectedOption = options.find(option => option.value === value);
+  const selectedOption = options.find((option) => option.value === value);
   const displayText = selectedOption ? selectedOption.label : placeholder;
   const textColor = selectedOption ? 'text-gray-900' : 'text-gray-400';
 
   return (
-    <div className={`relative ${className}`} ref={dropdownRef}>
-      {label && (
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          {label}
-        </label>
-      )}
-      
-      <div className={`${isOpen ? 'min-h-[42px]' : height} w-full rounded-lg border border-gray-300 bg-white px-3 py-2 ${textSize} ${textColor} focus-within:border-gray-300 focus-within:outline-none focus-within:ring-1 focus-within:ring-gray-300 ${className}`}>
+    <div className="relative" ref={dropdownRef}>
+      {label && <label className="mb-2 block text-bodyMd text-gray-600">{label}</label>}
+
+      <div
+        className={`${isOpen ? 'min-h-[46px]' : 'h-[46px]'} w-full rounded-lg border border-gray-300 bg-white px-6 py-2 text-bodyLg ${textColor} focus-within:border-gray-300 focus-within:outline-none focus-within:ring-1 focus-within:ring-gray-300`}
+      >
         <div className="flex items-center justify-between">
           <span className="truncate">{displayText}</span>
           <button
@@ -64,12 +56,12 @@ const Dropdown: React.FC<DropdownProps> = ({
             onClick={() => setIsOpen(!isOpen)}
             className="flex items-center justify-center"
           >
-            <ChevronDownIcon 
-              className={`w-6 h-6 text-gray-500 transition-transform ${isOpen ? 'rotate-180' : ''}`} 
+            <ChevronDownIcon
+              className={`h-6 w-6 text-gray-500 transition-transform ${isOpen ? 'rotate-180' : ''}`}
             />
           </button>
         </div>
-        
+
         {isOpen && (
           <div className="mt-2">
             {options.map((option, index) => (
@@ -79,7 +71,7 @@ const Dropdown: React.FC<DropdownProps> = ({
                   onChange(option.value);
                   setIsOpen(false);
                 }}
-                className="w-full text-left pl-3 pr-3 py-3 hover:bg-gray-50 cursor-pointer text-base text-gray-400 transition-colors"
+                className="w-full cursor-pointer py-3 text-left text-base text-gray-400 transition-colors hover:bg-gray-50"
               >
                 {option.label}
               </button>
