@@ -33,8 +33,8 @@ const MyLayout: React.FC<EmploymentLayoutProps> = ({ title }) => {
         return '찜 제안 확인';
       case '/employment/review':
         return '나의 취업 후기';
-      case '/employment/apply':
-        return '지원하기';
+      case '/employment/review/write':
+        return '나의 취업 후기';
       default:
         return '';
     }
@@ -43,7 +43,7 @@ const MyLayout: React.FC<EmploymentLayoutProps> = ({ title }) => {
   const pageTitle = getPageTitle();
 
   return (
-    <div className="flex min-h-screen flex-col bg-white">
+    <div className="flex flex-col min-h-screen bg-white">
       {/* Header에 토글 버튼 추가 */}
       <Header onToggleSidebar={toggleSidebar} />
 
@@ -68,7 +68,7 @@ const MyLayout: React.FC<EmploymentLayoutProps> = ({ title }) => {
         )}
 
         {/* 메인 콘텐츠 */}
-        <main className="flex-1 overflow-y-auto px-4 py-6 md:px-8">
+        <main className="flex-1 px-4 py-6 overflow-y-auto md:px-8">
           <div className="mx-auto w-[1096px]">
             {pageTitle && (
               <h2 className="mb-8 mt-8 text-[40px] font-bold text-gray-800">{pageTitle}</h2>

@@ -10,6 +10,8 @@ interface InputFieldProps {
   onRightIconClick?: () => void;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  className?: string; // 추가된 className prop
+  disabled?: boolean; // 추가된 disabled prop
 }
 
 export const InputField: React.FC<InputFieldProps> = ({
@@ -22,12 +24,20 @@ export const InputField: React.FC<InputFieldProps> = ({
   onRightIconClick,
   value,
   onChange,
+  className = '', // 기본값은 빈 문자열
+  disabled = false, // 기본값은 false
 }) => {
   return (
-    <div className="mx-auto my-0 w-full">
+    <div className={`mx-auto my-0 w-full ${className}`}>
       {/* 레이블 */}
-      <label htmlFor={id} className="mb-2 block p-1 text-h4 font-medium text-gray-700">
-        {label}
+      <label htmlFor={id} className="block p-1 mb-2 font-medium text-gray-700 text-h4">
+        {label.includes('*') ? (
+          <>
+            {label.replace('*', '')} <span className="text-red-500">*</span>
+          </>
+        ) : (
+          label
+        )}
       </label>
 
       {/* 입력창 (with optional icon) */}
@@ -38,6 +48,7 @@ export const InputField: React.FC<InputFieldProps> = ({
           placeholder={placeholder}
           value={value}
           onChange={onChange}
+          disabled={disabled}
           className="h-[66px] w-full rounded-lg border border-gray-200 bg-white px-4 py-[20px] pr-[48px] text-h4 text-gray-700 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
         />
 
@@ -45,9 +56,9 @@ export const InputField: React.FC<InputFieldProps> = ({
           <button
             type="button"
             onClick={onRightIconClick}
-            className="absolute right-8 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-800"
+            className="absolute right-8 top-1/2 text-gray-500 -translate-y-1/2 hover:text-gray-800"
           >
-            <div className="flex h-6 w-6 items-center justify-center">{rightIcon}</div>
+            <div className="flex justify-center items-center w-6 h-6">{rightIcon}</div>
           </button>
         )}
       </div>
