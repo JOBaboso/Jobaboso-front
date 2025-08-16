@@ -11,6 +11,8 @@ import SignupCompanyPage from '@pages/auth/SignupCompanyPage';
 import SpecEditPage from '@pages/my/SpecEditPage';
 import SpecPage from '@pages/my/SpecPage';
 import StatusPage from '@pages/employment/StatusPage';
+import ApplyListPage from '@pages/employment/ApplyListPage';
+import ApplicationDetailPage from '@pages/employment/ApplicationDetailPage';
 import CalendarPage from '@pages/employment/CalendarPage';
 import TouchPage from '@pages/employment/TouchPage';
 import ReviewPage from '@pages/employment/ReviewPage';
@@ -20,7 +22,7 @@ import SigninPage from '@pages/auth/SigninPage';
 import SignupTypePage from '@pages/auth/SignupTypePage';
 import SignupPersonalPage from '@pages/auth/SignupPersonalPage';
 import ListPage from '@pages/benchmark/ListPage';
-import HistoryPage from '@pages/mission/HistoryPage';
+import MissionPage from '@pages/mission/MissionPage';
 import CommunityPage from '@pages/lounge/CommunityPage';
 import CorporatePage from '@pages/lounge/CorporatePage';
 import ReviewWritePage from '@pages/employment/ReviewWritePage';
@@ -59,6 +61,8 @@ const router = () =>
       element: <EmploymentLayout />,
       children: [
         { path: 'status', element: <StatusPage /> },
+        { path: 'apply', element: <ApplyListPage /> },
+        { path: 'applications/:id', element: <ApplicationDetailPage /> },
         { path: 'touch', element: <TouchPage /> },
         { path: 'calendar', element: <CalendarPage /> },
         { path: 'review', element: <ReviewPage /> },
@@ -73,7 +77,9 @@ const router = () =>
     {
       path: '/mission',
       element: <MissionLayout />,
-      children: [{ path: 'history', element: <HistoryPage /> }], //변경해도 됨
+      children: [
+        { index: true, element: <MissionPage /> },
+      ],
     },
     {
       path: '/lounge',

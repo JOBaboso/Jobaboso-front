@@ -6,8 +6,9 @@ const EmploymentSidebar = () => {
       title: '나의 취업 현황',
       links: [
         { to: '/employment/status', label: '전체 지원 현황' },
-        { to: '/employment/touch', label: '찜 제안' },
+        { to: '/employment/apply', label: '지원하기' },
         { to: '/employment/calendar', label: '캘린더' },
+        { to: '/employment/touch', label: '찜 제안' },
       ],
     },
     {
