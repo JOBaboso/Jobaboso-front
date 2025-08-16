@@ -46,25 +46,15 @@ const MissionPage: React.FC = () => {
         {missionHistory.map((mission) => (
           <div
             key={mission.id}
-            className="rounded-xl border border-gray-200 bg-white p-6 transition-shadow hover:shadow-lg"
+            className="rounded-[16px] border border-gray-200 bg-gray-50 p-6 transition-shadow hover:shadow-lg"
           >
-            <div className="mb-3 flex items-start justify-between">
-              <h3 className="text-lg font-semibold text-gray-900">{mission.title}</h3>
-              <span className="text-sm text-gray-500">{mission.date}</span>
-            </div>
-            <p className="mb-3 font-medium text-gray-700">{mission.question}</p>
-            <p className="line-clamp-3 text-sm text-gray-600">{mission.content}</p>
-            <div className="mt-4">
-              <span
-                className={`inline-block rounded-full px-3 py-1 text-xs font-medium ${
-                  mission.type === 'interview'
-                    ? 'bg-blue-100 text-blue-800'
-                    : 'bg-green-100 text-green-800'
-                }`}
-              >
-                {mission.type === 'interview' ? '면접 대비' : '자소서 특훈'}
-              </span>
-            </div>
+            <p className="mb-2 text-sm text-gray-500">{mission.date}</p>
+            <h3 className="mb-4 text-h2 font-semibold text-gray-600">{mission.title}</h3>
+            <p className="mb-3 text-h4 text-gray-500">
+              <span className="text-mainBlue">Q. </span>
+              {mission.question}
+            </p>
+            <p className="line-clamp-4 text-sm text-gray-600">{mission.content}</p>
           </div>
         ))}
       </div>
