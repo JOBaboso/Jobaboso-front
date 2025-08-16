@@ -12,6 +12,7 @@ export interface Mission {
 export interface MissionHistory {
   id: string;
   title: string;
+  emoji: string;
   question: string;
   date: string;
   content: string;
@@ -33,7 +34,8 @@ export const todayMission: Mission = {
 export const missionHistory: MissionHistory[] = [
   {
     id: '1',
-    title: '👩‍💻 면접 대비하기',
+    title: '면접 대비하기',
+    emoji: '👩‍💻',
     question: '상사가 부정한 행동을 저지른다면?',
     date: '2025. 8. 6.',
     content:
@@ -42,7 +44,8 @@ export const missionHistory: MissionHistory[] = [
   },
   {
     id: '2',
-    title: '📝 자소서 특훈',
+    title: '자소서 특훈',
+    emoji: '📝',
     question: '자신의 강점과 약점을 기술하시오.',
     date: '2025. 8. 5.',
     content:
@@ -52,6 +55,7 @@ export const missionHistory: MissionHistory[] = [
   {
     id: '3',
     title: '면접 대비하기',
+    emoji: '💼',
     question: '팀워크가 중요한 이유는 무엇인가요?',
     date: '2025. 8. 4.',
     content:
@@ -61,6 +65,7 @@ export const missionHistory: MissionHistory[] = [
   {
     id: '4',
     title: '자소서 특훈',
+    emoji: '✍️',
     question: '지원 동기를 설명하시오.',
     date: '2025. 8. 3.',
     content:
@@ -70,6 +75,7 @@ export const missionHistory: MissionHistory[] = [
   {
     id: '5',
     title: '면접 대비하기',
+    emoji: '🎯',
     question: '실패했던 경험과 그로부터 배운 점은?',
     date: '2025. 8. 2.',
     content:
@@ -79,6 +85,7 @@ export const missionHistory: MissionHistory[] = [
   {
     id: '6',
     title: '자소서 특훈',
+    emoji: '🚀',
     question: '5년 후 자신의 모습은?',
     date: '2025. 8. 1.',
     content:
