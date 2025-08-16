@@ -23,6 +23,7 @@ import ListPage from '@pages/benchmark/ListPage';
 import HistoryPage from '@pages/mission/HistoryPage';
 import CommunityPage from '@pages/lounge/CommunityPage';
 import CorporatePage from '@pages/lounge/CorporatePage';
+import ReviewWritePage from '@pages/employment/ReviewWritePage';
 
 const router = () =>
   createBrowserRouter([
@@ -61,6 +62,7 @@ const router = () =>
         { path: 'touch', element: <TouchPage /> },
         { path: 'calendar', element: <CalendarPage /> },
         { path: 'review', element: <ReviewPage /> },
+        { path: 'review/write', element: <ReviewWritePage /> },
       ],
     },
     {

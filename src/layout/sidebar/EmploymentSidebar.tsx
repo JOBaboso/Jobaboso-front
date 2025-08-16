@@ -14,6 +14,7 @@ const EmploymentSidebar = () => {
       title: '취업 후기',
       links: [
         { to: '/employment/review', label: '나의 취업 후기' },
+        { to: '/employment/review/write', label: '취업 후기 작성하기' },
       ],
     },
   ];
