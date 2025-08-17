@@ -15,7 +15,7 @@ const HopeSection: React.FC<HopeSectionProps> = ({ companies, jobs, regions }) =
           items.map((item, index) => (
             <div
               key={index}
-              className="inline-block px-3 py-1 mr-4 bg-gray-100 rounded-md border border-gray-100"
+              className="inline-block px-3 py-1 mr-2 bg-gray-100 rounded-md border border-gray-100"
             >
               {item.trim()}
             </div>
@@ -28,7 +28,7 @@ const HopeSection: React.FC<HopeSectionProps> = ({ companies, jobs, regions }) =
   );
 
   return (
-    <div className="mt-10 w-[1190px] rounded-xl border border-gray-200 p-8">
+    <div className="mt-10 w-[1048px] rounded-xl border border-gray-200 p-8">
       <div className="flex items-center self-start mt-3">
         <img
           src="/ic_hope.svg"

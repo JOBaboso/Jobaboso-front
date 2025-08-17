@@ -1,17 +1,32 @@
 import { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import Header from './header/Header';
 import MySidebar from './sidebar/MySidebar';
 import Footer from './footer/Footer';
+import ScrollToTop from '@components/common/ScrollToTop';
 
 const MyLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const location = useLocation();
 
   const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
   const closeSidebar = () => setIsSidebarOpen(false);
 
+  // 페이지별 제목 매핑
+  const getPageTitle = () => {
+    switch (location.pathname) {
+      case '/my/spec':
+        return '나의 이력서';
+      default:
+        return '';
+    }
+  };
+
+  const pageTitle = getPageTitle();
+
   return (
     <div className="flex flex-col min-h-screen bg-white">
+      <ScrollToTop />
       {/* Header에 토글 버튼 추가 */}
       <Header onToggleSidebar={toggleSidebar} />
 
@@ -37,7 +52,18 @@ const MyLayout = () => {
 
         {/* 메인 콘텐츠 */}
         <main className="overflow-y-auto flex-1 px-4 py-6 md:px-8">
-          <Outlet />
+          {location.pathname === '/my/spec/edit' ? (
+            // 스펙 수정 페이지는 이전과 같은 레이아웃 유지
+            <Outlet />
+          ) : (
+            // 다른 페이지는 새로운 레이아웃 적용
+            <div className="mx-auto w-[1096px]">
+              {pageTitle && (
+                <h2 className="mb-8 mt-8 text-[40px] font-bold text-gray-800">{pageTitle}</h2>
+              )}
+              <Outlet />
+            </div>
+          )}
         </main>
       </div>
 

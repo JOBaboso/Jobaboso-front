@@ -6,7 +6,7 @@ interface WelcomeBannerProps {
 
 const WelcomeBanner: React.FC<WelcomeBannerProps> = ({ name }) => {
   return (
-    <div className="relative mb-14 mt-10 flex w-[925px] items-center justify-between overflow-hidden rounded-3xl bg-white px-7 py-5 shadow-even">
+    <div className="relative mb-14 mt-10 flex w-[865px] items-center justify-between overflow-hidden rounded-3xl bg-white px-7 py-5 shadow-even">
       {/* 파란 원 두 개 - 이미지 뒤에 겹치게 */}
       <div className="absolute bottom-[18px] right-[70px] z-0 h-[100px] w-[100px] rounded-full bg-blue-300 opacity-50" />
       <div className="absolute bottom-[-50px] right-[-20px] z-0 h-[140px] w-[140px] rounded-full bg-blue-300 opacity-50" />
