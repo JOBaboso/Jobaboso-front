@@ -103,7 +103,7 @@ const SpecPage = () => {
             <p className="font-medium text-gray-800 text-h1">보유역량</p>
           </div>
 
-          <div className="my-2 ml-10">
+          <div className="mx-10 my-2">
             {/* 자격증 */}
             <div>
               <p className="mb-4 font-medium text-gray-800 text-h3">자격증</p>
