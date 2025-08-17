@@ -13,8 +13,6 @@ const Pagination: React.FC<PaginationProps> = ({
   onPageChange, 
   className = "mt-8 mb-8" 
 }) => {
-  if (totalPages <= 1) return null;
-
   return (
     <div className={`flex gap-4 justify-center items-center ${className}`}>
       <button
