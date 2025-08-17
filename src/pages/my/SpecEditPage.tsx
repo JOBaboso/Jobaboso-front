@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiX, FiSearch } from 'react-icons/fi';
-import ResumeSidebar from '@components/employment/ResumeSidebar';
+import ResumeSidebar from '@components/my/SpecSidebar';
 import WelcomeBanner from '@components/my/WelcomeBanner';
 import PersonalInfoForm from '@components/my/PersonalInfoForm';
 import EducationForm from '@components/my/EducationForm';
@@ -85,7 +85,6 @@ const SpecEditPage = () => {
   });
 
   const [loading, setLoading] = useState(false);
-  const [currentSection, setCurrentSection] = useState('인적사항');
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
   // 추천 스킬 목록
@@ -96,23 +95,7 @@ const SpecEditPage = () => {
     'User Research', 'Usability Testing', 'Wireframing', 'Prototyping'
   ];
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY + 100;
 
-      Object.entries(sectionRefs.current).forEach(([label, ref]) => {
-        if (ref) {
-          const { offsetTop, offsetHeight } = ref;
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setCurrentSection(label);
-          }
-        }
-      });
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   useEffect(() => {
     const fetchResumeData = async () => {
@@ -346,7 +329,7 @@ const SpecEditPage = () => {
 
   return (
     <div className="flex justify-center w-full">
-      <div className="mx-auto ml-52 w-[1096px]">
+      <div className="mx-auto ml-64 w-[1096px]">
         <WelcomeBanner name={form.name} />
 
         <div ref={(el) => sectionRefs.current['인적사항'] = el} id="section-personal">
@@ -400,34 +383,36 @@ const SpecEditPage = () => {
 
         <div ref={(el) => sectionRefs.current['스킬'] = el} id="section-skill">
           <h2 className="mb-10 font-semibold text-gray-800 text-h2">스킬</h2>
-          <SkillSearchSection
-            recommendedSkills={recommendedSkills}
-            selectedSkills={form.skills}
-            onSkillToggle={handleSkillToggle}
-          />
-          <div className="p-6 rounded-xl border border-gray-200">
-            <div className="flex gap-2 items-center mb-2 font-semibold text-gray-700 text-h4">
-              나의 스킬 <span className="text-sm">({form.skills.length}/20)</span>
-            </div>
-            <div className="mb-2 text-gray-500 text-bodyLg">
-              {form.name} 님이 선택하신 스킬을 기반으로 추천해드려요!
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {form.skills.map((skill) => (
-                <span
-                  key={skill}
-                  className="flex gap-1 items-center px-4 py-2 font-medium rounded-xl border shadow-none border-mainBlue bg-subLightBlue text-h4 text-mainBlue"
-                >
-                  {skill}
-                  <button
-                    type="button"
-                    className="ml-1 text-lg text-mainBlue hover:text-blue-800"
-                    onClick={() => handleRemoveSkill(skill)}
+          <div className="grid grid-cols-[865px] gap-6">
+            <SkillSearchSection
+              recommendedSkills={recommendedSkills}
+              selectedSkills={form.skills}
+              onSkillToggle={handleSkillToggle}
+            />
+            <div className="p-6 rounded-xl border border-gray-200">
+              <div className="flex gap-2 items-center mb-2 font-semibold text-gray-700 text-h4">
+                나의 스킬 <span className="text-sm">({form.skills.length}/20)</span>
+              </div>
+              <div className="mb-2 text-gray-500 text-bodyLg">
+                {form.name} 님이 선택하신 스킬을 기반으로 추천해드려요!
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {form.skills.map((skill) => (
+                  <span
+                    key={skill}
+                    className="flex gap-1 items-center px-4 py-2 font-medium rounded-xl border shadow-none border-mainBlue bg-subLightBlue text-h4 text-mainBlue"
                   >
-                    ×
-                  </button>
-                </span>
-              ))}
+                    {skill}
+                    <button
+                      type="button"
+                      className="ml-1 text-lg text-mainBlue hover:text-blue-800"
+                      onClick={() => handleRemoveSkill(skill)}
+                    >
+                      ×
+                    </button>
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -436,7 +421,6 @@ const SpecEditPage = () => {
       <div className="mr-32">
         <div className="fixed right-32 top-60 z-30 w-[240px]">
           <ResumeSidebar
-            currentSection={currentSection}
             onSectionClick={handleSectionClick}
             onSave={handleSave}
             isAgreed={form.agree}

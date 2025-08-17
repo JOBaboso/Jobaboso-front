@@ -3,7 +3,7 @@ import communityData from './CommunityMockData.json';
 import SearchBar from '../../components/lounge/SearchBar';
 import TabBar from '../../components/lounge/TabBar';
 import PostCard from '../../components/lounge/PostCard';
-import Pagination from '../../components/lounge/Pagination';
+import Pagination from '../../components/common/Pagination';
 
 const CommunityPage = () => {
   const [activeTab, setActiveTab] = useState('전체');

@@ -11,9 +11,10 @@ interface TagInputProps {
 
 const TagInput = ({ id, label, placeholder = ' ', value, onChange, error }: TagInputProps) => {
   const [inputValue, setInputValue] = useState('');
+  const [isComposing, setIsComposing] = useState(false);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && inputValue.trim()) {
+    if (e.key === 'Enter' && inputValue.trim() && !isComposing) {
       e.preventDefault();
       const newTag = inputValue.trim();
       if (!value.includes(newTag)) {
@@ -21,6 +22,16 @@ const TagInput = ({ id, label, placeholder = ' ', value, onChange, error }: TagI
       }
       setInputValue('');
     }
+  };
+
+  const handleCompositionStart = () => {
+    setIsComposing(true);
+  };
+
+  const handleCompositionEnd = (e: React.CompositionEvent<HTMLInputElement>) => {
+    setIsComposing(false);
+    const target = e.target as HTMLInputElement;
+    setInputValue(target.value);
   };
 
   const handleRemove = (index: number) => {
@@ -31,15 +42,15 @@ const TagInput = ({ id, label, placeholder = ' ', value, onChange, error }: TagI
 
   return (
     <div className="mx-auto my-0 w-full">
-      <label htmlFor={id} className="mb-2 block p-1 text-h4 font-medium text-gray-700">
+      <label htmlFor={id} className="block p-1 mb-2 font-medium text-gray-700 text-h4">
         {label}
       </label>
 
-      <div className="flex flex-wrap items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2">
+      <div className="flex flex-wrap gap-2 items-center px-3 py-2 bg-white rounded-lg border border-gray-200">
         {value.map((tag, index) => (
           <span
             key={index}
-            className="bg-subLightBlue flex items-center gap-1 rounded-full px-4 py-1 text-h4 text-gray-600"
+            className="flex gap-1 items-center px-4 py-1 text-gray-600 rounded-full bg-subLightBlue text-h4"
           >
             {tag}
             <button
@@ -58,6 +69,8 @@ const TagInput = ({ id, label, placeholder = ' ', value, onChange, error }: TagI
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleKeyDown}
+          onCompositionStart={handleCompositionStart}
+          onCompositionEnd={handleCompositionEnd}
           placeholder={placeholder}
           className="min-w-[120px] flex-1 border-none bg-transparent p-1 text-h4 focus:outline-none"
         />

@@ -3,6 +3,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import Header from './header/Header';
 import LoungeSidebar from './sidebar/LoungeSidebar';
 import Footer from './footer/Footer';
+import ScrollToTop from '@components/common/ScrollToTop';
 
 interface LoungeLayoutProps {
   title?: string;
@@ -33,6 +34,7 @@ const LoungeLayout: React.FC<LoungeLayoutProps> = ({ title }) => {
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
+      <ScrollToTop />
       {/* Header에 토글 버튼 추가 */}
       <Header onToggleSidebar={toggleSidebar} />
 

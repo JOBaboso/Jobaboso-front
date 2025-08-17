@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { employmentCards, EmploymentCard } from '@mocks/benchmarkData';
-import Pagination from '@components/lounge/Pagination';
+import Pagination from '@components/common/Pagination';
 import SpecCard from '@components/benchmark/SpecCard';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { getPersonalSpec, PersonalSpecResponse } from '@apis/auth';

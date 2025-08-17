@@ -1,6 +1,7 @@
 import { Outlet, useLocation } from 'react-router-dom';
 import Header from './header/Header';
 import Footer from './footer/Footer';
+import ScrollToTop from '@components/common/ScrollToTop';
 
 interface BenchmarkLayoutProps {
   title?: string;
@@ -25,6 +26,7 @@ const BenchmarkLayout: React.FC<BenchmarkLayoutProps> = ({ title }) => {
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
+      <ScrollToTop />
       <Header />
 
       {/* 메인 콘텐츠 */}
