@@ -21,7 +21,7 @@ import HomePage from '@pages/home/HomePage';
 import SigninPage from '@pages/auth/SigninPage';
 import SignupTypePage from '@pages/auth/SignupTypePage';
 import SignupPersonalPage from '@pages/auth/SignupPersonalPage';
-import ListPage from '@pages/benchmark/ListPage';
+import BenchmarkPage from '@pages/benchmark/BenchmarkPage';
 import MissionPage from '@pages/mission/MissionPage';
 import CommunityPage from '@pages/lounge/CommunityPage';
 import CorporatePage from '@pages/lounge/CorporatePage';
@@ -72,7 +72,9 @@ const router = () =>
     {
       path: '/benchmark',
       element: <BenchmarkLayout />,
-      children: [{ path: 'list', element: <ListPage /> }], //변경해도 됨
+      children: [
+        { index: true, element: <BenchmarkPage /> },
+      ],
     },
     {
       path: '/mission',

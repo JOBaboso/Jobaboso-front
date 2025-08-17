@@ -1,45 +1,48 @@
-import { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import Header from './header/Header';
-import BenchmarkSidebar from './sidebar/BenchmarkSidebar';
 import Footer from './footer/Footer';
 
-const BenchmarkLayout = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+interface BenchmarkLayoutProps {
+  title?: string;
+}
 
-  const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
-  const closeSidebar = () => setIsSidebarOpen(false);
+const BenchmarkLayout: React.FC<BenchmarkLayoutProps> = ({ title }) => {
+  const location = useLocation();
+
+  // 페이지별 제목 매핑
+  const getPageTitle = () => {
+    if (title) return title;
+
+    switch (location.pathname) {
+      case '/benchmark':
+        return '벤치마크';
+      default:
+        return '';
+    }
+  };
+
+  const pageTitle = getPageTitle();
 
   return (
-    <div className="flex min-h-screen flex-col bg-white">
-      {/* Header에 토글 버튼 추가 */}
-      <Header onToggleSidebar={toggleSidebar} />
+    <div className="flex flex-col min-h-screen bg-white">
+      <Header />
 
-      <div className="flex flex-1 overflow-hidden">
-        {/* PC용 사이드바 */}
-        <aside className="hidden w-[260px] shrink-0 border-r border-gray-200 md:block">
-          <div className="h-full">
-            <BenchmarkSidebar />
+      {/* 메인 콘텐츠 */}
+      <main className="flex-1 px-4 py-6 overflow-y-auto md:px-8">
+        <div className="mx-auto w-[1160px]">
+          <div className="flex items-center justify-between">
+            {pageTitle && (
+              <h2 className="mb-8 mt-8 text-[40px] font-bold text-gray-800">{pageTitle}</h2>
+            )}
+            <div className="px-[12px] py-[8px] border-[1.3px] flex items-center rounded-lg bg-subLightBlue border-mainBlue">
+              <img src="/ic_point.svg" className="h-[20px] w-[20px]"></img>
+              <div className="ml-[8px] text-bodyMd">보유 포인트</div>
+              <div className="ml-[8px] text-h4">1,280p</div>
+            </div>
           </div>
-        </aside>
-
-        {/* 모바일용 사이드바 (오버레이) */}
-        {isSidebarOpen && (
-          <div className="fixed inset-0 z-50 flex md:hidden">
-            {/* 오버레이 */}
-            <div className="fixed inset-0 bg-black bg-opacity-30" onClick={closeSidebar} />
-            {/* 사이드바 */}
-            <aside className="relative z-50 w-[240px] border-r border-gray-200 bg-white shadow-md">
-              <BenchmarkSidebar />
-            </aside>
-          </div>
-        )}
-
-        {/* 메인 콘텐츠 */}
-        <main className="flex-1 overflow-y-auto px-4 py-6 md:px-8">
           <Outlet />
-        </main>
-      </div>
+        </div>
+      </main>
 
       <Footer />
     </div>
