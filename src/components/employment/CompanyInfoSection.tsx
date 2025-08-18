@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { InputField } from '@components/common/InputField';
 import Button from '@components/common/Button';
 import { ReviewFormData } from './ReviewWriteForm';
-import { companies, Company as CompanyData } from '@data/companyPositions';
+import { companies } from '@data/companyPositions';
 import api from '../../apis/api';
-import { data } from 'react-router-dom';
 
 interface CompanyInfoSectionProps {
   formData: ReviewFormData;
@@ -23,7 +22,7 @@ interface Application {
 }
 
 interface Company {
-  id: string;
+  id: string; // 회사명 키로 사용 (API 실패시), 기본은 application id -> string
   name: string;
   logo: string;
   industry: string;
@@ -41,6 +40,14 @@ export const CompanyInfoSection: React.FC<CompanyInfoSectionProps> = ({
   const [selectedCompanyId, setSelectedCompanyId] = useState<string | null>(null);
   const [isJobModalOpen, setIsJobModalOpen] = useState(false);
   const [selectedJobs, setSelectedJobs] = useState<string[]>([]);
+  const [companyPositionsMap, setCompanyPositionsMap] = useState<Record<string, string[]>>({});
+  const [companyApplicationIdMap, setCompanyApplicationIdMap] = useState<Record<string, number>>({});
+  // 편집 모드 등으로 폼 데이터가 채워졌을 때, 내부 선택 상태에 반영
+  useEffect(() => {
+    if (Array.isArray(formData.positions)) {
+      setSelectedJobs(formData.positions.slice(0, 5));
+    }
+  }, [formData.positions]);
 
   const handleSearchCompany = () => {
     setIsModalOpen(true);
@@ -73,32 +80,64 @@ export const CompanyInfoSection: React.FC<CompanyInfoSectionProps> = ({
       const response = await api.get('/job-reviews/available-applications');
       const applications: Application[] = response.data;
 
-      // company_name을 기준으로 companyPositions.ts의 데이터와 매칭
-      const matchedCompanies: Company[] = applications.map(app => {
-        const companyData = companies.find(comp => comp.name === app.company_name);
-        
+      // 회사명 기준으로 직무 그룹핑 및 유니크 회사 목록 생성
+      const companyToPositionsSet: Record<string, Set<string>> = applications.reduce((acc, app) => {
+        const companyName = app.company_name;
+        if (!acc[companyName]) {
+          acc[companyName] = new Set<string>();
+        }
+        if (app.position) {
+          acc[companyName].add(app.position);
+        }
+        return acc;
+      }, {} as Record<string, Set<string>>);
+
+      // 회사별 최신 application id 매핑 (application_date 기준 최신 선택)
+      const companyToLatestApplicationId: Record<string, number> = applications.reduce((acc, app) => {
+        const companyName = app.company_name;
+        const currentId = acc[companyName];
+        if (!currentId) {
+          acc[companyName] = app.id;
+        } else {
+          // 기존 저장된 id의 날짜와 비교하여 더 최신이면 교체
+          const prevApp = applications.find(a => a.id === currentId);
+          const prevDate = prevApp ? new Date(prevApp.application_date).getTime() : 0;
+          const curDate = new Date(app.application_date).getTime();
+          if (curDate > prevDate) {
+            acc[companyName] = app.id;
+          }
+        }
+        return acc;
+      }, {} as Record<string, number>);
+
+      const matchedCompanies: Company[] = Object.keys(companyToPositionsSet).map((companyName) => {
+        const companyData = companies.find(comp => comp.name === companyName);
         if (companyData) {
           return {
-            id: app.id.toString(),
+            id: companyName,
             name: companyData.name,
-            logo: companyData.logo || '🏢', // 로고가 없으면 기본 아이콘
+            logo: companyData.logo || '🏢',
             industry: companyData.industry,
             type: companyData.companyType,
-            reviewCount: Math.floor(Math.random() * 5000) + 100 // 임시 후기 개수
-          };
-        } else {
-          // 매칭되지 않는 경우 기본 데이터로 생성
-          return {
-            id: app.id.toString(),
-            name: app.company_name,
-            logo: '🏢',
-            industry: '정보 없음',
-            type: '정보 없음',
-            reviewCount: 0
+            reviewCount: Math.floor(Math.random() * 5000) + 100
           };
         }
+        return {
+          id: companyName,
+          name: companyName,
+          logo: '🏢',
+          industry: '정보 없음',
+          type: '정보 없음',
+          reviewCount: 0
+        };
       });
 
+      setCompanyPositionsMap(
+        Object.fromEntries(
+          Object.entries(companyToPositionsSet).map(([name, set]) => [name, Array.from(set)])
+        )
+      );
+      setCompanyApplicationIdMap(companyToLatestApplicationId);
       setSearchResults(matchedCompanies);
     } catch (error) {
       console.error('기업 목록을 불러오는데 실패했습니다:', error);
@@ -161,7 +200,11 @@ export const CompanyInfoSection: React.FC<CompanyInfoSectionProps> = ({
     if (selectedCompanyId) {
       const selectedCompany = searchResults.find(c => c.id === selectedCompanyId);
       if (selectedCompany) {
-        onUpdate({ companyName: selectedCompany.name });
+        const positions = companyPositionsMap[selectedCompany.name] || companyPositionsMap[selectedCompany.id] || [];
+        const uniquePositions = Array.from(new Set(positions)).slice(0, 5);
+        const applicationId = companyApplicationIdMap[selectedCompany.name] ?? companyApplicationIdMap[selectedCompany.id] ?? null;
+        onUpdate({ companyName: selectedCompany.name, positions: uniquePositions, applicationId });
+        setSelectedJobs(uniquePositions);
         setIsModalOpen(false);
         setSearchResults([]);
         setSelectedCompanyId(null);
@@ -279,7 +322,7 @@ export const CompanyInfoSection: React.FC<CompanyInfoSectionProps> = ({
                   </option>
                 ))}
               </select>
-              <div className="absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 pointer-events-none">
+              <div className="flex absolute inset-y-0 right-0 items-center px-2 text-gray-700 pointer-events-none">
                 <svg className="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
               </div>
             </div>
@@ -295,7 +338,7 @@ export const CompanyInfoSection: React.FC<CompanyInfoSectionProps> = ({
                   </option>
                 ))}
               </select>
-              <div className="absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 pointer-events-none">
+              <div className="flex absolute inset-y-0 right-0 items-center px-2 text-gray-700 pointer-events-none">
                 <svg className="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
               </div>
             </div>
@@ -305,7 +348,7 @@ export const CompanyInfoSection: React.FC<CompanyInfoSectionProps> = ({
 
       {/* 기업 검색 모달 */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
+        <div className="flex fixed inset-0 z-50 justify-center items-center">
           {/* 배경 오버레이 */}
           <div 
             className="absolute inset-0 bg-black bg-opacity-50"
@@ -316,7 +359,7 @@ export const CompanyInfoSection: React.FC<CompanyInfoSectionProps> = ({
           <div className="relative bg-white rounded-3xl w-[1000px] max-h-[80vh] overflow-hidden p-4">
             {/* 헤더 */}
             <div className="flex flex-col p-6 border-gray-200">
-              <div className="flex items-center justify-between mb-2">
+              <div className="flex justify-between items-center mb-2">
                 <h2 className="font-semibold text-h2">입사지원 기업</h2>
                 <button
                   onClick={() => setIsModalOpen(false)}
@@ -346,8 +389,8 @@ export const CompanyInfoSection: React.FC<CompanyInfoSectionProps> = ({
                           : 'border-gray-200 hover:border-gray-300'
                       }`}
                     >
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
+                      <div className="flex justify-between items-center">
+                        <div className="flex gap-3 items-center">
                           <div className="flex justify-center items-center w-[52px] h-[52px] text-lg bg-white rounded-full border-[1px] border-gray-200">
                             {company.logo.startsWith('/') ? (
                               <img src={company.logo} alt={company.name} className="w-10 h-10" />
@@ -360,7 +403,7 @@ export const CompanyInfoSection: React.FC<CompanyInfoSectionProps> = ({
                             <div className="ml-2 text-gray-700 text-bodyMd">{company.industry} · {company.type}</div>
                           </div>
                         </div>
-                        <div className="flex items-center gap-1 text-gray-500 text-bodyMd">
+                        <div className="flex gap-1 items-center text-gray-500 text-bodyMd">
                           <span className="text-yellow-500">📝</span>
                           <span>{company.reviewCount.toLocaleString()}개의 후기</span>
                         </div>
@@ -374,7 +417,7 @@ export const CompanyInfoSection: React.FC<CompanyInfoSectionProps> = ({
             </div>
 
             {/* 푸터 버튼 */}
-            <div className="flex justify-end gap-3 p-6 border-gray-200">
+            <div className="flex gap-3 justify-end p-6 border-gray-200">
               <button
                 onClick={() => setIsModalOpen(false)}
                 className="w-[126px] px-6 py-2 text-gray-700 bg-gray-100 rounded-lg transition-colors text-h4 hover:bg-gray-200"
@@ -395,7 +438,7 @@ export const CompanyInfoSection: React.FC<CompanyInfoSectionProps> = ({
 
       {/* 직무 선택 모달 */}
       {isJobModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
+        <div className="flex fixed inset-0 z-50 justify-center items-center">
           {/* 배경 오버레이 */}
           <div 
             className="absolute inset-0 bg-black bg-opacity-50"
@@ -406,7 +449,7 @@ export const CompanyInfoSection: React.FC<CompanyInfoSectionProps> = ({
           <div className="relative bg-white rounded-3xl shadow-xl w-[1000px] max-h-[80vh] overflow-hidden p-4">
             {/* 헤더 */}
             <div className="flex flex-col p-6 border-gray-200">
-              <div className="flex items-center justify-between mb-2">
+              <div className="flex justify-between items-center mb-2">
                 <h2 className="font-semibold text-h2">직무</h2>
                 <button
                   onClick={() => setIsJobModalOpen(false)}
@@ -606,7 +649,7 @@ export const CompanyInfoSection: React.FC<CompanyInfoSectionProps> = ({
             </div>
 
             {/* 푸터 버튼 */}
-            <div className="flex justify-end gap-3 p-6 border-gray-200">
+            <div className="flex gap-3 justify-end p-6 border-gray-200">
               <button
                 onClick={() => setIsJobModalOpen(false)}
                 className="w-[126px] px-6 py-2 text-gray-700 bg-gray-100 rounded-lg transition-colors text-h4 hover:bg-gray-200"
