@@ -11,9 +11,23 @@ export interface Application {
   updated_at: string;
 }
 
+export interface Document {
+  id: number;
+  name: string;
+  file_url: string;
+  uploaded_at: string;
+}
+
+export interface Schedule {
+  id: number;
+  type: string;
+  date: string;
+  time: string;
+}
+
 export interface ApplicationDetail extends Application {
-  documents: any[];
-  schedules: any[];
+  documents: Document[];
+  schedules: Schedule[];
 }
 
 export interface CreateApplicationRequest {
@@ -117,10 +131,65 @@ export const createApplication = async (data: CreateApplicationRequest): Promise
   return response.data;
 };
 
+// 지원서 수정
+export interface UpdateApplicationRequest {
+  company_name: string;
+  position: string;
+  application_date: string;
+  status: string;
+}
+
+export const updateApplication = async (id: number, data: UpdateApplicationRequest): Promise<Application> => {
+  const response = await api.put(`/applications/${id}`, data);
+  return response.data;
+};
+
 // 지원서 상세 조회
 export const getApplication = async (id: number): Promise<ApplicationDetail> => {
   const response = await api.get(`/applications/${id}`);
   return response.data;
+};
+
+// 일정 관련 타입 정의
+export interface ScheduleCreate {
+  schedule_type: string;
+  start_date: string;
+  end_date: string;
+  notes: string;
+}
+
+export interface ScheduleResponse {
+  id: number;
+  application_id: number;
+  schedule_type: string;
+  start_date: string;
+  end_date: string;
+  notes: string;
+  is_completed: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface SchedulesResponse {
+  total_count: number;
+  schedules: ScheduleResponse[];
+}
+
+// 일정 생성
+export const createSchedules = async (applicationId: number, schedules: ScheduleCreate[]): Promise<ScheduleResponse[]> => {
+  const response = await api.post(`/applications/${applicationId}/schedules`, schedules);
+  return response.data;
+};
+
+// 일정 목록 조회
+export const getApplicationSchedules = async (applicationId: number): Promise<SchedulesResponse> => {
+  const response = await api.get(`/applications/${applicationId}/schedules`);
+  return response.data;
+};
+
+// 일정 삭제
+export const deleteSchedule = async (applicationId: number, scheduleId: number): Promise<void> => {
+  await api.delete(`/applications/${applicationId}/schedules/${scheduleId}`);
 };
 
 // 내 기업 지원 목록 조회
@@ -134,5 +203,61 @@ export const getApplications = async (
       page_size: pageSize,
     },
   });
+  return response.data;
+};
+
+// 문서 관련 타입 정의
+export interface DocumentUploadRequest {
+  files: File[];
+  document_types: string[];
+}
+
+export interface DocumentResponse {
+  id: number;
+  application_id: number;
+  document_type: string;
+  file_name: string;
+  file_size: number;
+  original_name: string;
+  uploaded_at: string;
+  download_url: string;
+  view_url: string;
+}
+
+// 문서 업로드
+export const uploadDocuments = async (
+  applicationId: number,
+  files: File[],
+  documentTypes: string[]
+): Promise<DocumentResponse[]> => {
+  const formData = new FormData();
+  
+  files.forEach((file, index) => {
+    formData.append('files', file);
+    formData.append('document_types', documentTypes[index] || 'resume');
+  });
+
+  const response = await api.post(`/applications/${applicationId}/documents`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  return response.data;
+};
+
+// 문서 삭제
+export const deleteDocument = async (applicationId: number, documentId: number): Promise<void> => {
+  await api.delete(`/applications/${applicationId}/documents/${documentId}`);
+};
+
+// 문서 다운로드
+export const downloadDocument = async (applicationId: number, documentId: number): Promise<string> => {
+  const response = await api.get(`/applications/${applicationId}/documents/${documentId}/download`);
+  return response.data;
+};
+
+// 문서 보기 (미리보기 URL)
+export const getDocumentViewUrl = async (applicationId: number, documentId: number): Promise<string> => {
+  const response = await api.get(`/applications/${applicationId}/documents/${documentId}/view`);
   return response.data;
 };
