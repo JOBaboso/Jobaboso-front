@@ -7,7 +7,9 @@ export interface ApplicationRow {
   company: string;
   position: string;
   date: string;
-  status: Status;
+  status: string;
+  originalStatus: string;
+  companyLogo?: string;
 }
 
 interface ApplicationTableProps {
@@ -43,14 +45,32 @@ export const ApplicationTable: React.FC<ApplicationTableProps> = ({ rows, onRowC
               </td>
               <td className="p-4 font-medium text-gray-800">
                 <div className="flex items-center gap-2">
-                  <div className="h-6 w-6 rounded-full bg-gray-300" />
+                  {row.companyLogo ? (
+                    <img
+                      src={row.companyLogo}
+                      alt={`${row.company} 로고`}
+                      className="mr-3 h-12 w-12 rounded-full border border-gray-400 object-contain"
+                      style={{
+                        boxSizing: 'border-box',
+                        position: 'relative',
+                      }}
+                    />
+                  ) : (
+                    <div className="mr-3 h-12 w-12 rounded-full border border-gray-400 bg-gray-300" />
+                  )}
                   {row.company}
                 </div>
               </td>
               <td className="p-4 text-gray-700">{row.position}</td>
               <td className="p-4 text-gray-700">{row.date}</td>
               <td className="p-4">
-                <span className={`rounded-full border px-3 py-1 ${StatusStyleMap[row.status]}`}>
+                <span
+                  className={`rounded-full border px-3 py-1 ${
+                    row.originalStatus in StatusStyleMap
+                      ? StatusStyleMap[row.originalStatus as Status]
+                      : 'border-gray-400 bg-gray-100 text-gray-600'
+                  }`}
+                >
                   {row.status}
                 </span>
               </td>

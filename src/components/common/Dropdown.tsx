@@ -11,16 +11,9 @@ interface DropdownProps {
   value: string;
   onChange: (value: string) => void;
   placeholder: string;
-  label: string;
 }
 
-const Dropdown: React.FC<DropdownProps> = ({
-  options,
-  value,
-  onChange,
-  placeholder,
-  label,
-}) => {
+const Dropdown: React.FC<DropdownProps> = ({ options, value, onChange, placeholder }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -44,8 +37,6 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   return (
     <div className="relative" ref={dropdownRef}>
-      {label && <label className="mb-2 block text-bodyMd text-gray-600">{label}</label>}
-
       <div
         className={`${isOpen ? 'min-h-[46px]' : 'h-[46px]'} w-full rounded-lg border border-gray-300 bg-white px-6 py-2 text-bodyLg ${textColor} focus-within:border-gray-300 focus-within:outline-none focus-within:ring-1 focus-within:ring-gray-300`}
       >
