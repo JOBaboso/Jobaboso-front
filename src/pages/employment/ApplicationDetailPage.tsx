@@ -59,7 +59,11 @@ const ApplicationDetailPage: React.FC = () => {
   // 문서 관련 상태
   const [uploadingDocuments, setUploadingDocuments] = useState(false);
   const [deletingDocument, setDeletingDocument] = useState<number | null>(null);
-  const [viewingDocument, setViewingDocument] = useState<{ id: number; name: string; url: string } | null>(null);
+  const [viewingDocument, setViewingDocument] = useState<{
+    id: number;
+    name: string;
+    url: string;
+  } | null>(null);
   const [documentTypes, setDocumentTypes] = useState<string[]>([]);
 
   // 지원 부문 옵션
@@ -135,13 +139,13 @@ const ApplicationDetailPage: React.FC = () => {
           const convertedDocuments = (data.documents || []).map((doc: any) => ({
             id: doc.id,
             application_id: parseInt(id),
-            document_type: 'resume',
-            file_name: doc.name || 'document',
-            file_size: 0,
-            original_name: doc.name || 'document',
+            document_type: doc.document_type || 'resume',
+            file_name: doc.file_name || doc.name || 'document',
+            file_size: doc.file_size || 0,
+            original_name: doc.original_name || doc.name || 'document',
             uploaded_at: doc.uploaded_at || new Date().toISOString(),
-            download_url: doc.file_url || '',
-            view_url: doc.file_url || '',
+            download_url: doc.download_url || doc.file_url || '',
+            view_url: doc.view_url || doc.file_url || '',
           }));
           setDocuments(convertedDocuments);
         }
@@ -233,18 +237,30 @@ const ApplicationDetailPage: React.FC = () => {
   };
 
   // 파일 선택 핸들러
-  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = e.target.files;
-    if (selectedFiles) {
-      const newFiles = Array.from(selectedFiles);
-      setFiles((prev) => [...prev, ...newFiles]);
-      
-      // 새로 추가된 파일들에 대한 문서 타입 초기화
-      const newDocumentTypes = newFiles.map(() => 'resume');
-      setDocumentTypes((prev) => [...prev, ...newDocumentTypes]);
-      
-      // input 초기화
-      e.target.value = '';
+    if (selectedFiles && selectedFiles.length > 0) {
+      try {
+        setUploadingDocuments(true);
+
+        // 파일들을 바로 업로드
+        const filesArray = Array.from(selectedFiles);
+        const types = filesArray.map(() => 'resume'); // 기본 타입은 이력서
+
+        const uploadedDocuments = await uploadDocuments(parseInt(id!), filesArray, types);
+
+        // 기존 문서 목록에 새로 업로드된 문서들 추가
+        setDocuments((prev) => [...prev, ...uploadedDocuments]);
+
+        alert('문서가 성공적으로 업로드되었습니다.');
+      } catch (err) {
+        console.error('Error uploading documents:', err);
+        alert('문서 업로드에 실패했습니다. 다시 시도해주세요.');
+      } finally {
+        setUploadingDocuments(false);
+        // input 초기화
+        e.target.value = '';
+      }
     }
   };
 
@@ -260,19 +276,19 @@ const ApplicationDetailPage: React.FC = () => {
 
     try {
       setUploadingDocuments(true);
-      
+
       // 문서 타입이 설정되지 않은 경우 기본값 설정
       const types = documentTypes.length > 0 ? documentTypes : files.map(() => 'resume');
-      
+
       const uploadedDocuments = await uploadDocuments(parseInt(id), files, types);
-      
+
       // 기존 문서 목록에 새로 업로드된 문서들 추가
       setDocuments((prev) => [...prev, ...uploadedDocuments]);
-      
+
       // 파일 목록과 문서 타입 초기화
       setFiles([]);
       setDocumentTypes([]);
-      
+
       alert('문서가 성공적으로 업로드되었습니다.');
     } catch (err) {
       console.error('Error uploading documents:', err);
@@ -289,10 +305,10 @@ const ApplicationDetailPage: React.FC = () => {
     try {
       setDeletingDocument(documentId);
       await deleteDocument(parseInt(id), documentId);
-      
+
       // 문서 목록에서 삭제된 문서 제거
       setDocuments((prev) => prev.filter((doc) => doc.id !== documentId));
-      
+
       alert('문서가 삭제되었습니다.');
     } catch (err) {
       console.error('Error deleting document:', err);
@@ -308,7 +324,7 @@ const ApplicationDetailPage: React.FC = () => {
 
     try {
       const downloadUrl = await downloadDocument(parseInt(id), documentId);
-      
+
       // 다운로드 링크 생성 및 클릭
       const link = document.createElement('a');
       link.href = downloadUrl;
@@ -327,7 +343,18 @@ const ApplicationDetailPage: React.FC = () => {
     if (!id) return;
 
     try {
+      // API 호출하여 문서 보기 URL 가져오기
       const viewUrl = await getDocumentViewUrl(parseInt(id), documentId);
+
+      // API 응답을 콘솔에 출력
+      console.log('Document View API Response:', {
+        applicationId: id,
+        documentId: documentId,
+        fileName: fileName,
+        viewUrl: viewUrl,
+      });
+
+      // 모달에 문서 URL 설정하여 열기
       setViewingDocument({ id: documentId, name: fileName, url: viewUrl });
     } catch (err) {
       console.error('Error getting document view URL:', err);
@@ -441,61 +468,6 @@ const ApplicationDetailPage: React.FC = () => {
               이력서 및 첨부 문서
             </label>
 
-            {/* 기존 첨부 문서 표시 */}
-            {documents.length > 0 && (
-              <div className="mb-4 space-y-2">
-                <div className="mb-1 block text-bodyMd text-gray-600">기존 첨부 문서:</div>
-                {documents.map((doc) => (
-                  <div
-                    key={doc.id}
-                    className="flex items-center justify-between rounded-lg bg-gray-50 p-3"
-                  >
-                    <div className="flex items-center gap-3">
-                      <svg
-                        className="h-5 w-5 text-gray-400"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                        />
-                      </svg>
-                      <span className="text-sm text-gray-700">{doc.original_name}</span>
-                      <span className="text-xs text-gray-500">{doc.uploaded_at}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() => handleDocumentView(doc.id, doc.original_name)}
-                        className="text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1"
-                      >
-                        <EyeIcon className="h-4 w-4" />
-                        보기
-                      </button>
-                      <button
-                        onClick={() => handleDocumentDownload(doc.id, doc.original_name)}
-                        className="text-sm text-green-600 hover:text-green-800 flex items-center gap-1"
-                      >
-                        <ArrowDownTrayIcon className="h-4 w-4" />
-                        다운로드
-                      </button>
-                      <button
-                        onClick={() => handleDocumentDelete(doc.id)}
-                        disabled={deletingDocument === doc.id}
-                        className="text-sm text-red-600 hover:text-red-800 flex items-center gap-1"
-                      >
-                        <TrashIcon className="h-4 w-4" />
-                        {deletingDocument === doc.id ? '삭제 중...' : '삭제'}
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-
             <div className="rounded-lg border-2 border-dashed border-gray-300 p-8 text-center transition-colors hover:border-mainBlue">
               <input
                 type="file"
@@ -524,6 +496,62 @@ const ApplicationDetailPage: React.FC = () => {
                 </div>
               </label>
             </div>
+
+            {/* 등록된 문서 표시 */}
+            {documents.length > 0 && (
+              <div className="mt-6 space-y-2">
+                <div className="mb-1 block text-bodyMd text-gray-600">등록된 문서</div>
+                {documents.map((doc) => (
+                  <div
+                    key={doc.id}
+                    className="flex items-center justify-between rounded-lg bg-gray-50 p-3"
+                  >
+                    <div className="flex items-center gap-3">
+                      <svg
+                        className="h-5 w-5 text-gray-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                        />
+                      </svg>
+                      <button
+                        onClick={() => handleDocumentDownload(doc.id, doc.original_name)}
+                        className="cursor-pointer text-sm text-gray-700 hover:text-blue-600 hover:underline"
+                      >
+                        {doc.original_name}
+                      </button>
+                    </div>
+                    <div className="mr-4 flex items-center gap-4">
+                      <button
+                        onClick={() => handleDocumentView(doc.id, doc.original_name)}
+                        className="flex items-center gap-1 text-sm text-blue-600 hover:text-blue-800"
+                      >
+                        <EyeIcon className="h-4 w-4" />
+                      </button>
+                      <button
+                        onClick={() => handleDocumentDownload(doc.id, doc.original_name)}
+                        className="flex items-center gap-1 text-sm text-green-600 hover:text-green-800"
+                      >
+                        <ArrowDownTrayIcon className="h-4 w-4" />
+                      </button>
+                      <button
+                        onClick={() => handleDocumentDelete(doc.id)}
+                        disabled={deletingDocument === doc.id}
+                        className="flex items-center gap-1 text-sm text-red-600 hover:text-red-800"
+                      >
+                        <TrashIcon className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
 
             {/* 등록된 문서 리스트 */}
             {files.length > 0 && (
@@ -558,7 +586,7 @@ const ApplicationDetailPage: React.FC = () => {
                         <select
                           value={documentTypes[index] || 'resume'}
                           onChange={(e) => handleDocumentTypeChange(index, e.target.value)}
-                          className="text-sm border border-gray-300 rounded px-2 py-1"
+                          className="rounded border border-gray-300 px-2 py-1 text-sm"
                         >
                           <option value="resume">이력서</option>
                           <option value="cover_letter">자기소개서</option>
@@ -592,7 +620,7 @@ const ApplicationDetailPage: React.FC = () => {
                   <button
                     onClick={handleDocumentUpload}
                     disabled={uploadingDocuments}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                    className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-400"
                   >
                     {uploadingDocuments ? '업로드 중...' : '문서 업로드'}
                   </button>
