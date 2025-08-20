@@ -4,7 +4,6 @@ import {
   getApplication,
   ApplicationDetail,
   DocumentResponse as Document,
-  Schedule,
   updateApplication,
   createSchedules,
   getApplicationSchedules,
