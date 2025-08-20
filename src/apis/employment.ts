@@ -1,4 +1,5 @@
 import api from './api';
+import { Schedule } from '@type/Schedules';
 
 export interface Application {
   id: number;
@@ -16,13 +17,6 @@ export interface Document {
   name: string;
   file_url: string;
   uploaded_at: string;
-}
-
-export interface Schedule {
-  id: number;
-  type: string;
-  date: string;
-  time: string;
 }
 
 export interface ApplicationDetail extends Application {
@@ -139,7 +133,10 @@ export interface UpdateApplicationRequest {
   status: string;
 }
 
-export const updateApplication = async (id: number, data: UpdateApplicationRequest): Promise<Application> => {
+export const updateApplication = async (
+  id: number,
+  data: UpdateApplicationRequest
+): Promise<Application> => {
   const response = await api.put(`/applications/${id}`, data);
   return response.data;
 };
@@ -176,13 +173,18 @@ export interface SchedulesResponse {
 }
 
 // 일정 생성
-export const createSchedules = async (applicationId: number, schedules: ScheduleCreate[]): Promise<ScheduleResponse[]> => {
+export const createSchedules = async (
+  applicationId: number,
+  schedules: ScheduleCreate[]
+): Promise<ScheduleResponse[]> => {
   const response = await api.post(`/applications/${applicationId}/schedules`, schedules);
   return response.data;
 };
 
 // 일정 목록 조회
-export const getApplicationSchedules = async (applicationId: number): Promise<SchedulesResponse> => {
+export const getApplicationSchedules = async (
+  applicationId: number
+): Promise<SchedulesResponse> => {
   const response = await api.get(`/applications/${applicationId}/schedules`);
   return response.data;
 };
@@ -231,7 +233,7 @@ export const uploadDocuments = async (
   documentTypes: string[]
 ): Promise<DocumentResponse[]> => {
   const formData = new FormData();
-  
+
   files.forEach((file, index) => {
     formData.append('files', file);
     formData.append('document_types', documentTypes[index] || 'resume');
@@ -251,13 +253,42 @@ export const deleteDocument = async (applicationId: number, documentId: number):
 };
 
 // 문서 다운로드
-export const downloadDocument = async (applicationId: number, documentId: number): Promise<string> => {
+export const downloadDocument = async (
+  applicationId: number,
+  documentId: number
+): Promise<string> => {
   const response = await api.get(`/applications/${applicationId}/documents/${documentId}/download`);
   return response.data;
 };
 
 // 문서 보기 (미리보기 URL)
-export const getDocumentViewUrl = async (applicationId: number, documentId: number): Promise<string> => {
+export const getDocumentViewUrl = async (
+  applicationId: number,
+  documentId: number
+): Promise<string> => {
   const response = await api.get(`/applications/${applicationId}/documents/${documentId}/view`);
+  return response.data;
+};
+
+// 월별 캘린더 조회
+export interface CalendarSchedule {
+  company_name: string;
+  schedule_type: Schedule;
+  start_date: string;
+  end_date: string;
+  notes: string;
+}
+
+export interface CalendarResponse {
+  year: number;
+  month: number;
+  schedules: CalendarSchedule[];
+}
+
+export const getMonthlyCalendar = async (
+  year: number,
+  month: number
+): Promise<CalendarResponse> => {
+  const response = await api.get(`/applications/calendar/${year}/${month}`);
   return response.data;
 };
