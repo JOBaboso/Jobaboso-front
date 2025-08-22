@@ -1,7 +1,9 @@
 import { Outlet, useLocation } from 'react-router-dom';
+import { useState, useCallback } from 'react';
 import Header from './header/Header';
 import Footer from './footer/Footer';
 import ScrollToTop from '@components/common/ScrollToTop';
+import PointDisplay from '@components/common/PointDisplay';
 
 interface BenchmarkLayoutProps {
   title?: string;
@@ -9,6 +11,12 @@ interface BenchmarkLayoutProps {
 
 const BenchmarkLayout: React.FC<BenchmarkLayoutProps> = ({ title }) => {
   const location = useLocation();
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  // 포인트 새로고침 함수
+  const refreshPoints = useCallback(() => {
+    setRefreshKey(prev => prev + 1);
+  }, []);
 
   // 페이지별 제목 매핑
   const getPageTitle = () => {
@@ -30,19 +38,15 @@ const BenchmarkLayout: React.FC<BenchmarkLayoutProps> = ({ title }) => {
       <Header />
 
       {/* 메인 콘텐츠 */}
-      <main className="flex-1 px-4 py-6 overflow-y-auto md:px-8">
+      <main className="overflow-y-auto flex-1 px-4 py-6 md:px-8">
         <div className="mx-auto w-[1160px]">
-          <div className="flex items-center justify-between">
+          <div className="flex justify-between items-center">
             {pageTitle && (
               <h2 className="mb-8 mt-8 text-[40px] font-bold text-gray-800">{pageTitle}</h2>
             )}
-            <div className="px-[12px] py-[8px] border-[1.3px] flex items-center rounded-lg bg-subLightBlue border-mainBlue">
-              <img src="/ic_point.svg" className="h-[20px] w-[20px]"></img>
-              <div className="ml-[8px] text-bodyMd">보유 포인트</div>
-              <div className="ml-[8px] text-h4">1,280p</div>
-            </div>
+            <PointDisplay key={refreshKey} onRefresh={refreshPoints} />
           </div>
-          <Outlet />
+          <Outlet context={{ refreshPoints }} />
         </div>
       </main>
 

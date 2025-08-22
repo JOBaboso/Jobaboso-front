@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Result, ResultLabelMap, ResultStyleMap } from '../../type/Result';
 import SpecViewModal from './SpecViewModal';
+import { deductPointsForPost } from '@apis/points';
 
 interface SpecCardProps {
   company: string;
@@ -31,8 +32,20 @@ const SpecCard: React.FC<SpecCardProps> = ({
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
+  const handleOpenModal = async () => {
+    try {
+      // 포인트 차감
+      await deductPointsForPost();
+      // 성공하면 모달 열기
+      setIsModalOpen(true);
+      // 포인트 새로고침
+      if ((window as any).refreshBenchmarkPoints) {
+        (window as any).refreshBenchmarkPoints();
+      }
+    } catch (error) {
+      console.error('포인트 차감 실패:', error);
+      alert('포인트 차감에 실패했습니다. 잠시 후 다시 시도해주세요.');
+    }
   };
 
   const handleCloseModal = () => {

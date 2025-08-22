@@ -27,19 +27,19 @@ api.interceptors.response.use(
     // 401 상태 코드 (인증 실패) 또는 403 상태 코드 (권한 없음) 발생 시
     if (error.response?.status === 401 || error.response?.status === 403) {
       console.log('토큰이 만료되었습니다. 자동 로그아웃을 실행합니다.');
-      
+
       // 사용자에게 토큰 만료 알림
       if (typeof window !== 'undefined') {
         // 이미 로그아웃 처리 중인지 확인 (중복 실행 방지)
         if (localStorage.getItem('logout_processing') === 'true') {
           return Promise.reject(error);
         }
-        
+
         // 자동 로그아웃 실행
         performAutoLogout();
       }
     }
-    
+
     return Promise.reject(error);
   }
 );
