@@ -22,9 +22,9 @@ const LoungeLayout: React.FC<LoungeLayoutProps> = ({ title }) => {
 
     switch (location.pathname) {
       case '/lounge/community':
-        return '커리어라운지: 취업이야기';
+        return '커뮤니티';
       case '/lounge/corporate':
-        return '기업 콘텐츠';
+        return '기업 정보';
       default:
         return '';
     }

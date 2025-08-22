@@ -60,9 +60,9 @@ const Header = ({ onToggleSidebar }: HeaderProps) => {
           {isLoggedIn && (
             <nav className="ml-20 hidden items-center space-x-[76px] md:flex">
               <Link
-                to="/employment"
+                to="/employment/status"
                 className={`text-[20px] font-medium leading-[28px] transition-colors ${
-                  location.pathname.startsWith('/employment')
+                  location.pathname.startsWith('employment/status')
                     ? 'text-mainBlue'
                     : 'text-gray-700 hover:text-mainBlue'
                 }`}
@@ -90,9 +90,9 @@ const Header = ({ onToggleSidebar }: HeaderProps) => {
                 나의 미션
               </Link>
               <Link
-                to="/lounge"
+                to="/lounge/community"
                 className={`text-[20px] font-medium leading-[28px] transition-colors ${
-                  location.pathname.startsWith('/lounge')
+                  location.pathname.startsWith('/lounge/community')
                     ? 'text-mainBlue'
                     : 'text-gray-700 hover:text-mainBlue'
                 }`}
@@ -118,10 +118,10 @@ const Header = ({ onToggleSidebar }: HeaderProps) => {
               </button>
 
               {/* 사용자 프로필 아이콘 */}
-              <Link to="/my" className="flex gap-2 items-center p-1 hover:opacity-80">
+              <Link to="/my/spec" className="flex gap-2 items-center p-1 hover:opacity-80">
                 <button
                   className={`flex items-center justify-center rounded-full transition-colors ${
-                    location.pathname.startsWith('/my')
+                    location.pathname.startsWith('/my/spec')
                       ? 'border-mainBlue'
                       : 'border-gray-300 hover:border-mainBlue'
                   }`}
