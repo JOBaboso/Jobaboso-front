@@ -52,18 +52,12 @@ const MyLayout = () => {
 
         {/* 메인 콘텐츠 */}
         <main className="overflow-y-auto flex-1 px-4 py-6 md:px-8">
-          {location.pathname === '/my/spec/edit' ? (
-            // 스펙 수정 페이지는 이전과 같은 레이아웃 유지
+          <div className="mx-auto w-[1096px]">
+            {pageTitle && (
+              <h2 className="mb-8 mt-8 text-[40px] font-bold text-gray-800">{pageTitle}</h2>
+            )}
             <Outlet />
-          ) : (
-            // 다른 페이지는 새로운 레이아웃 적용
-            <div className="mx-auto w-[1096px]">
-              {pageTitle && (
-                <h2 className="mb-8 mt-8 text-[40px] font-bold text-gray-800">{pageTitle}</h2>
-              )}
-              <Outlet />
-            </div>
-          )}
+          </div>
         </main>
       </div>
 
