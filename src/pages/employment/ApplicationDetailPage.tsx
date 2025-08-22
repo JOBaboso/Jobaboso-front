@@ -12,7 +12,7 @@ import {
   uploadDocuments,
   deleteDocument,
   downloadDocument,
-  getDocumentViewUrl,
+
   DocumentResponse,
 } from '../../apis/employment';
 import { Status, StatusLabelMap, StatusStyleMap } from '../../type/Status';
@@ -20,8 +20,8 @@ import { Schedule as ScheduleType, ScheduleLabelMap, ScheduleStyleMap } from '..
 import { Result, ResultLabelMap, ResultStyleMap } from '../../type/Result';
 import Button from '../../components/common/Button';
 import Dropdown from '../../components/common/Dropdown';
-import { TrashIcon, EyeIcon, ArrowDownTrayIcon } from '@heroicons/react/24/outline';
-import DocumentViewModal from '../../components/employment/DocumentViewModal';
+import { TrashIcon, ArrowDownTrayIcon } from '@heroicons/react/24/outline';
+import { companies } from '../../data/companyPositions';
 
 interface ScheduleItem {
   id: string;
@@ -58,11 +58,7 @@ const ApplicationDetailPage: React.FC = () => {
   // 문서 관련 상태
   const [uploadingDocuments, setUploadingDocuments] = useState(false);
   const [deletingDocument, setDeletingDocument] = useState<number | null>(null);
-  const [viewingDocument, setViewingDocument] = useState<{
-    id: number;
-    name: string;
-    url: string;
-  } | null>(null);
+
   const [documentTypes, setDocumentTypes] = useState<string[]>([]);
 
   // 지원 부문 옵션
@@ -337,29 +333,7 @@ const ApplicationDetailPage: React.FC = () => {
     }
   };
 
-  // 문서 보기 핸들러
-  const handleDocumentView = async (documentId: number, fileName: string) => {
-    if (!id) return;
 
-    try {
-      // API 호출하여 문서 보기 URL 가져오기
-      const viewUrl = await getDocumentViewUrl(parseInt(id), documentId);
-
-      // API 응답을 콘솔에 출력
-      console.log('Document View API Response:', {
-        applicationId: id,
-        documentId: documentId,
-        fileName: fileName,
-        viewUrl: viewUrl,
-      });
-
-      // 모달에 문서 URL 설정하여 열기
-      setViewingDocument({ id: documentId, name: fileName, url: viewUrl });
-    } catch (err) {
-      console.error('Error getting document view URL:', err);
-      alert('문서 보기에 실패했습니다. 다시 시도해주세요.');
-    }
-  };
 
   // 문서 타입 변경 핸들러
   const handleDocumentTypeChange = (index: number, type: string) => {
@@ -426,19 +400,40 @@ const ApplicationDetailPage: React.FC = () => {
       {/* 지원 정보 카드 */}
       <div className="mb-6 rounded-[16px] border border-gray-300 bg-white p-8">
         <div className="mb-6">
-          <h2 className="mb-2 text-xl font-semibold text-gray-900">{companyName} 입사지원</h2>
-          <div className="mb-2 flex items-center gap-3">
-            <span className="text-lg font-bold text-blue-600">
-              {selectedPosition || '지원 부문 미선택'}
-            </span>
-            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-600">
-              <span className="text-xs font-bold text-white">S</span>
+          <h2 className="mb-2 text-xl font-semibold text-mainBlue">
+            <div className="flex items-center gap-3">
+              <div className="flex h-[34px] w-[34px] items-center justify-center rounded-[45px] border border-gray-300 bg-white">
+                {(() => {
+                  const company = companies.find(c => c.name === companyName);
+                  const logoPath = company?.logo;
+                  
+                  if (logoPath) {
+                    return (
+                      <img 
+                        src={logoPath} 
+                        alt={`${companyName} 로고`}
+                        className="h-6 w-6 object-contain"
+                        onError={(e) => {
+                          // 이미지 로드 실패 시 기본 회사 아이콘 표시
+                          e.currentTarget.style.display = 'none';
+                          e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                        }}
+                      />
+                    );
+                  }
+                  
+                  return null;
+                })()}
+              </div>
+              {companyName} 입사 지원
             </div>
-          </div>
-          <p className="text-gray-600">신입·경력 학력무관·서울</p>
+          </h2>
         </div>
 
-        <div className="space-y-8">
+        {/* 제목 아래 구분선 */}
+        <div className="mb-8 h-px w-full bg-gray-200"></div>
+
+        <div className="space-y-10">
           <div>
             <label className="mb-3 block text-h4 font-semibold text-gray-600">지원 일시</label>
             <input
@@ -527,12 +522,7 @@ const ApplicationDetailPage: React.FC = () => {
                       </button>
                     </div>
                     <div className="mr-4 flex items-center gap-4">
-                      <button
-                        onClick={() => handleDocumentView(doc.id, doc.original_name)}
-                        className="flex items-center gap-1 text-sm text-blue-600 hover:text-blue-800"
-                      >
-                        <EyeIcon className="h-4 w-4" />
-                      </button>
+
                       <button
                         onClick={() => handleDocumentDownload(doc.id, doc.original_name)}
                         className="flex items-center gap-1 text-sm text-green-600 hover:text-green-800"
@@ -761,13 +751,7 @@ const ApplicationDetailPage: React.FC = () => {
         </div>
       </div>
 
-      {/* 문서 보기 모달 */}
-      <DocumentViewModal
-        isOpen={!!viewingDocument}
-        onClose={() => setViewingDocument(null)}
-        documentUrl={viewingDocument?.url || ''}
-        documentName={viewingDocument?.name || ''}
-      />
+
     </div>
   );
 };
