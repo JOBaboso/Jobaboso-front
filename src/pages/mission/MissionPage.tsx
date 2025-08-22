@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { todayMission, missionHistory, MissionHistory } from '@mocks/missionData';
 import { InformationCircleIcon } from '@heroicons/react/24/outline';
 import MissionModal from '@components/mission/MissionModal';
+import PointModal from './PointModal';
 
 const MissionPage: React.FC = () => {
   // 로컬스토리지에서 사용자 이름 가져오기
@@ -12,10 +13,10 @@ const MissionPage: React.FC = () => {
   const [answerContent, setAnswerContent] = useState('');
   const [selectedMission, setSelectedMission] = useState<MissionHistory | null>(null);
   const [isEditMode, setIsEditMode] = useState(false);
-  
+
   // 저장된 미션 답변들을 관리하는 상태 추가
   const [savedMissions, setSavedMissions] = useState<MissionHistory[]>(missionHistory);
-  
+
   // 포인트 획득 모달 상태 추가
   const [isPointModalOpen, setIsPointModalOpen] = useState(false);
 
@@ -23,13 +24,14 @@ const MissionPage: React.FC = () => {
   const openTodayMissionModal = () => {
     setIsEditMode(true);
     setSelectedMission(null);
-    
+
     // 오늘의 미션이 이미 작성되어 있는지 확인
-    const todayMissionExists = savedMissions.find(mission => 
-      mission.title === todayMission.title && 
-      mission.date === new Date().toLocaleDateString('ko-KR', { month: 'long', day: 'numeric' })
+    const todayMissionExists = savedMissions.find(
+      (mission) =>
+        mission.title === todayMission.title &&
+        mission.date === new Date().toLocaleDateString('ko-KR', { month: 'long', day: 'numeric' })
     );
-    
+
     if (todayMissionExists) {
       // 오늘의 미션이 이미 있으면 기존 내용으로 수정 모드
       setAnswerContent(todayMissionExists.content);
@@ -38,7 +40,7 @@ const MissionPage: React.FC = () => {
       // 오늘의 미션이 없으면 빈 내용으로 새로 작성 모드
       setAnswerContent('');
     }
-    
+
     setIsModalOpen(true);
   };
 
@@ -63,11 +65,9 @@ const MissionPage: React.FC = () => {
     if (answerContent.trim()) {
       if (isEditMode && selectedMission && selectedMission.title === todayMission.title) {
         // 오늘의 미션 수정 (기존 항목 업데이트)
-        setSavedMissions(prev => 
-          prev.map(mission => 
-            mission.id === selectedMission.id 
-              ? { ...mission, content: answerContent }
-              : mission
+        setSavedMissions((prev) =>
+          prev.map((mission) =>
+            mission.id === selectedMission.id ? { ...mission, content: answerContent } : mission
           )
         );
         console.log('수정된 답변:', answerContent);
@@ -81,15 +81,15 @@ const MissionPage: React.FC = () => {
           title: todayMission.title,
           question: todayMission.question,
           content: answerContent,
-          guide: todayMission.guide
+          guide: todayMission.guide,
         };
-        
+
         // 저장된 미션 목록에 추가 (최신순으로 맨 앞에 추가)
-        setSavedMissions(prev => [newMission, ...prev]);
-        
+        setSavedMissions((prev) => [newMission, ...prev]);
+
         console.log('저장된 답변:', answerContent);
         closeModal();
-        
+
         // 포인트 획득 모달 표시
         setIsPointModalOpen(true);
       }
@@ -192,26 +192,13 @@ const MissionPage: React.FC = () => {
       />
 
       {/* 포인트 획득 모달 */}
-      {isPointModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="w-full max-w-md rounded-2xl bg-white p-8 text-center">
-            <div className="mb-6">
-              <div className="mx-auto mb-8 flex items-center justify-center">
-                <span className="text-6xl animate-bounce">🪙</span>
-              </div>
-              <h2 className="mb-2 text-2xl font-bold text-gray-800">오늘의 미션 완료! 포인트 획득</h2>
-              <p className="text-4xl font-bold" style={{ color: '#00B1FF' }}>+10 point</p>
-              <p className="mt-4 text-lg text-gray-600">꿈을 위해 하나하나씩 실천해보자</p>
-            </div>
-            <button
-              onClick={closePointModal}
-              className="w-full rounded-lg bg-mainBlue px-6 py-3 text-lg font-medium text-white transition-colors hover:bg-blue-700"
-            >
-              확인
-            </button>
-          </div>
-        </div>
-      )}
+      <PointModal
+        isOpen={isPointModalOpen}
+        onClose={closePointModal}
+        title="오늘의 미션 완료! 포인트 획득"
+        points={10}
+        description="꿈을 위해 하나하나씩 실천해보자"
+      />
     </div>
   );
 };
