@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import Header from './header/Header';
 import EmploymentSidebar from './sidebar/EmploymentSidebar';
 import Footer from './footer/Footer';
 import ScrollToTop from '@components/common/ScrollToTop';
+import PointDisplay from '@components/common/PointDisplay';
 
 interface EmploymentLayoutProps {
   title?: string;
@@ -11,10 +12,16 @@ interface EmploymentLayoutProps {
 
 const MyLayout: React.FC<EmploymentLayoutProps> = ({ title }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
   const location = useLocation();
 
   const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
   const closeSidebar = () => setIsSidebarOpen(false);
+
+  // 포인트 새로고침 함수
+  const refreshPoints = useCallback(() => {
+    setRefreshKey(prev => prev + 1);
+  }, []);
 
   // 페이지별 제목 매핑
   const getPageTitle = () => {
@@ -49,7 +56,7 @@ const MyLayout: React.FC<EmploymentLayoutProps> = ({ title }) => {
       {/* Header에 토글 버튼 추가 */}
       <Header onToggleSidebar={toggleSidebar} />
 
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex overflow-hidden flex-1">
         {/* PC용 사이드바 */}
         <aside className="hidden w-[260px] shrink-0 border-r border-gray-200 md:block">
           <div className="h-full">
@@ -59,7 +66,7 @@ const MyLayout: React.FC<EmploymentLayoutProps> = ({ title }) => {
 
         {/* 모바일용 사이드바 (오버레이) */}
         {isSidebarOpen && (
-          <div className="fixed inset-0 z-50 flex md:hidden">
+          <div className="flex fixed inset-0 z-50 md:hidden">
             {/* 오버레이 */}
             <div className="fixed inset-0 bg-black bg-opacity-30" onClick={closeSidebar} />
             {/* 사이드바 */}
@@ -70,12 +77,18 @@ const MyLayout: React.FC<EmploymentLayoutProps> = ({ title }) => {
         )}
 
         {/* 메인 콘텐츠 */}
-        <main className="flex-1 px-4 py-6 overflow-y-auto md:px-8">
+        <main className="overflow-y-auto flex-1 px-4 py-6 md:px-8">
           <div className="mx-auto w-[1096px]">
-            {pageTitle && (
-              <h2 className="mb-8 mt-8 text-[40px] font-bold text-gray-800">{pageTitle}</h2>
-            )}
-            <Outlet />
+            <div className="flex justify-between items-center">
+              {pageTitle && (
+                <h2 className="mb-8 mt-8 text-[40px] font-bold text-gray-800">{pageTitle}</h2>
+              )}
+              {/* ReviewWritePage가 아닐 때만 포인트 디스플레이 표시 */}
+              {!location.pathname.includes('/review/write') && (
+                <PointDisplay key={refreshKey} onRefresh={refreshPoints} />
+              )}
+            </div>
+            <Outlet context={{ refreshPoints }} />
           </div>
         </main>
       </div>
