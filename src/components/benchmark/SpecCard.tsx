@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Result, ResultLabelMap, ResultStyleMap } from '../../type/Result';
 import SpecViewModal from './SpecViewModal';
+import PointModal from '@components/common/PointModal';
 import { deductPointsForPost } from '@apis/points';
 
 interface SpecCardProps {
@@ -15,6 +16,7 @@ interface SpecCardProps {
   acceptanceRate: string;
   pointCost: number;
   result: Result;
+  onRefresh?: () => void;
 }
 
 const SpecCard: React.FC<SpecCardProps> = ({
@@ -29,22 +31,37 @@ const SpecCard: React.FC<SpecCardProps> = ({
   acceptanceRate,
   pointCost,
   result,
+  onRefresh,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isPointModalOpen, setIsPointModalOpen] = useState(false);
+  const [isUnlocked, setIsUnlocked] = useState(false); // 열람 상태 관리
 
-  const handleOpenModal = async () => {
-    try {
-      // 포인트 차감
-      await deductPointsForPost();
-      // 성공하면 모달 열기
+  const handleOpenModal = () => {
+    if (isUnlocked) {
+      // 이미 열람한 경우 바로 세부내용 모달 열기
       setIsModalOpen(true);
-      // 포인트 새로고침
-      if ((window as any).refreshBenchmarkPoints) {
-        (window as any).refreshBenchmarkPoints();
-      }
-    } catch (error) {
-      console.error('포인트 차감 실패:', error);
-      alert('포인트 차감에 실패했습니다. 잠시 후 다시 시도해주세요.');
+    } else {
+      // 처음 열람하는 경우 포인트 차감 모달 먼저 표시
+      setIsPointModalOpen(true);
+    }
+  };
+
+  const handleClosePointModal = () => {
+    setIsPointModalOpen(false);
+  };
+
+  const handlePointModalConfirm = () => {
+    // 포인트 차감 모달 닫고 세부내용 모달 열기
+    setIsPointModalOpen(false);
+    setIsModalOpen(true);
+    
+    // 열람 상태를 true로 변경
+    setIsUnlocked(true);
+    
+    // 포인트 새로고침
+    if (onRefresh) {
+      onRefresh();
     }
   };
 
@@ -88,12 +105,35 @@ const SpecCard: React.FC<SpecCardProps> = ({
         {/* 액션 버튼 */}
         <button 
           onClick={handleOpenModal}
-          className="group flex items-center justify-center w-full gap-2 px-4 py-3 text-[18px] font-semibold transition-colors rounded-lg text-mainBlue bg-subLightBlue hover:bg-blue-600 hover:text-white"
+          className={`group flex items-center justify-center w-full gap-2 px-4 py-3 text-[18px] font-semibold transition-colors rounded-lg ${
+            isUnlocked 
+              ? 'text-green-600 bg-green-50 border border-green-200 hover:bg-green-100' 
+              : 'text-mainBlue bg-subLightBlue hover:bg-blue-600 hover:text-white'
+          }`}
         >
-          <img src="/benchmark/ic_lock.svg" className="h-[20px] w-[20px] transition group-hover:invert group-hover:brightness-0" alt="자물쇠 아이콘"></img>
-          <span>{pointCost}포인트로 열람하기</span>
+          <img 
+            src={isUnlocked ? "/benchmark/ic_unlock.svg" : "/benchmark/ic_lock.svg"} 
+            className="h-[20px] w-[20px] transition group-hover:invert group-hover:brightness-0" 
+            alt={isUnlocked ? "열림 아이콘" : "자물쇠 아이콘"}
+          />
+          <span>
+            {isUnlocked ? '다시 확인하기' : `${pointCost}포인트로 열람하기`}
+          </span>
         </button>
       </div>
+
+      {/* 포인트 차감 모달 (처음 열람할 때만) */}
+      {!isUnlocked && (
+        <PointModal
+          isOpen={isPointModalOpen}
+          onClose={handleClosePointModal}
+          title="포인트 차감"
+          points={-pointCost}
+          description={`${pointCost}포인트가 차감됩니다. 계속하시겠습니까?`}
+          onRefresh={onRefresh}
+          onConfirm={handlePointModalConfirm}
+        />
+      )}
 
       {/* 스펙 보기 모달 */}
       <SpecViewModal

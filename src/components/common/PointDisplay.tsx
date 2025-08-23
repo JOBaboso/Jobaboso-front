@@ -48,17 +48,17 @@ const PointDisplay: React.FC<PointDisplayProps> = ({ className = '', onRefresh }
 
   if (loading) {
     return (
-      <div className={`px-[12px] py-[8px] border-[1.3px] flex items-center rounded-lg bg-subLightBlue border-mainBlue ${className}`}>
+      <div className={`px-[12px] py-[8px] border-[1.3px] flex items-center rounded-lg bg-subLightBlue border-mainBlue ${className}`} style={{ width: '180px' }}>
         <img src="/ic_point.svg" className="h-[20px] w-[20px]" alt="포인트 아이콘" />
         <div className="ml-[8px] text-bodyMd">보유 포인트</div>
-        <div className="ml-[8px] text-h4">로딩중...</div>
+        <div className="ml-[8px] text-h4"></div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className={`px-[12px] py-[8px] border-[1.3px] flex items-center rounded-lg bg-red-50 border-red-200 ${className}`}>
+      <div className={`px-[12px] py-[8px] border-[1.3px] flex items-center rounded-lg bg-red-50 border-red-200 ${className}`} style={{ width: '180px' }}>
         <img src="/ic_point.svg" className="h-[20px] w-[20px]" alt="포인트 아이콘" />
         <div className="ml-[8px] text-bodyMd text-red-600">포인트 조회 실패</div>
       </div>
@@ -66,7 +66,7 @@ const PointDisplay: React.FC<PointDisplayProps> = ({ className = '', onRefresh }
   }
 
   return (
-    <div className={`px-[12px] py-[8px] border-[1.3px] flex items-center rounded-lg bg-subLightBlue border-mainBlue ${className}`}>
+    <div className={`px-[12px] py-[8px] border-[1.3px] flex items-center rounded-lg bg-subLightBlue border-mainBlue ${className}`} style={{ width: '180px' }}>
       <img src="/ic_point.svg" className="h-[20px] w-[20px]" alt="포인트 아이콘" />
       <div className="ml-[8px] text-bodyMd">보유 포인트</div>
       <div className="ml-[8px] text-h4">{points}p</div>

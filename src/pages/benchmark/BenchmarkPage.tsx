@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useOutletContext } from 'react-router-dom';
 import { employmentCards, EmploymentCard } from '@mocks/benchmarkData';
 import Pagination from '@components/common/Pagination';
 import SpecCard from '@components/benchmark/SpecCard';
@@ -6,6 +7,9 @@ import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { getPersonalSpec, PersonalSpecResponse } from '@apis/auth';
 
 const BenchmarkPage: React.FC = () => {
+  // MissionLayout에서 전달된 refreshPoints 함수 받기
+  const { refreshPoints } = useOutletContext<{ refreshPoints: () => void }>();
+
   const [currentPage, setCurrentPage] = useState(1);
   const [activeTab, setActiveTab] = useState('전체');
   const [userName, setUserName] = useState('');
@@ -87,6 +91,7 @@ const BenchmarkPage: React.FC = () => {
                       acceptanceRate={card.acceptanceRate}
                       pointCost={card.pointCost}
                       result={card.result}
+                      onRefresh={refreshPoints}
                     />
                   ))}
                 </div>
@@ -192,6 +197,7 @@ const BenchmarkPage: React.FC = () => {
                       acceptanceRate={card.acceptanceRate}
                       pointCost={card.pointCost}
                       result={card.result}
+                      onRefresh={refreshPoints}
                     />
                   ))}
                 </div>
