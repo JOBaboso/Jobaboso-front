@@ -26,10 +26,10 @@ export const getPoints = async (): Promise<string> => {
 };
 
 // 게시물 열 때 포인트 차감 API
-export const deductPointsForPost = async (): Promise<void> => {
+export const deductPointsForPost = async (pointsChange: number = -10): Promise<void> => {
   const token = localStorage.getItem('access_token');
   await axios.post(
-    `${import.meta.env.VITE_API_BASE_URL}/test/points?points_change=-10`,
+    `${import.meta.env.VITE_API_BASE_URL}/test/points?points_change=${pointsChange}`,
     {},
     {
       headers: {
