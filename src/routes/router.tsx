@@ -27,6 +27,11 @@ import CommunityPage from '@pages/lounge/CommunityPage';
 import CorporatePage from '@pages/lounge/CorporatePage';
 import ReviewWritePage from '@pages/employment/ReviewWritePage';
 import DocumentViewerPage from '@pages/employment/DocumentViewerPage';
+import CompanyContentsPage from '@pages/company/CompanyContentsPage';
+import CompanyLikesPage from '@pages/company/CompanyLikesPage';
+import CompanyLikesCollectPage from '@pages/company/CompanyLikesCollectPage';
+import CompanyContentsLayout from '@layout/CompanyContentsLayout';
+import CompanyLikesLayout from '@layout/CompanyLikesLayout';
 
 const router = createBrowserRouter([
   {
@@ -72,16 +77,12 @@ const router = createBrowserRouter([
   {
     path: '/benchmark',
     element: <BenchmarkLayout />,
-    children: [
-      { index: true, element: <BenchmarkPage /> },
-    ],
+    children: [{ index: true, element: <BenchmarkPage /> }],
   },
   {
     path: '/mission',
     element: <MissionLayout />,
-    children: [
-      { index: true, element: <MissionPage /> },
-    ],
+    children: [{ index: true, element: <MissionPage /> }],
   },
   {
     path: '/lounge',
@@ -92,8 +93,22 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: '/document-viewer',
-    element: <DocumentViewerPage />,
+    path: '/company',
+    children: [
+      {
+        path: 'contents',
+        element: <CompanyContentsLayout />,
+        children: [{ index: true, element: <CompanyContentsPage /> }],
+      },
+      {
+        path: 'likes',
+        element: <CompanyLikesLayout />,
+        children: [
+          { index: true, element: <CompanyLikesPage /> },
+          { path: 'collect', element: <CompanyLikesCollectPage /> },
+        ],
+      },
+    ],
   },
 ]);
 

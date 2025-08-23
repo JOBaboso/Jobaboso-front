@@ -80,13 +80,10 @@ const Header = ({ onToggleSidebar }: HeaderProps) => {
                 </>
               ) : userType === 'company' ? (
                 <>
-                  <NavigationLink to="/company/content" pathPrefix="/company/content">
+                  <NavigationLink to="/company/contents" pathPrefix="/company/contents">
                     기업 콘텐츠
                   </NavigationLink>
-                  <NavigationLink to="/company/recruit" pathPrefix="/company/recruit">
-                    채용공고 등록
-                  </NavigationLink>
-                  <NavigationLink to="/company/favorites" pathPrefix="/company/favorites">
+                  <NavigationLink to="/company/likes" pathPrefix="/company/likes">
                     찜하기
                   </NavigationLink>
                 </>

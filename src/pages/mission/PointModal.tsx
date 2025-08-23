@@ -23,7 +23,7 @@ const PointModal: React.FC<PointModalProps> = ({
       <div className="w-full max-w-md rounded-2xl bg-white p-8 text-center">
         <div className="mb-6">
           <div className="mx-auto mb-8 flex items-center justify-center">
-          <span className="text-6xl animate-bounce">🪙</span>
+            <span className="text-6xl animate-bounce">🪙</span>
           </div>
           <h2 className="mb-2 text-2xl font-bold text-gray-800">{title}</h2>
           <p className="text-4xl font-bold" style={{ color: '#00B1FF' }}>
