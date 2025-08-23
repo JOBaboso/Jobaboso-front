@@ -60,14 +60,14 @@ const CompanyContentWritePage: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="mx-auto my-8 px-6 py-8">
       <h1 className="mb-8 text-3xl font-bold text-gray-800">기업 콘텐츠 작성하기</h1>
 
       <form onSubmit={handleSubmit} className="space-y-8">
         {/* 제목 */}
         <div>
           <label htmlFor="title" className="mb-2 block text-sm font-medium text-gray-700">
-            제목 *
+            제목 <span className="text-[#D84D4D]">*</span>
           </label>
           <input
             type="text"
@@ -76,7 +76,7 @@ const CompanyContentWritePage: React.FC = () => {
             value={formData.title}
             onChange={handleInputChange}
             placeholder="제목을 입력하세요."
-            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-transparent focus:ring-2 focus:ring-blue-500"
+            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-0"
             required
           />
         </div>
@@ -84,7 +84,7 @@ const CompanyContentWritePage: React.FC = () => {
         {/* 내용 */}
         <div>
           <label htmlFor="content" className="mb-2 block text-sm font-medium text-gray-700">
-            내용 *
+            내용 <span className="text-[#D84D4D]">*</span>
           </label>
           <textarea
             id="content"
@@ -93,7 +93,7 @@ const CompanyContentWritePage: React.FC = () => {
             onChange={handleInputChange}
             placeholder="내용을 입력하세요."
             rows={10}
-            className="w-full resize-none rounded-lg border border-gray-300 px-4 py-3 focus:border-transparent focus:ring-2 focus:ring-blue-500"
+            className="w-full resize-none rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-0"
             required
           />
         </div>
@@ -101,7 +101,7 @@ const CompanyContentWritePage: React.FC = () => {
         {/* 이미지 업로드 */}
         <div>
           <label htmlFor="image" className="mb-2 block text-sm font-medium text-gray-700">
-            이미지 (최대 1개)
+            이미지
           </label>
           <div className="rounded-lg border-2 border-dashed border-gray-300 p-6 text-center">
             {imagePreview ? (
@@ -121,7 +121,7 @@ const CompanyContentWritePage: React.FC = () => {
             ) : (
               <div>
                 <p className="mb-2 text-gray-600">
-                  이미지를 드래그하여 놓거나, 파일을 업로드해주세요
+                  이미지를 여기에 끌어다 놓거나, 파일 첨부 버튼을 클릭해주세요(최대 1장)
                 </p>
                 <input
                   type="file"
@@ -135,7 +135,7 @@ const CompanyContentWritePage: React.FC = () => {
                   htmlFor="image"
                   className="inline-flex cursor-pointer items-center rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
                 >
-                  파일 업로드
+                  ↑ 이미지 첨부
                 </label>
               </div>
             )}
@@ -153,8 +153,8 @@ const CompanyContentWritePage: React.FC = () => {
             name="youtubeUrl"
             value={formData.youtubeUrl}
             onChange={handleInputChange}
-            placeholder="https://www.youtube.com/watch?v=..."
-            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-transparent focus:ring-2 focus:ring-blue-500"
+            placeholder="첨부할 유튜브 영상의 링크를 첨부해주세요."
+            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-0"
           />
         </div>
 
