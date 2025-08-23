@@ -28,6 +28,8 @@ import CorporatePage from '@pages/lounge/CorporatePage';
 import ReviewWritePage from '@pages/employment/ReviewWritePage';
 import DocumentViewerPage from '@pages/employment/DocumentViewerPage';
 import CompanyContentsPage from '@pages/company/CompanyContentsPage';
+import CompanyContentWritePage from '@pages/company/CompanyContentWritePage';
+import CompanyContentDetailPage from '@pages/company/CompanyContentDetailPage';
 import CompanyLikesPage from '@pages/company/CompanyLikesPage';
 import CompanyLikesCollectPage from '@pages/company/CompanyLikesCollectPage';
 import CompanyContentsLayout from '@layout/CompanyContentsLayout';
@@ -98,7 +100,11 @@ const router = createBrowserRouter([
       {
         path: 'contents',
         element: <CompanyContentsLayout />,
-        children: [{ index: true, element: <CompanyContentsPage /> }],
+        children: [
+          { index: true, element: <CompanyContentsPage /> },
+          { path: 'write', element: <CompanyContentWritePage /> },
+          { path: ':id', element: <CompanyContentDetailPage /> },
+        ],
       },
       {
         path: 'likes',
