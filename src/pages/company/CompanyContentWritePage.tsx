@@ -60,7 +60,7 @@ const CompanyContentWritePage: React.FC = () => {
   };
 
   return (
-    <div className="mx-auto my-8 px-6 py-8">
+    <div className="my-8">
       <h1 className="mb-8 text-3xl font-bold text-gray-800">기업 콘텐츠 작성하기</h1>
 
       <form onSubmit={handleSubmit} className="space-y-8">

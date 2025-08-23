@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { getPersonalSpec, PersonalSpecResponse } from '@apis/auth';
+import { useParams } from 'react-router-dom';
+import { getPersonalSpec, getPublicSpec, PersonalSpecResponse, PublicSpecResponse } from '@apis/auth';
 import ProfileCard from '@components/my/ProfileCard';
 import EducationSection from '@components/my/EducationSection';
 import HopeSection from '@components/my/HopeSection';
@@ -7,15 +8,28 @@ import { formatDateToKorean, calculateAge, formatBirthDate } from '@utils/dateUt
 import { formatPhoneNumber } from '@utils/phoneUtils';
 
 const SpecPage = () => {
-  const [specData, setSpecData] = useState<PersonalSpecResponse | null>(null);
+  const { id } = useParams();
+  const [specData, setSpecData] = useState<PersonalSpecResponse | PublicSpecResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isPublicSpec, setIsPublicSpec] = useState(false);
 
   useEffect(() => {
     const fetchSpecData = async () => {
       try {
         setLoading(true);
-        const data = await getPersonalSpec();
+        let data;
+        
+        if (id) {
+          // 다른 사용자의 공개 스펙 조회
+          data = await getPublicSpec(id);
+          setIsPublicSpec(true);
+        } else {
+          // 본인의 스펙 조회
+          data = await getPersonalSpec();
+          setIsPublicSpec(false);
+        }
+        
         setSpecData(data);
       } catch (err) {
         console.error('스펙 데이터 조회 실패:', err);
@@ -26,7 +40,7 @@ const SpecPage = () => {
     };
 
     fetchSpecData();
-  }, []);
+  }, [id]);
 
   if (loading) {
     return (
@@ -60,29 +74,36 @@ const SpecPage = () => {
   return (
     <div className="flex justify-center w-full">
       <div className="w-[1096px]">
-        <p className="mt-6 font-normal text-h4">채용기업이 열람하는 나의 이력서입니다.</p>
+        <p className="mt-6 font-normal text-h4">
+          {isPublicSpec ? '지원자 스펙' : '채용기업이 열람하는 나의 이력서입니다.'}
+        </p>
 
-        <div className="grid grid-cols-[295px_720px] gap-8">
-          {/* 프로필 */}
-          <ProfileCard
-            name={specData.personal_info.name}
-            gender={specData.personal_info.gender}
-            birthDate={formatBirthDate(specData.personal_info.birth_date)}
-            age={calculateAge(specData.personal_info.birth_date)}
-            phone={formatPhoneNumber(specData.personal_info.phone)}
-            email={specData.personal_info.email}
-          />
+        {/* 개인 스펙일 때만 프로필과 학력 표시 */}
+        {!isPublicSpec && (
+          <div className="grid grid-cols-[295px_720px] gap-8">
+            {/* 프로필 */}
+            {'personal_info' in specData && (
+              <ProfileCard
+                name={specData.personal_info.name}
+                gender={specData.personal_info.gender}
+                birthDate={formatBirthDate(specData.personal_info.birth_date)}
+                age={calculateAge(specData.personal_info.birth_date)}
+                phone={formatPhoneNumber(specData.personal_info.phone)}
+                email={specData.personal_info.email}
+              />
+            )}
 
-          {/* 학력 */}
-          <EducationSection
-            schoolName={specData.education.school_name}
-            major={specData.education.major}
-            admissionYear={formatDateToKorean(specData.education.admission_year)}
-            status={specData.education.status}
-            score={specData.education.score.toString()}
-            graduationYear={formatDateToKorean(specData.education.graduation_year)}
-          />
-        </div>
+            {/* 학력 */}
+            <EducationSection
+              schoolName={specData.education.school_name}
+              major={specData.education.major}
+              admissionYear={formatDateToKorean(specData.education.admission_year)}
+              status={specData.education.status}
+              score={specData.education.score.toString()}
+              graduationYear={formatDateToKorean(specData.education.graduation_year)}
+            />
+          </div>
+        )}
 
         {/* 희망근무조건 */}
         <HopeSection

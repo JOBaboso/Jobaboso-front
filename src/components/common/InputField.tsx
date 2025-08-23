@@ -12,6 +12,7 @@ interface InputFieldProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string; // 추가된 className prop
   disabled?: boolean; // 추가된 disabled prop
+  required?: boolean; // 추가된 required prop
 }
 
 export const InputField: React.FC<InputFieldProps> = ({
@@ -26,11 +27,12 @@ export const InputField: React.FC<InputFieldProps> = ({
   onChange,
   className = '', // 기본값은 빈 문자열
   disabled = false, // 기본값은 false
+  required = false, // 기본값은 false
 }) => {
   return (
     <div className={`mx-auto my-0 w-full ${className}`}>
       {/* 레이블 */}
-      <label htmlFor={id} className="block p-1 mb-2 font-medium text-gray-700 text-h4">
+      <label htmlFor={id} className="block p-1 mb-2 font-medium text-gray-700 text-lg">
         {label.includes('*') ? (
           <>
             {label.replace('*', '')} <span className="text-red-500">*</span>
@@ -49,7 +51,8 @@ export const InputField: React.FC<InputFieldProps> = ({
           value={value}
           onChange={onChange}
           disabled={disabled}
-          className="h-[66px] w-full rounded-lg border border-gray-200 bg-white px-4 py-[20px] pr-[48px] text-h4 text-gray-700 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
+          required={required}
+          className="h-[66px] w-full rounded-lg border border-gray-200 bg-white px-4 py-[20px] pr-[48px] text-lg text-gray-700 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
         />
 
         {rightIcon && (
