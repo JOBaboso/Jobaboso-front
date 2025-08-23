@@ -78,8 +78,8 @@ const LikeUserCard: React.FC<LikeUserCardProps> = ({ like, onUnlike, onClick }) 
 
         {/* 제안 메시지 */}
         {like.message && (
-          <div className="flex items-start space-x-2">
-            <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mt-1 flex-shrink-0">
+          <div className="flex items-center space-x-2">
+            <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
               <ChatBubbleLeftRightIcon className="h-4 w-4 text-blue-600" />
             </div>
             <span className="text-base leading-6 font-medium text-[#4B5563] break-words whitespace-normal min-w-0 flex-1">{like.message}</span>

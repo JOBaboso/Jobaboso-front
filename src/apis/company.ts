@@ -46,3 +46,14 @@ export const deleteLike = async (likeId: number) => {
     throw error;
   }
 };
+
+// 내가 받은 회사 찜하기 목록 조회
+export const getMyCompanyLikes = async () => {
+  try {
+    const response = await api.get('/personal/company-likes');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching my company likes:', error);
+    throw error;
+  }
+};
