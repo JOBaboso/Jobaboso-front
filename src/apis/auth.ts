@@ -35,6 +35,27 @@ export interface PersonalSpecResponse {
   };
 }
 
+// 공개 스펙 조회 응답 타입
+export interface PublicSpecResponse {
+  skills: any[];
+  projects: any[];
+  activities: any[];
+  certificates: any[];
+  education: {
+    school_name: string;
+    major: string;
+    admission_year: string;
+    graduation_year: string;
+    status: string;
+    score: number;
+  };
+  hope: {
+    company: string;
+    job: string;
+    region: string;
+  };
+}
+
 export const postSignUpPersonal = async (request: SignUpPersonalRequestDto) => {
   const response = await api.post('/user/register/personal', request);
   return response.data;
@@ -58,5 +79,10 @@ export const signin = async (request: SignInRequestDto) => {
 // 개인유저 스펙 조회 API
 export const getPersonalSpec = async (): Promise<PersonalSpecResponse> => {
   const response = await api.get('/spec/all');
+  return response.data;
+};
+
+export const getPublicSpec = async (userId: string): Promise<PublicSpecResponse> => {
+  const response = await api.get(`/spec/public/${userId}`);
   return response.data;
 };

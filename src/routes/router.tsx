@@ -114,6 +114,13 @@ const router = createBrowserRouter([
           { path: 'collect', element: <CompanyLikesCollectPage /> },
         ],
       },
+      {
+      path: 'spec',
+        element: <CompanyLikesLayout />,
+        children: [
+          { path: ':id', element: <SpecPage /> },
+        ],
+      }
     ],
   },
 ]);
