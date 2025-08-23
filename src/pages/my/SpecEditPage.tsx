@@ -329,10 +329,10 @@ const SpecEditPage = () => {
 
   return (
     <div className="flex justify-center w-full">
-      <div className="mx-auto ml-64 w-[1096px]">
+      <div className="mx-auto mr-10 w-[1096px]">
         <WelcomeBanner name={form.name} />
 
-        <div ref={(el) => sectionRefs.current['인적사항'] = el} id="section-personal">
+        <div ref={(el) => { sectionRefs.current['인적사항'] = el; }} id="section-personal">
           <PersonalInfoForm
             form={form}
             onChange={handleChange}
@@ -340,7 +340,7 @@ const SpecEditPage = () => {
           />
         </div>
 
-        <div ref={(el) => sectionRefs.current['학력'] = el} id="section-education">
+        <div ref={(el) => { sectionRefs.current['학력'] = el; }} id="section-education">
           <EducationForm
             form={form}
             onChange={handleChange}
@@ -356,7 +356,7 @@ const SpecEditPage = () => {
           />
         </div>
 
-        <div ref={(el) => sectionRefs.current['희망근무조건'] = el} id="section-hope">
+        <div ref={(el) => { sectionRefs.current['희망근무조건'] = el; }} id="section-hope">
           <HopeForm
             companies={form.companies}
             jobs={form.jobs}
@@ -367,7 +367,7 @@ const SpecEditPage = () => {
           />
         </div>
 
-        <div ref={(el) => sectionRefs.current['보유역량'] = el} id="section-ability">
+        <div ref={(el) => { sectionRefs.current['보유역량'] = el; }} id="section-ability">
           <AbilitySection
             certificates={form.certificates}
             activities={form.activities}
@@ -381,7 +381,7 @@ const SpecEditPage = () => {
           />
         </div>
 
-        <div ref={(el) => sectionRefs.current['스킬'] = el} id="section-skill">
+        <div ref={(el) => { sectionRefs.current['스킬'] = el; }} id="section-skill">
           <h2 className="mb-10 font-semibold text-gray-800 text-h2">스킬</h2>
           <div className="grid grid-cols-[865px] gap-6">
             <SkillSearchSection
