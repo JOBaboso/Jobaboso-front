@@ -1,17 +1,27 @@
+import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Header from './header/Header';
 import Footer from './footer/Footer';
 import ScrollToTop from '@components/common/ScrollToTop';
+import StaffPage from '@pages/staff/StaffPage';
 
 const MainLayout = () => {
+  const [userType, setUserType] = useState<string | null>(null);
+
+  useEffect(() => {
+    // user_type 확인
+    const type = localStorage.getItem('user_type');
+    setUserType(type);
+  }, []);
+
   return (
-    <div className="flex min-h-screen flex-col bg-white">
+    <div className="flex flex-col min-h-screen bg-white">
       <ScrollToTop />
       <Header />
 
-      <div className="flex flex-1 overflow-hidden">
-        <main className="flex-1 overflow-y-auto bg-white px-8 py-6">
-          <Outlet />
+      <div className="flex overflow-hidden flex-1">
+        <main className="overflow-y-auto flex-1 px-8 py-6 bg-white">
+          {userType === 'university_staff' ? <StaffPage /> : <Outlet />}
         </main>
       </div>
 
