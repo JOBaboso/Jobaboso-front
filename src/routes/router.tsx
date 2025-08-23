@@ -92,6 +92,7 @@ const router = createBrowserRouter([
     children: [
       { path: 'community', element: <CommunityPage /> },
       { path: 'corporate', element: <CorporatePage /> },
+      { path: 'corporate/:id', element: <CompanyContentDetailPage /> },
     ],
   },
   {
