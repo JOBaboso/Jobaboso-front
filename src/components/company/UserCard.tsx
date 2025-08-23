@@ -7,16 +7,20 @@ interface UserCardProps {
   name: string;
   age?: number;
   gender?: string;
-  university?: string;
   major?: string;
+  job?: string;
+  career_period?: string;
   skills?: string[];
   isLiked?: boolean;
-  onLike?: (id: string | number, data: {
-    message: string;
-    contact_email: string;
-    contact_phone: string;
-    suggested_position: string;
-  }) => void;
+  onLike?: (
+    id: string | number,
+    data: {
+      message: string;
+      contact_email: string;
+      contact_phone: string;
+      suggested_position: string;
+    }
+  ) => void;
   onUnlike?: (id: string | number) => void;
   onClick?: () => void;
 }
@@ -26,13 +30,14 @@ const UserCard: React.FC<UserCardProps> = ({
   name,
   age,
   gender,
-  university,
   major,
-  skills,
+  job,
+  career_period,
+  skills = [],
   isLiked = false,
   onLike,
   onUnlike,
-  onClick
+  onClick,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -60,63 +65,82 @@ const UserCard: React.FC<UserCardProps> = ({
 
   return (
     <>
-      <div 
-        className="bg-white rounded-lg shadow-md p-6 relative border border-gray-200 cursor-pointer hover:shadow-lg transition-shadow"
+      <div
+        className="relative cursor-pointer rounded-2xl border border-[#E5E7EB] bg-white p-6 transition-shadow hover:shadow-lg"
         onClick={onClick}
+        style={{
+          fontFamily: 'Pretendard, sans-serif',
+        }}
       >
-        {/* 하트 버튼 */}
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            handleHeartClick();
-          }}
-          className={`absolute top-4 right-4 transition-colors ${
-            isLiked 
-              ? 'text-red-500 hover:text-red-700' 
-              : 'text-gray-400 hover:text-red-500'
-          }`}
-        >
-          <svg className="w-6 h-6" fill={isLiked ? "currentColor" : "none"} stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-          </svg>
-        </button>
-
-        {/* 프로필 정보 */}
-        <div className="flex items-start space-x-4">
-          <div className="w-16 h-16 bg-gray-300 rounded-full flex-shrink-0 flex items-center justify-center">
-            <svg className="w-8 h-8 text-gray-500" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+        {/* 그리드 레이아웃: column1(프로필), column2(정보), column3(하트) */}
+        <div className="grid h-full grid-cols-[69px_1fr_28px] gap-4">
+          {/* Column 1: 프로필 이미지 */}
+          <div className="flex h-[69px] w-[69px] flex-shrink-0 items-center justify-center rounded-full border border-[#E5E7EB] bg-[#F3F4F6]">
+            <svg
+              className="h-[53px] w-[53px] text-[#9CA3AF]"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
             </svg>
           </div>
-          <div className="flex-1">
-            <h3 className="font-semibold text-lg">
-              {maskNameMiddle(name)} ({gender === '여' ? '여' : '남'}, 만 {age}세)
-            </h3>
-            <p className="text-gray-600 text-sm mb-2">
-              {university}
-            </p>
-            <p className="text-gray-600 text-sm mb-3">
-              {major} 졸업
-            </p>
-            
-            {/* 직무 및 스킬 */}
-            <div className="space-y-2">
-              <div className="flex flex-wrap gap-2">
-                <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded">
-                  AI개발
-                </span>
-                <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded">
-                  백엔드개발자
-                </span>
+
+          {/* Column 2: 이름, 나이, 대학 정보, 스킬 태그들 */}
+          <div className="flex flex-col">
+            {/* 이름과 나이 */}
+            <div className="mb-3 flex items-center gap-2">
+              <span className="text-2xl font-semibold leading-[34px] text-[#374151]">
+                {maskNameMiddle(name)}
+              </span>
+              <span className="text-xs leading-5 text-[#4B5563]">
+                ({gender === '여' ? '여' : '남'}, 만 {age}세)
+              </span>
+            </div>
+
+            {/* 대학 정보 */}
+            <div className="mb-3 flex flex-col gap-1">
+              <span className="text-base font-medium leading-6 text-[#4B5563]">{major}</span>
+              <span className="text-sm leading-[22px] text-[#4B5563]">{career_period}</span>
+            </div>
+
+            <div className="mb-1 flex flex-col gap-1">
+              <div className="flex">
+                <span className="rounded px-2 py-1 text-xs border border-gray-200 bg-white text-gray-600">{job}</span>
               </div>
-              <div className="flex flex-wrap gap-2">
-                {skills?.slice(0, 4).map((skill, index) => (
-                  <span key={index} className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded">
-                    {skill}
-                  </span>
-                ))}
+
+              {/* 스킬 태그들 */}
+              <div className="flex flex-row flex-wrap gap-2">
+                {skills.length > 0 &&
+                  skills.map((skill, index) => (
+                    <span
+                      key={index}
+                      className="rounded border border-gray-200 bg-gray-100 px-[6px] py-[2px] text-xs leading-5 text-[#4B5563]"
+                    >
+                      {skill}
+                    </span>
+                  ))}
               </div>
             </div>
+          </div>
+
+          {/* Column 3: 하트 버튼 */}
+          <div className="flex justify-center">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleHeartClick();
+              }}
+              className="h-7 w-7 text-[#4B5563] transition-colors hover:text-red-500"
+            >
+              <svg className="h-full w-full" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                />
+              </svg>
+            </button>
           </div>
         </div>
       </div>

@@ -43,7 +43,7 @@ const CompanyLikesCollectPage: React.FC = () => {
   };
 
   const handleCardClick = (likeId: string | number) => {
-    // like.id를 그대로 사용 (예: "personal01" -> "personal01")
+    // like.target_user_id를 사용하여 specpage로 이동
     navigate(`/company/spec/${likeId}`);
   };
 
@@ -75,7 +75,7 @@ const CompanyLikesCollectPage: React.FC = () => {
             key={like.id}
             like={like}
             onUnlike={handleUnlike}
-            onClick={() => handleCardClick(like.id)}
+            onClick={() => handleCardClick(like.target_user_id)}
           />
         ))}
       </div>

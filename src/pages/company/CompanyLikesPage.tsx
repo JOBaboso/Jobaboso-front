@@ -93,8 +93,9 @@ const CompanyLikesPage: React.FC = () => {
             name={user.name}
             age={user.age}
             gender={user.gender}
-            university={user.major}
-            major={user.job}
+            major={user.major}
+            job={user.job}
+            career_period={user.career_period}
             skills={user.skills}
             onLike={handleLike}
             onClick={() => handleCardClick(user.user_id)}
