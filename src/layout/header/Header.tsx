@@ -50,10 +50,10 @@ const Header = ({ onToggleSidebar }: HeaderProps) => {
       {/* 고정된 헤더 */}
       <header className="fixed left-0 right-0 top-0 z-50 flex h-header w-full items-center justify-between border-b border-gray-200 bg-white px-6 text-gray-800 shadow-[0px_4px_8px_rgba(0,0,0,0.08)]">
         {/* 왼쪽: 햄버거 + 로고 */}
-        <div className="flex items-center gap-3">
+        <div className="flex gap-3 items-center">
           {/* 햄버거 버튼: 모바일에서만 보임 */}
           <button onClick={onToggleSidebar} className="md:hidden" aria-label="사이드바 열기">
-            <Bars3Icon className="h-6 w-6 text-gray-700" />
+            <Bars3Icon className="w-6 h-6 text-gray-700" />
           </button>
 
           <Link to="/" className="ml-[30px] flex items-center">

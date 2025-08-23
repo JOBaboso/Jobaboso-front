@@ -34,6 +34,7 @@ import CompanyLikesPage from '@pages/company/CompanyLikesPage';
 import CompanyLikesCollectPage from '@pages/company/CompanyLikesCollectPage';
 import CompanyContentsLayout from '@layout/CompanyContentsLayout';
 import CompanyLikesLayout from '@layout/CompanyLikesLayout';
+import StaffPage from '@pages/staff/StaffPage';
 
 const router = createBrowserRouter([
   {
@@ -123,6 +124,10 @@ const router = createBrowserRouter([
         ],
       }
     ],
+  },
+  {
+    path: '/staff',
+    element: <StaffPage />,
   },
 ]);
 
