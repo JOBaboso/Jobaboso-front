@@ -83,8 +83,8 @@ const MyLayout: React.FC<EmploymentLayoutProps> = ({ title }) => {
               {pageTitle && (
                 <h2 className="mb-8 mt-8 text-[40px] font-bold text-gray-800">{pageTitle}</h2>
               )}
-              {/* ReviewWritePage가 아닐 때만 포인트 디스플레이 표시 */}
-              {!location.pathname.includes('/review/write') && (
+              {/* ReviewPage에만 포인트 디스플레이 표시 */}
+              {location.pathname === '/employment/review' && (
                 <PointDisplay key={refreshKey} onRefresh={refreshPoints} />
               )}
             </div>
