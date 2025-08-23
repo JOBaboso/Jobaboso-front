@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { ReviewWriteForm, ReviewFormData } from '@components/employment/ReviewWriteForm';
 import { createJobReview, getJobReview, JobReviewItem, updateJobReview } from '@apis/employment';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import PointModal from '@components/common/PointModal';
 
 const ReviewWritePage: React.FC = () => {
   const navigate = useNavigate();
@@ -9,6 +10,9 @@ const ReviewWritePage: React.FC = () => {
   const reviewId = searchParams.get('id');
   const isEditMode = !!reviewId;
   const [initialForm, setInitialForm] = useState<ReviewFormData | undefined>(undefined);
+  
+  // 포인트 모달 상태
+  const [isPointModalOpen, setIsPointModalOpen] = useState(false);
 
   const handleSubmit = async (data: ReviewFormData) => {
     const experienceLevel = data.interviewExperience === 'newcomer' ? 'entry' : 'experienced';
@@ -62,13 +66,34 @@ const ReviewWritePage: React.FC = () => {
           final_result: finalResult,
         });
       } else {
-        await createJobReview(payload);
+        // application_id가 undefined인 경우 제거
+        const createPayload = { ...payload };
+        if (createPayload.application_id === undefined) {
+          delete createPayload.application_id;
+        }
+        
+        console.log('전송할 데이터:', createPayload);
+        await createJobReview(createPayload);
+        // 새로 작성한 경우에만 포인트 모달 표시
+        setIsPointModalOpen(true);
+        return; // 포인트 모달이 닫힐 때까지 대기
       }
       navigate('/employment/review');
-    } catch (e) {
-      console.error(e);
-      alert('후기 등록에 실패했습니다.');
+    } catch (e: any) {
+      console.error('에러 상세:', e);
+      if (e.response?.status === 422) {
+        console.error('422 에러 응답:', e.response.data);
+        alert(`후기 등록에 실패했습니다: ${e.response.data?.detail || '데이터 형식 오류'}`);
+      } else {
+        alert('후기 등록에 실패했습니다.');
+      }
     }
+  };
+
+  // 포인트 모달 닫기
+  const closePointModal = () => {
+    setIsPointModalOpen(false);
+    navigate('/employment/review');
   };
 
   useEffect(() => {
@@ -122,6 +147,15 @@ const ReviewWritePage: React.FC = () => {
   return (
     <div className="w-full">
       <ReviewWriteForm onSubmit={handleSubmit} initialData={initialForm} submitLabel={isEditMode ? '수정하기' : '등록하기'} />
+      
+      {/* 포인트 획득 모달 */}
+      <PointModal
+        isOpen={isPointModalOpen}
+        onClose={closePointModal}
+        title="후기 작성 완료! 포인트 획득"
+        points={10}
+        description="소중한 경험을 공유해주셔서 감사합니다"
+      />
     </div>
   );
 };
