@@ -1,4 +1,5 @@
 import React from 'react';
+import { ChatBubbleLeftIcon } from '@heroicons/react/24/outline';
 
 interface PostCardProps {
   post: {
@@ -55,9 +56,7 @@ const PostCard: React.FC<PostCardProps> = ({
     <div className="flex items-center text-gray-400 text-bodyLg">
       <span>{post.date}</span>
       <div className="flex gap-1 items-center ml-6">
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-        </svg>
+        <ChatBubbleLeftIcon className="w-4 h-4 text-gray-400" />
         <span>{post.commentCount}</span>
       </div>
     </div>
