@@ -9,6 +9,7 @@ export default {
         subDarkBlue: '#00228B',
         subLightBlue: '#E7F3FF',
         white: '#FFFFFF',
+        heartOfIce: '#F7FBFE',
         gray: {
           50: '#F9FAFB',
           100: '#F3F4F6',
