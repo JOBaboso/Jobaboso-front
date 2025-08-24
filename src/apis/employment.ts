@@ -292,3 +292,43 @@ export const getMonthlyCalendar = async (
   const response = await api.get(`/applications/calendar/${year}/${month}`);
   return response.data;
 };
+
+// 다가오는 취업 일정 조회 (현재 시간 기준, 이번달 + 다음달까지)
+export const getUpcomingSchedules = async (limit: number = 4): Promise<CalendarSchedule[]> => {
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const currentMonth = now.getMonth() + 1; // 1부터 시작
+
+  let allSchedules: CalendarSchedule[] = [];
+
+  try {
+    // 이번달 일정 가져오기
+    const currentMonthData = await getMonthlyCalendar(currentYear, currentMonth);
+    allSchedules.push(...currentMonthData.schedules);
+
+    // 현재 시간 기준으로 upcoming 일정만 필터링
+    let upcomingSchedules = allSchedules
+      .filter((schedule) => new Date(schedule.start_date) > now)
+      .sort((a, b) => new Date(a.start_date).getTime() - new Date(b.start_date).getTime());
+
+    // 이번달 upcoming 일정이 limit보다 적으면 다음달도 가져오기
+    if (upcomingSchedules.length < limit) {
+      const nextMonth = currentMonth === 12 ? 1 : currentMonth + 1;
+      const nextYear = currentMonth === 12 ? currentYear + 1 : currentYear;
+
+      const nextMonthData = await getMonthlyCalendar(nextYear, nextMonth);
+      allSchedules.push(...nextMonthData.schedules);
+
+      // 전체 일정을 다시 필터링하고 정렬
+      upcomingSchedules = allSchedules
+        .filter((schedule) => new Date(schedule.start_date) > now)
+        .sort((a, b) => new Date(a.start_date).getTime() - new Date(b.start_date).getTime());
+    }
+
+    // 최종적으로 limit만큼 반환
+    return upcomingSchedules.slice(0, limit);
+  } catch (error) {
+    console.error('Upcoming schedules 조회 실패:', error);
+    return [];
+  }
+};

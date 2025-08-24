@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useOutletContext } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useOutletContext, useSearchParams } from 'react-router-dom';
 import { todayMission, missionHistory, MissionHistory } from '@mocks/missionData';
 import { InformationCircleIcon } from '@heroicons/react/24/outline';
 import MissionModal from '@components/mission/MissionModal';
@@ -8,6 +8,7 @@ import PointModal from '@components/common/PointModal'
 const MissionPage: React.FC = () => {
   // MissionLayout에서 전달된 refreshPoints 함수 받기
   const { refreshPoints } = useOutletContext<{ refreshPoints: () => void }>();
+  const [searchParams] = useSearchParams();
 
   // 로컬스토리지에서 사용자 이름 가져오기
   const userName = localStorage.getItem('name') || '사용자';
@@ -23,6 +24,14 @@ const MissionPage: React.FC = () => {
 
   // 포인트 획득 모달 상태 추가
   const [isPointModalOpen, setIsPointModalOpen] = useState(false);
+
+  // URL 파라미터 확인하여 모달 자동 열기
+  useEffect(() => {
+    const startParam = searchParams.get('start');
+    if (startParam === 'true') {
+      openTodayMissionModal();
+    }
+  }, [searchParams]);
 
   // 오늘의 미션 모달 열기 (편집 모드)
   const openTodayMissionModal = () => {
