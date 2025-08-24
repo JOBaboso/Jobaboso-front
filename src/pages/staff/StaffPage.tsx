@@ -123,11 +123,11 @@ const StaffPage: React.FC = () => {
       </div>
 
       {/* 통계 1행 */}
-      <div className="grid grid-cols-[650px_310px_360px] gap-4 h-[310px]">
+      <div className="grid grid-cols-[655px_310px_360px] gap-4 h-[310px]">
         {/* 졸업년도별 취업률 */}
         <div className="p-6 bg-gray-600 rounded-xl">
           <div className="mb-2 text-white text-h3">졸업년도별 취업률</div>
-          <div className="flex justify-between items-center mb-6">
+          <div className="flex items-center justify-between mb-6">
             <div className="flex gap-2">
               <img src="/staff/ic_loading.svg"></img>
               <div className="text-white text-bodyMd">
@@ -141,7 +141,7 @@ const StaffPage: React.FC = () => {
                 })} 기준
               </div>
             </div>
-            <div className="flex gap-2 items-center px-2 py-1 bg-gray-400 rounded-lg cursor-pointer">
+            <div className="flex items-center gap-2 px-2 py-1 bg-gray-400 rounded-lg cursor-pointer">
               <span className="text-white text-bodySm">2025년</span>
               <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -150,7 +150,7 @@ const StaffPage: React.FC = () => {
           </div>
           <div className="grid grid-cols-3 gap-3">
             {/* 전체 */}
-            <div className="px-6 pt-6 pb-8 bg-gradient-to-b from-white to-gray-100 rounded-lg">
+            <div className="px-6 pt-6 pb-8 rounded-lg bg-gradient-to-b from-white to-gray-100">
               <div className="mb-8 text-gray-700 text-h4">전체</div>
               <div className="flex justify-end">
                 <div className="text-bodySm">200명 중</div>
@@ -159,7 +159,7 @@ const StaffPage: React.FC = () => {
               <div className="flex justify-end text-transparent bg-clip-text bg-gradient-to-b from-gray-700 to-mainBlue text-h1">80.0%</div>
             </div>
             {/* 남자 */}
-            <div className="px-6 pt-6 pb-8 bg-gradient-to-b from-white to-gray-100 rounded-lg">
+            <div className="px-6 pt-6 pb-8 rounded-lg bg-gradient-to-b from-white to-gray-100">
               <div className="mb-8 text-gray-700 text-h4">남자</div>
               <div className="flex justify-end">
                 <div className="text-bodySm">150명 중</div>
@@ -168,7 +168,7 @@ const StaffPage: React.FC = () => {
               <div className="flex justify-end text-transparent bg-clip-text bg-gradient-to-b from-gray-700 to-mainBlue text-h1">78.6%</div>
             </div>
             {/* 여자 */}
-            <div className="px-6 pt-6 pb-8 bg-gradient-to-b from-white to-gray-100 rounded-lg">
+            <div className="px-6 pt-6 pb-8 rounded-lg bg-gradient-to-b from-white to-gray-100">
               <div className="mb-8 text-gray-700 text-h4">여자</div>
               <div className="flex justify-end">
                 <div className="text-bodySm">50명 중</div>
@@ -206,35 +206,62 @@ const StaffPage: React.FC = () => {
       </div>
 
       {/* 통계 2행 */}
-      <div className="grid grid-cols-[370px_310px_360px] gap-4 mt-8 h-[310px]">
+      <div className="grid grid-cols-[370px_972px] gap-4 mt-8 h-[310px]">
         {/* 기업 지역 분포 */}
         <div className="p-6 bg-gray-600 rounded-xl">
-          <div className="flex justify-between items-center mb-4">
+          <div className="flex items-center justify-between mb-4">
             <div className="text-white text-h3">기업 지역 분포</div>
             <div className="text-white text-bodySm">자세히 보기 ﹥</div>
           </div>
           <div className="mb-6 text-white text-bodyMd">전체 학생들의 합격 기업의 지역 분포예요.</div>
-          <div className="flex justify-between items-center px-5 py-3 mb-3 bg-gradient-to-r from-gray-50 to-blue-50 rounded-lg">
-            <div className="flex gap-2 items-center">
+          <div className="flex items-center justify-between px-5 py-3 mb-3 rounded-lg bg-gradient-to-r from-gray-50 to-blue-50">
+            <div className="flex items-center gap-2">
               <img src="/staff/ic_gold_medal.svg"></img>
               <div className="text-[16px] text-gray-700 font-medium">서울특별시</div>
             </div>
             <div className="text-gray-700 text-bodySm">41.2%</div>
           </div>
-          <div className="flex justify-between items-center px-5 py-3 mb-3 bg-gradient-to-r from-gray-50 to-blue-50 rounded-lg">
-            <div className="flex gap-2 items-center">
+          <div className="flex items-center justify-between px-5 py-3 mb-3 rounded-lg bg-gradient-to-r from-gray-50 to-blue-50">
+            <div className="flex items-center gap-2">
               <img src="/staff/ic_silver_medal.svg"></img>
               <div className="text-[16px] text-gray-700 font-medium">경기도 성남시</div>
             </div>
             <div className="text-gray-700 text-bodySm">12.1%</div>
           </div>
-          <div className="flex justify-between items-center px-5 py-3 bg-gradient-to-r from-gray-50 to-blue-50 rounded-lg">
-            <div className="flex gap-2 items-center">
+          <div className="flex items-center justify-between px-5 py-3 rounded-lg bg-gradient-to-r from-gray-50 to-blue-50">
+            <div className="flex items-center gap-2">
               <img src="/staff/ic_bronze_medal.svg"></img>
               <div className="text-[16px] text-gray-700 font-medium">부산광역시</div>
             </div>
             <div className="text-gray-700 text-bodySm">10.9%</div>
           </div>
+        </div>
+
+        {/* 선호하는 취업 조건 */}
+        <div className="p-6 bg-gray-600 rounded-xl">
+          <div className="flex items-center justify-between mb-4">
+            <div className="text-white text-h3">선호하는 취업 조건</div>
+          </div>
+        </div>
+      </div>
+
+      {/* 학생 비교 파트 */}
+      <div className="px-20 py-5 mt-20 bg-gray-100 rounded-xl">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            <img src="/staff/ic_arrow.svg"></img>
+            <div className="ml-8 text-gray-700 text-h2">
+              <div>전국 정보컴퓨터공학 계열 학생과 비교했을 때, </div>
+              <div className="flex item-center">
+                <div>부산대학교 정보컴퓨터공학과 학생들은</div>
+                <div className="ml-2 font-bold">‘대외활동'</div>
+                <div className="ml-2">스펙이</div>
+                <div className="ml-2 text-rose-400">1.43회 부족</div>
+                <div>합니다.</div>
+              </div>
+            </div>
+          </div>
+          <img src="/staff/ic_chart.svg"></img>
         </div>
       </div>
 
