@@ -8,7 +8,7 @@ interface CustomCheckboxProps {
 
 export default function CustomCheckbox({ checked, onChange, className = '' }: CustomCheckboxProps) {
   return (
-    <label className={`inline-flex cursor-pointer items-center ${className}`}>
+    <label className={`inline-flex cursor-pointer items-center p-3 ${className}`}>
       <input type="checkbox" checked={checked} onChange={onChange} className="peer sr-only" />
       <span
         className={

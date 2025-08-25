@@ -228,8 +228,12 @@ const HomePage = () => {
     <div className="w-full">
       <div className="mx-auto w-[1528px]">
         {/* 배너 */}
-        <div className="mb-12 mt-8 flex justify-center rounded-xl border border-gray-300 bg-blue-50 p-12 font-['Paperlogy'] font-['Pretendard'] text-[48px] font-semibold leading-[34px] text-gray-800">
-          부산교통공사 채용관 (배너)
+        <div className="mb-12 mt-10 flex justify-center">
+          <img 
+            src="/mainBanner.png" 
+            alt="부산교통공사 채용관" 
+            className="rounded-xl"
+          />
         </div>
 
         {/* 환영 메세지 */}
