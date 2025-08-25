@@ -75,89 +75,98 @@ const HomePage = () => {
   );
 
   return (
-    <div className="mx-auto w-[1528px]">
+    <div className="w-full">
+      <div className="mx-auto w-[1528px]">
 
-      {/* 배너 */}
-      <div className="mb-12 mt-8 text-[48px] font-['Paperlogy'] font-semibold text-gray-800 leading-[34px] font-['Pretendard'] border border-gray-300 bg-heartOfIce justify-center flex p-12 rounded-xl">
-        부산교통공사 채용관 (배너)
-      </div>
+        {/* 배너 */}
+        <div className="mb-12 mt-8 text-[48px] font-['Paperlogy'] font-semibold text-gray-800 leading-[34px] font-['Pretendard'] border border-gray-300 bg-heartOfIce justify-center flex p-12 rounded-xl">
+          부산교통공사 채용관 (배너)
+        </div>
 
-      {/* 환영 메세지 */}
-      <div className="text-h2">{userName} 님, 환영합니다! 🤗</div>
+        {/* 환영 메세지 */}
+        <div className="text-h2">{userName} 님, 환영합니다! 🤗</div>
 
-      {/* 맞춤 피드 */}
-      <div className="grid grid-cols-[400px_700px_400px] gap-4 mt-6">
-        
-        {/* 다가오는 취업 일정 */}
-        <div className="p-6 bg-gray-50 rounded-xl">
-          <div className="flex justify-between items-center mb-4 text-gray-700">
-            <div className="flex gap-3 items-center">
-              <img src="/ic_calendar.svg"></img>
-              <div className="text-h3">다가오는 취업 일정</div>
+        {/* 맞춤 피드 */}
+        <div className="grid grid-cols-[400px_700px_400px] gap-4 mt-6">
+          
+          {/* 다가오는 취업 일정 */}
+          <div className="p-6 bg-gray-50 rounded-xl">
+            <div className="flex justify-between items-center mb-4 text-gray-700">
+              <div className="flex gap-3 items-center">
+                <img src="/ic_calendar.svg"></img>
+                <div className="text-h3">다가오는 취업 일정</div>
+              </div>
+              <Link to="/employment/calendar" className="transition-colors text-bodySm hover:text-mainBlue">캘린더 보기 ﹥</Link>
             </div>
-            <Link to="/employment/calendar" className="transition-colors text-bodySm hover:text-mainBlue">캘린더 보기 ﹥</Link>
+            
+            {/* 일정 목록 */}
+            <div className="relative">
+              {upcomingSchedules.length > 0 ? (
+                upcomingSchedules.map((schedule, index) => (
+                  <div key={index} className="">                  
+                    {/* 일정 내용 */}
+                    <div className="p-3 ml-4">
+                      <div className="flex gap-5 items-center">
+                        {/* 동그라미 */}
+                        <div className="relative z-10 w-2 h-2 rounded-full bg-mainBlue"></div>
+                        {/* 세로 선 */}
+                        <div className="absolute left-[31px] top-7 h-[205px] border-[1px] border-dashed border-gray-400"></div>
+                        {/* 날짜 */}
+                        <div className="text-[16px] font-semibold leading-[24px]">{new Date(schedule.start_date).toLocaleDateString('ko-KR', {
+                          month: 'long',
+                          day: 'numeric',
+                          weekday: 'long'
+                        })}</div>
+                      </div>
+                      <div className="ml-7 text-bodyMd">{schedule.company_name} {ScheduleLabelMap[schedule.schedule_type]}</div>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="py-8 text-center text-gray-500">
+                  <div className="text-sm">다가오는 일정이 없습니다</div>
+                </div>
+              )}
+            </div>
           </div>
           
-          {/* 일정 목록 */}
-          <div className="relative">
-            {upcomingSchedules.length > 0 ? (
-              upcomingSchedules.map((schedule, index) => (
-                <div key={index} className="">                  
-                  {/* 일정 내용 */}
-                  <div className="p-3 ml-4">
-                    <div className="flex gap-5 items-center">
-                      {/* 동그라미 */}
-                      <div className="relative z-10 w-2 h-2 rounded-full bg-mainBlue"></div>
-                      {/* 세로 선 */}
-                      <div className="absolute left-[31px] top-7 h-[205px] border-[1px] border-dashed border-gray-400"></div>
-                      {/* 날짜 */}
-                      <div className="text-[16px] font-semibold leading-[24px]">{new Date(schedule.start_date).toLocaleDateString('ko-KR', {
-                        month: 'long',
-                        day: 'numeric',
-                        weekday: 'long'
-                      })}</div>
-                    </div>
-                    <div className="ml-7 text-bodyMd">{schedule.company_name} {ScheduleLabelMap[schedule.schedule_type]}</div>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div className="py-8 text-center text-gray-500">
-                <div className="text-sm">다가오는 일정이 없습니다</div>
-              </div>
-            )}
+          {/* 닮은 지원자 top 3 */}
+          <div className="px-6 pt-6 text-gray-700 rounded-xl bg-subLightBlue">
+            <div className="flex gap-3 items-center mb-2">
+              <img src="/ic_person.svg"></img>
+              <div className="text-h3">{userName} 님과 닮은 지원자 TOP3</div>
+            </div>
+            <div className="mb-6 ml-9 text-bodyMd">잡메이트가 분석한 김잡메 님과 닮은 지원자를 확인하시고 취업 준비에 매진해보세요!</div>
+            <div className="flex gap-4 justify-center">
+              {renderSimilarUserCard(96, "토스", "프론트엔드", "final_accepted", 8, 2, "부산대학교", "컴퓨터공학과", "4.2/4.5", 95)}
+              {renderSimilarUserCard(89, "네이버", "프론트엔드", "final_accepted", 5, 3, "부산대학교", "컴퓨터공학과", "4.0/4.5", 87)}
+              {renderSimilarUserCard(62, "카카오", "프론트엔드", "final_accepted", 6, 1, "부산대학교", "컴퓨터공학과", "4.1/4.5", 91)}
+            </div>
           </div>
-        </div>
-        
-        {/* 닮은 지원자 top 3 */}
-        <div className="p-6 text-gray-700 rounded-xl bg-subLightBlue">
-          <div className="flex gap-3 items-center mb-2">
-            <img src="/ic_person.svg"></img>
-            <div className="text-h3">{userName} 님과 닮은 지원자 TOP3</div>
-          </div>
-          <div className="mb-6 ml-9 text-bodyMd">잡메이트가 분석한 김잡메 님과 닮은 지원자를 확인하시고 취업 준비에 매진해보세요!</div>
-          <div className="flex gap-4 justify-center">
-            {renderSimilarUserCard(96, "토스", "프론트엔드", "final_accepted", 8, 2, "부산대학교", "컴퓨터공학과", "4.2/4.5", 95)}
-            {renderSimilarUserCard(89, "네이버", "프론트엔드", "final_accepted", 5, 3, "부산대학교", "컴퓨터공학과", "4.0/4.5", 87)}
-            {renderSimilarUserCard(62, "카카오", "프론트엔드", "final_accepted", 6, 1, "부산대학교", "컴퓨터공학과", "4.1/4.5", 91)}
-          </div>
-        </div>
 
-        {/* 미션 */}
-        <div className="px-8 py-12 bg-gradient-to-b to-blue-300 rounded-xl from-mainBlue">
-          <div className="flex justify-between">
-            <div className="font-['Paperlogy'] text-[16px] text-white font-light">오늘의 미션</div>
-            <Link 
-              to="/mission?start=true" 
-              className="bg-white rounded-full text-[14px] font-semibold py-1 px-2 hover:bg-gray-100 transition-colors cursor-pointer"
-            >
-              지금 시작하기 →
-            </Link>
+          {/* 미션 */}
+          <div className="px-8 py-12 bg-gradient-to-b to-blue-300 rounded-xl from-mainBlue">
+            <div className="flex justify-between">
+              <div className="font-['Paperlogy'] text-[16px] text-white font-light">오늘의 미션</div>
+              <Link 
+                to="/mission?start=true" 
+                className="bg-white rounded-full text-[14px] font-semibold py-1 px-2 hover:bg-gray-100 transition-colors cursor-pointer"
+              >
+                지금 시작하기 →
+              </Link>
+            </div>
+            <img src="/ic_mission_home.svg" className="mt-10" />
+            <div className="font-['Paperlogy'] text-[32px] text-white font-semibold mt-3">면접 답변 작성하기</div>
+            <div className="mt-2 text-white text-bodyMd">면접 합격률을 한 단계 UP!</div>
+            <div className="text-white text-bodyMd">잡메이트가 준비한 면접 문항으로 심층 면접에 대비해보세요!</div>
           </div>
-          <img src="/ic_mission_home.svg" className="mt-10" />
-          <div className="font-['Paperlogy'] text-[32px] text-white font-semibold mt-8">면접 답변 작성하기</div>
-          <div className="mt-2 text-white text-bodyMd">면접 합격률을 한 단계 UP!</div>
-          <div className="text-white text-bodyMd">잡메이트가 준비한 면접 문항으로 심층 면접에 대비해보세요!</div>
+        </div>
+      </div>
+
+      {/* 전체 너비 섹션 */}
+      <div className="py-12 mt-20 w-full bg-gray-50">
+        <div className="mx-auto w-[1528px]">
+          
         </div>
       </div>
 

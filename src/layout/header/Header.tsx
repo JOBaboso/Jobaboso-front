@@ -56,7 +56,14 @@ const Header = ({ onToggleSidebar }: HeaderProps) => {
             <Bars3Icon className="w-6 h-6 text-gray-700" />
           </button>
 
-          <Link to="/" className="ml-[30px] flex items-center">
+          <Link 
+            to={
+              userType === 'company' ? '/company/contents' : 
+              userType === 'university_staff' ? '/staff' : 
+              userType === 'personal' ? '/home' : '/'
+            } 
+            className="ml-[30px] flex items-center"
+          >
             <img src="/jobmate.svg" alt="JobMate" className="h-[42px] w-[145px]" />
           </Link>
 
