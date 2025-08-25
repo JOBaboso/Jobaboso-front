@@ -1,73 +1,40 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import Button from '../components/common/Button';
 
 const LandingPage = () => {
   const navigate = useNavigate();
-  const [currentImage, setCurrentImage] = useState(0);
-  
-  const thumbnails = [
-    '/thumbnail/v1.png',
-    '/thumbnail/v2.png', 
-    '/thumbnail/v3.png'
-  ];
-
-  useEffect(() => {
-    const userType = localStorage.getItem('user_type');
-    if (userType === 'personal') {
-      navigate('/home');
-    }
-  }, [navigate]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImage((prev) => (prev + 1) % thumbnails.length);
-    }, 3000); // 3초마다 변경
-
-    return () => clearInterval(interval);
-  }, [thumbnails.length]);
 
   return (
-    <div className="relative min-h-screen overflow-hidden">
-      {/* 배경 이미지 슬라이드 */}
-      {thumbnails.map((thumbnail, index) => (
-        <div
-          key={index}
-          className={`absolute inset-0 transition-opacity duration-1000 ${
-            index === currentImage ? 'opacity-100' : 'opacity-0'
-          }`}
-          style={{
-            backgroundImage: `url(${thumbnail})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat'
-          }}
-        />
-      ))}
-      
-      {/* 오버레이 */}
-      <div className="absolute inset-0 bg-black/30" />
-      
-      {/* 콘텐츠 */}
-      <div className="relative z-10 flex min-h-screen items-center justify-center p-8">
-        <div className="text-center">
-          <h2 className="mb-8 text-6xl font-bold text-white drop-shadow-lg">잡아보소</h2>
-          <p className="text-xl text-white drop-shadow-md">당신의 취업을 도와드립니다</p>
-          
-          {/* 인디케이터 */}
-          <div className="mt-12 flex justify-center space-x-3">
-            {thumbnails.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentImage(index)}
-                className={`h-4 w-4 rounded-full transition-all ${
-                  index === currentImage 
-                    ? 'bg-white' 
-                    : 'bg-white/50 hover:bg-white/70'
-                }`}
-              />
-            ))}
-          </div>
-        </div>
+    <div
+      className="relative flex min-h-screen items-center justify-center"
+      style={{
+        background:
+          'linear-gradient(0deg, #FFFFFF -17.62%, #8BBCFD 40.52%, #519BFB 69.59%, #1779FA 98.67%)',
+      }}
+    >
+      <img
+        src="/thumbnail/thumbnail.png"
+        alt="Thumbnail"
+        className="h-full max-h-screen w-auto object-cover object-top"
+      />
+
+      {/* 버튼들 */}
+      <div className="absolute left-80 top-[620px] flex gap-4">
+        <Button
+          onClick={() => navigate('/auth/signin')}
+          variant="secondary"
+          className="w-24 bg-white bg-opacity-90 text-blue-600 hover:bg-opacity-100"
+        >
+          로그인
+        </Button>
+        <Button
+          onClick={() => navigate('/auth/signup/type')}
+          variant="primary"
+          className="w-24 bg-blue-600 text-white hover:bg-blue-700"
+        >
+          회원가입
+        </Button>
       </div>
     </div>
   );

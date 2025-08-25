@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 
 import MainLayout from '@layout/MainLayout';
+import LandingLayout from '@layout/LandingLayout';
 import StaffLayout from '@layout/StaffLayout';
 import AuthLayout from '@layout/AuthLayout';
 import MyLayout from '@layout/MyLayout';
@@ -42,11 +43,20 @@ import LandingPage from '@pages/LandingPage';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <MainLayout />,
     children: [
-      { index: true, element: <LandingPage /> },
-      { path: 'home', element: <HomePage /> },
-      { path: 'staff/department', element: <StaffPage /> },
+      {
+        element: <MainLayout />,
+        children: [
+          { path: 'home', element: <HomePage /> },
+          { path: 'staff/department', element: <StaffPage /> },
+        ],
+      },
+      {
+        element: <LandingLayout />,
+        children: [
+          { index: true, element: <LandingPage /> },
+        ],
+      },
     ],
   },
   {
