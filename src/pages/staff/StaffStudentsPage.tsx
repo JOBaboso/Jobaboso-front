@@ -22,6 +22,7 @@ const StaffStudentsPage: React.FC = () => {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [openSortDropdown, setOpenSortDropdown] = useState(false);
   const [activeFilters, setActiveFilters] = useState<{ columnName: string; value: string }[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -116,10 +117,10 @@ const StaffStudentsPage: React.FC = () => {
         y: rect.top + rect.height / 2,
       };
     }
-    // 기본값으로 화면 오른쪽 중앙 위치 반환
+    // 기본값으로 화면 오른쪽 하단 위치 반환
     return {
       x: window.innerWidth - 200,
-      y: window.innerHeight / 2,
+      y: window.innerHeight - 100,
     };
   };
 
@@ -215,6 +216,21 @@ const StaffStudentsPage: React.FC = () => {
     });
   };
 
+  // AI 쿼리 변경 시 로딩 처리
+  useEffect(() => {
+    if (aiQuery) {
+      setIsLoading(true);
+      // 2초 후 로딩 완료
+      const timer = setTimeout(() => {
+        setIsLoading(false);
+      }, 2000);
+      
+      return () => clearTimeout(timer);
+    } else {
+      setIsLoading(false);
+    }
+  }, [aiQuery]);
+
   // 필터 적용 및 정렬 useEffect
   useEffect(() => {
     let filtered = students;
@@ -259,11 +275,11 @@ const StaffStudentsPage: React.FC = () => {
         className="fixed right-48 z-50 flex h-[90px] w-[90px] items-center justify-center rounded-[46px] border border-gray-300 bg-white p-6 shadow-[0px_0px_24px_rgba(0,0,0,0.12)] transition-all duration-300 ease-out hover:shadow-[0px_0px_32px_rgba(0,0,0,0.16)]"
         style={{
           boxSizing: 'border-box',
-          top: `calc(50% + ${scrollY * 0.1}px)`,
-          transform: 'translateY(-50%)',
+          bottom: `calc(6rem + ${scrollY * 0.05}px)`,
+          transform: 'none',
         }}
       >
-        <img src="/staff/ai.svg" alt="AI 호출" className="h-11 w-11" />
+        <img src="/staff/ai.svg" alt="AI 호출" className="w-11 h-11" />
       </button>
 
       {/* AI 모달 */}
@@ -273,24 +289,24 @@ const StaffStudentsPage: React.FC = () => {
         buttonPosition={getButtonPosition()}
       />
 
-      <h2 className="text-bodyLg text-gray-700">
+      <h2 className="text-gray-700 text-bodyLg">
         우리 학과 학생 개개인의 스펙을 확인할 수 있어요.
       </h2>
 
       <div>
-        <div className="mb-4 flex items-center justify-end">
-          <div className="sort-dropdown relative">
+        <div className="flex justify-end items-center mb-4">
+          <div className="relative sort-dropdown">
             <button
               onClick={() => setOpenSortDropdown(!openSortDropdown)}
-              className="flex flex-row items-center gap-1 rounded-lg border border-gray-400 bg-white px-3 py-2 transition-colors hover:bg-gray-50"
+              className="flex flex-row gap-1 items-center px-3 py-2 bg-white rounded-lg border border-gray-400 transition-colors hover:bg-gray-50"
             >
               <span className="text-base font-normal leading-6 text-gray-500">
                 {getSortLabel()}
               </span>
-              <ChevronDownIcon className="h-6 w-6 text-gray-500" />
+              <ChevronDownIcon className="w-6 h-6 text-gray-500" />
             </button>
             {openSortDropdown && (
-              <div className="absolute right-0 top-full z-20 mt-1 w-48 rounded-md border border-gray-200 bg-white shadow-lg">
+              <div className="absolute right-0 top-full z-20 mt-1 w-48 bg-white rounded-md border border-gray-200 shadow-lg">
                 <div className="py-1">
                   <button
                     onClick={() => handleSortSelect('high')}
@@ -324,10 +340,10 @@ const StaffStudentsPage: React.FC = () => {
 
         {/* 활성 필터 및 AI 쿼리 태그 영역 */}
         {(activeFilters.length > 0 || aiQuery) && (
-          <div className="mb-4 flex flex-wrap items-center gap-2 rounded-md border border-gray-200 p-3">
+          <div className="flex flex-wrap gap-2 items-center p-3 mb-4 rounded-md border border-gray-200">
             {/* AI 쿼리 태그 */}
             {aiQuery && (
-              <span className="flex items-center gap-1 rounded-full bg-subLightBlue px-4 py-1 text-bodyLg text-blue-700">
+              <span className="flex gap-1 items-center px-4 py-1 text-blue-700 rounded-full bg-subLightBlue text-bodyLg">
                 AI 검색: {aiQuery}
                 <button
                   type="button"
@@ -342,7 +358,7 @@ const StaffStudentsPage: React.FC = () => {
             {activeFilters.map((filter, index) => (
               <span
                 key={index}
-                className="flex items-center gap-1 rounded-full bg-subLightBlue px-4 py-1 text-bodyLg text-gray-700"
+                className="flex gap-1 items-center px-4 py-1 text-gray-700 rounded-full bg-subLightBlue text-bodyLg"
               >
                 {getFilterDisplayName(filter.columnName)}: {filter.value}
                 <button
@@ -358,25 +374,33 @@ const StaffStudentsPage: React.FC = () => {
         )}
 
         <div className="mb-96">
-          <table className="w-full">
-            <thead>
-              <tr className="h-12 border-y border-gray-300 bg-gray-100">
+          {isLoading ? (
+            <div className="flex justify-center items-center py-20">
+              <div className="flex flex-col items-center space-y-4">
+                <img src="/staff/ic_loading.svg" alt="로딩" className="w-12 h-12 animate-spin" />
+                <p className="text-gray-600">AI가 검색 결과를 분석하고 있어요...</p>
+              </div>
+            </div>
+          ) : (
+            <table className="w-full">
+              <thead>
+                <tr className="h-12 bg-gray-100 border-gray-300 border-y">
                 <th className="relative px-4 py-3 text-left">
                   <button
                     onClick={() => toggleDropdown('gender')}
-                    className="flex h-6 items-center gap-1 hover:text-gray-700"
+                    className="flex gap-1 items-center h-6 hover:text-gray-700"
                   >
                     <span className="text-base font-normal leading-6 text-gray-500">성별</span>
-                    <ChevronDownIcon className="h-5 w-5 text-gray-500" />
+                    <ChevronDownIcon className="w-5 h-5 text-gray-500" />
                   </button>
                   {openDropdown === 'gender' && (
-                    <div className="absolute left-0 top-full z-20 mt-1 w-32 rounded-md border border-gray-200 bg-white shadow-lg">
+                    <div className="absolute left-0 top-full z-20 mt-1 w-32 bg-white rounded-md border border-gray-200 shadow-lg">
                       <div className="py-1">
                         {dropdownOptions.gender.map((option) => (
                           <button
                             key={option}
                             onClick={() => handleFilterSelect('gender', option)}
-                            className="block w-full px-4 py-2 text-left text-bodyLg text-gray-600 hover:bg-gray-100"
+                            className="block px-4 py-2 w-full text-left text-gray-600 text-bodyLg hover:bg-gray-100"
                           >
                             {option}
                           </button>
@@ -388,19 +412,19 @@ const StaffStudentsPage: React.FC = () => {
                 <th className="relative px-4 py-3 text-left">
                   <button
                     onClick={() => toggleDropdown('gpa')}
-                    className="flex h-6 items-center gap-1 hover:text-gray-700"
+                    className="flex gap-1 items-center h-6 hover:text-gray-700"
                   >
                     <span className="text-base font-normal leading-6 text-gray-500">학점</span>
-                    <ChevronDownIcon className="h-5 w-5 text-gray-500" />
+                    <ChevronDownIcon className="w-5 h-5 text-gray-500" />
                   </button>
                   {openDropdown === 'gpa' && (
-                    <div className="absolute left-0 top-full z-20 mt-1 w-32 rounded-md border border-gray-200 bg-white shadow-lg">
+                    <div className="absolute left-0 top-full z-20 mt-1 w-32 bg-white rounded-md border border-gray-200 shadow-lg">
                       <div className="py-1">
                         {dropdownOptions.gpa.map((option) => (
                           <button
                             key={option}
                             onClick={() => handleFilterSelect('gpa', option)}
-                            className="block w-full px-4 py-2 text-left text-bodyLg text-gray-600 hover:bg-gray-100"
+                            className="block px-4 py-2 w-full text-left text-gray-600 text-bodyLg hover:bg-gray-100"
                           >
                             {option}
                           </button>
@@ -412,21 +436,21 @@ const StaffStudentsPage: React.FC = () => {
                 <th className="relative px-4 py-3 text-left">
                   <button
                     onClick={() => toggleDropdown('acceptanceRate')}
-                    className="flex h-6 items-center gap-1 hover:text-gray-700"
+                    className="flex gap-1 items-center h-6 hover:text-gray-700"
                   >
                     <span className="text-base font-normal leading-6 text-gray-500">
                       최종합격률
                     </span>
-                    <ChevronDownIcon className="h-5 w-5 text-gray-500" />
+                    <ChevronDownIcon className="w-5 h-5 text-gray-500" />
                   </button>
                   {openDropdown === 'acceptanceRate' && (
-                    <div className="absolute left-0 top-full z-20 mt-1 w-32 rounded-md border border-gray-200 bg-white shadow-lg">
+                    <div className="absolute left-0 top-full z-20 mt-1 w-32 bg-white rounded-md border border-gray-200 shadow-lg">
                       <div className="py-1">
                         {dropdownOptions.acceptanceRate.map((option) => (
                           <button
                             key={option}
                             onClick={() => handleFilterSelect('acceptanceRate', option)}
-                            className="block w-full px-4 py-2 text-left text-bodyLg text-gray-600 hover:bg-gray-100"
+                            className="block px-4 py-2 w-full text-left text-gray-600 text-bodyLg hover:bg-gray-100"
                           >
                             {option}
                           </button>
@@ -438,19 +462,19 @@ const StaffStudentsPage: React.FC = () => {
                 <th className="relative px-4 py-3 text-left">
                   <button
                     onClick={() => toggleDropdown('status')}
-                    className="flex h-6 items-center gap-1 hover:text-gray-700"
+                    className="flex gap-1 items-center h-6 hover:text-gray-700"
                   >
                     <span className="text-base font-normal leading-6 text-gray-500">상태</span>
-                    <ChevronDownIcon className="h-5 w-5 text-gray-500" />
+                    <ChevronDownIcon className="w-5 h-5 text-gray-500" />
                   </button>
                   {openDropdown === 'status' && (
-                    <div className="absolute left-0 top-full z-20 mt-1 w-40 rounded-md border border-gray-200 bg-white shadow-lg">
+                    <div className="absolute left-0 top-full z-20 mt-1 w-40 bg-white rounded-md border border-gray-200 shadow-lg">
                       <div className="py-1">
                         {dropdownOptions.status.map((option) => (
                           <button
                             key={option}
                             onClick={() => handleFilterSelect('status', option)}
-                            className="block w-full px-4 py-2 text-left text-bodyLg text-gray-600 hover:bg-gray-100"
+                            className="block px-4 py-2 w-full text-left text-gray-600 text-bodyLg hover:bg-gray-100"
                           >
                             {option}
                           </button>
@@ -460,7 +484,7 @@ const StaffStudentsPage: React.FC = () => {
                   )}
                 </th>
                 <th className="px-4 py-3 text-center">
-                  <div className="w-15 mx-auto flex h-6 items-center justify-center gap-1">
+                  <div className="flex gap-1 justify-center items-center mx-auto h-6 w-15">
                     <span className="text-base font-normal leading-6 text-gray-500">세부 스펙</span>
                   </div>
                 </th>
@@ -469,34 +493,34 @@ const StaffStudentsPage: React.FC = () => {
             <tbody>
               {(aiQuery ? filteredStudents.slice(0, 3) : filteredStudents).map((student) => (
                 <tr key={student.id} className="border-b border-gray-100 hover:bg-gray-50">
-                  <td className="px-4 py-4 text-bodyLg text-gray-600">{student.gender}</td>
-                  <td className="px-4 py-4 text-bodyLg text-gray-600">{student.gpa}</td>
-                  <td className="px-4 py-4 text-bodyLg text-gray-600">
+                  <td className="px-4 py-4 text-gray-600 text-bodyLg">{student.gender}</td>
+                  <td className="px-4 py-4 text-gray-600 text-bodyLg">{student.gpa}</td>
+                  <td className="px-4 py-4 text-gray-600 text-bodyLg">
                     {student.acceptanceRate}% ({student.acceptedApplications}개 중{' '}
                     {student.totalApplications}개)
                   </td>
-                  <td className="px-4 py-4 text-bodyLg text-gray-600">{student.status}</td>
+                  <td className="px-4 py-4 text-gray-600 text-bodyLg">{student.status}</td>
                   <td className="px-4 py-4 text-center">
-                    <div className="relative flex justify-center">
+                    <div className="flex relative justify-center">
                       <button
                         onClick={() => toggleMenu(student.id)}
-                        className="rounded-full p-1 transition-colors hover:bg-gray-100"
+                        className="p-1 rounded-full transition-colors hover:bg-gray-100"
                       >
-                        <EllipsisVerticalIcon className="h-5 w-5 text-gray-500" />
+                        <EllipsisVerticalIcon className="w-5 h-5 text-gray-500" />
                       </button>
 
                       {openMenuId === student.id && (
-                        <div className="absolute right-0 z-10 mt-2 w-48 rounded-md border border-gray-200 bg-white shadow-lg">
+                        <div className="absolute right-0 z-10 mt-2 w-48 bg-white rounded-md border border-gray-200 shadow-lg">
                           <div className="py-1">
                             <button
                               onClick={() => handleCheckDetailedSpec(student)}
-                              className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
+                              className="block px-4 py-2 w-full text-sm text-left text-gray-700 hover:bg-gray-100"
                             >
                               세부 스펙 확인하기
                             </button>
                             <button
                               onClick={() => handleCheckApplicationStatus(student)}
-                              className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
+                              className="block px-4 py-2 w-full text-sm text-left text-gray-700 hover:bg-gray-100"
                             >
                               전체 지원 현황 확인하기
                             </button>
@@ -509,6 +533,7 @@ const StaffStudentsPage: React.FC = () => {
               ))}
             </tbody>
           </table>
+          )}
         </div>
       </div>
     </div>
