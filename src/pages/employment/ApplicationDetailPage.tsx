@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
   getApplication,
   ApplicationDetail,
@@ -32,6 +32,7 @@ interface ScheduleItem {
 
 const ApplicationDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const [application, setApplication] = useState<ApplicationDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -362,12 +363,8 @@ const ApplicationDetailPage: React.FC = () => {
       // 성공 메시지 표시 (실제로는 토스트나 알림 컴포넌트 사용 권장)
       alert('지원 정보가 성공적으로 수정되었습니다.');
 
-      // 업데이트된 데이터로 상태 갱신 (documents와 schedules는 유지)
-      setApplication({
-        ...updatedApplication,
-        documents: application.documents,
-        schedules: application.schedules,
-      });
+      // 전체 지원 현황 페이지로 리다이렉트
+      navigate('/employment/status');
     } catch (err) {
       console.error('Error updating application:', err);
       alert('지원 정보 수정에 실패했습니다. 다시 시도해주세요.');
@@ -378,7 +375,7 @@ const ApplicationDetailPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
+      <div className="flex justify-center items-center min-h-screen">
         <div className="text-lg">로딩 중...</div>
       </div>
     );
@@ -386,7 +383,7 @@ const ApplicationDetailPage: React.FC = () => {
 
   if (error || !application) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
+      <div className="flex justify-center items-center min-h-screen">
         <div className="text-lg text-red-600">{error || '지원서를 찾을 수 없습니다.'}</div>
       </div>
     );
@@ -398,7 +395,7 @@ const ApplicationDetailPage: React.FC = () => {
       <div className="mb-6 rounded-[16px] border border-gray-300 bg-white p-8">
         <div className="mb-6">
           <h2 className="mb-2 text-xl font-semibold text-mainBlue">
-            <div className="flex items-center gap-3">
+            <div className="flex gap-3 items-center">
               <div className="flex h-[34px] w-[34px] items-center justify-center rounded-[45px] border border-gray-300 bg-white">
                 {(() => {
                   const company = companies.find((c) => c.name === companyName);
@@ -409,7 +406,7 @@ const ApplicationDetailPage: React.FC = () => {
                       <img
                         src={logoPath}
                         alt={`${companyName} 로고`}
-                        className="h-6 w-6 object-contain"
+                        className="object-contain w-6 h-6"
                         onError={(e) => {
                           // 이미지 로드 실패 시 기본 회사 아이콘 표시
                           e.currentTarget.style.display = 'none';
@@ -428,11 +425,11 @@ const ApplicationDetailPage: React.FC = () => {
         </div>
 
         {/* 제목 아래 구분선 */}
-        <div className="mb-8 h-px w-full bg-gray-200"></div>
+        <div className="mb-8 w-full h-px bg-gray-200"></div>
 
         <div className="space-y-10">
           <div>
-            <label className="mb-3 block text-h4 font-semibold text-gray-600">지원 일시</label>
+            <label className="block mb-3 font-semibold text-gray-600 text-h4">지원 일시</label>
             <input
               type="date"
               value={applicationDate}
@@ -444,7 +441,7 @@ const ApplicationDetailPage: React.FC = () => {
 
           {/* 지원부문 */}
           <div>
-            <label className="mb-3 block text-h4 font-semibold text-gray-600">지원부문</label>
+            <label className="block mb-3 font-semibold text-gray-600 text-h4">지원부문</label>
             <Dropdown
               options={positionOptions.map((pos) => ({ value: pos, label: pos }))}
               value={selectedPosition}
@@ -455,11 +452,11 @@ const ApplicationDetailPage: React.FC = () => {
 
           {/* 이력서 및 첨부 문서 */}
           <div>
-            <label className="mb-3 block text-h4 font-semibold text-gray-600">
+            <label className="block mb-3 font-semibold text-gray-600 text-h4">
               이력서 및 첨부 문서
             </label>
 
-            <div className="rounded-lg border-2 border-dashed border-gray-300 p-8 text-center transition-colors hover:border-mainBlue">
+            <div className="p-8 text-center rounded-lg border-2 border-gray-300 border-dashed transition-colors hover:border-mainBlue">
               <input
                 type="file"
                 accept=".pdf,.doc,.docx"
@@ -469,12 +466,12 @@ const ApplicationDetailPage: React.FC = () => {
                 multiple
               />
               <label htmlFor="resume-upload" className="cursor-pointer">
-                <div className="flex flex-col items-center justify-center">
-                  <p className="text-400 mb-4 text-bodyMd text-gray-600">
+                <div className="flex flex-col justify-center items-center">
+                  <p className="mb-4 text-gray-600 text-400 text-bodyMd">
                     첨부할 파일을 여기에 끌어다 놓거나, 파일 첨부 버튼을 클릭해주세요.
                   </p>
-                  <div className="flex items-center gap-2 rounded-lg border border-mainBlue bg-white px-6 py-2 text-mainBlue">
-                    <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="flex gap-2 items-center px-6 py-2 bg-white rounded-lg border border-mainBlue text-mainBlue">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -491,15 +488,15 @@ const ApplicationDetailPage: React.FC = () => {
             {/* 등록된 문서 표시 */}
             {documents.length > 0 && (
               <div className="mt-6 space-y-2">
-                <div className="mb-1 block text-bodyMd text-gray-600">등록된 문서</div>
+                <div className="block mb-1 text-gray-600 text-bodyMd">등록된 문서</div>
                 {documents.map((doc) => (
                   <div
                     key={doc.id}
-                    className="flex items-center justify-between rounded-lg bg-gray-50 p-3"
+                    className="flex justify-between items-center p-3 bg-gray-50 rounded-lg"
                   >
-                    <div className="flex items-center gap-3">
+                    <div className="flex gap-3 items-center">
                       <svg
-                        className="h-5 w-5 text-gray-400"
+                        className="w-5 h-5 text-gray-400"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -513,24 +510,24 @@ const ApplicationDetailPage: React.FC = () => {
                       </svg>
                       <button
                         onClick={() => handleDocumentDownload(doc.id, doc.original_name)}
-                        className="cursor-pointer text-sm text-gray-700 hover:text-blue-600 hover:underline"
+                        className="text-sm text-gray-700 cursor-pointer hover:text-blue-600 hover:underline"
                       >
                         {doc.original_name}
                       </button>
                     </div>
-                    <div className="mr-4 flex items-center gap-4">
+                    <div className="flex gap-4 items-center mr-4">
                       <button
                         onClick={() => handleDocumentDownload(doc.id, doc.original_name)}
-                        className="flex items-center gap-1 text-sm text-green-600 hover:text-green-800"
+                        className="flex gap-1 items-center text-sm text-green-600 hover:text-green-800"
                       >
-                        <ArrowDownTrayIcon className="h-4 w-4" />
+                        <ArrowDownTrayIcon className="w-4 h-4" />
                       </button>
                       <button
                         onClick={() => handleDocumentDelete(doc.id)}
                         disabled={deletingDocument === doc.id}
-                        className="flex items-center gap-1 text-sm text-red-600 hover:text-red-800"
+                        className="flex gap-1 items-center text-sm text-red-600 hover:text-red-800"
                       >
-                        <TrashIcon className="h-4 w-4" />
+                        <TrashIcon className="w-4 h-4" />
                       </button>
                     </div>
                   </div>
@@ -541,16 +538,16 @@ const ApplicationDetailPage: React.FC = () => {
             {/* 등록된 문서 리스트 */}
             {files.length > 0 && (
               <div className="mt-6">
-                <div className="mb-1 block text-bodyMd text-gray-600">등록된 문서</div>
+                <div className="block mb-1 text-gray-600 text-bodyMd">등록된 문서</div>
                 <div className="space-y-2">
                   {files.map((file, index) => (
                     <div
                       key={index}
-                      className="flex items-center justify-between rounded-lg bg-gray-50 p-3"
+                      className="flex justify-between items-center p-3 bg-gray-50 rounded-lg"
                     >
-                      <div className="flex items-center gap-3">
+                      <div className="flex gap-3 items-center">
                         <svg
-                          className="h-5 w-5 text-gray-400"
+                          className="w-5 h-5 text-gray-400"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -567,11 +564,11 @@ const ApplicationDetailPage: React.FC = () => {
                           {(file.size / 1024 / 1024).toFixed(2)} MB
                         </span>
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div className="flex gap-2 items-center">
                         <select
                           value={documentTypes[index] || 'resume'}
                           onChange={(e) => handleDocumentTypeChange(index, e.target.value)}
-                          className="rounded border border-gray-300 px-2 py-1 text-sm"
+                          className="px-2 py-1 text-sm rounded border border-gray-300"
                         >
                           <option value="resume">이력서</option>
                           <option value="cover_letter">자기소개서</option>
@@ -584,7 +581,7 @@ const ApplicationDetailPage: React.FC = () => {
                           className="text-red-500 hover:text-red-700"
                         >
                           <svg
-                            className="h-4 w-4"
+                            className="w-4 h-4"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -601,11 +598,11 @@ const ApplicationDetailPage: React.FC = () => {
                     </div>
                   ))}
                 </div>
-                <div className="mt-4 flex justify-end">
+                <div className="flex justify-end mt-4">
                   <button
                     onClick={handleDocumentUpload}
                     disabled={uploadingDocuments}
-                    className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-400"
+                    className="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-400"
                   >
                     {uploadingDocuments ? '업로드 중...' : '문서 업로드'}
                   </button>
@@ -616,11 +613,11 @@ const ApplicationDetailPage: React.FC = () => {
 
           {/* 취업 일정 입력 */}
           <div>
-            <label className="mb-3 block text-h4 font-semibold text-gray-600">취업 일정 입력</label>
+            <label className="block mb-3 font-semibold text-gray-600 text-h4">취업 일정 입력</label>
             <div className="space-y-4">
               <div className="grid grid-cols-5 gap-4">
                 <div>
-                  <div className="mb-1 block text-bodyMd text-gray-600">일정 유형</div>
+                  <div className="block mb-1 text-gray-600 text-bodyMd">일정 유형</div>
                   <Dropdown
                     options={Object.entries(ScheduleLabelMap).map(([key, label]) => ({
                       value: key,
@@ -632,7 +629,7 @@ const ApplicationDetailPage: React.FC = () => {
                   />
                 </div>
                 <div>
-                  <div className="mb-1 block text-bodyMd text-gray-600">시작일</div>
+                  <div className="block mb-1 text-gray-600 text-bodyMd">시작일</div>
                   <input
                     type="date"
                     value={startDate}
@@ -642,7 +639,7 @@ const ApplicationDetailPage: React.FC = () => {
                   />
                 </div>
                 <div>
-                  <div className="mb-1 block text-bodyMd text-gray-600">종료일</div>
+                  <div className="block mb-1 text-gray-600 text-bodyMd">종료일</div>
                   <input
                     type="date"
                     value={endDate}
@@ -653,7 +650,7 @@ const ApplicationDetailPage: React.FC = () => {
                   />
                 </div>
                 <div>
-                  <div className="mb-1 block text-bodyMd text-gray-600">메모</div>
+                  <div className="block mb-1 text-gray-600 text-bodyMd">메모</div>
                   <input
                     type="text"
                     value={scheduleNotes}
@@ -663,7 +660,7 @@ const ApplicationDetailPage: React.FC = () => {
                   />
                 </div>
                 <div>
-                  <div className="mb-1 block text-bodyMd text-gray-600">&nbsp;</div>
+                  <div className="block mb-1 text-gray-600 text-bodyMd">&nbsp;</div>
                   <button
                     onClick={addSchedule}
                     disabled={!startDate}
@@ -678,20 +675,20 @@ const ApplicationDetailPage: React.FC = () => {
             {/* 일정 리스트 */}
             {schedules.length > 0 && (
               <div className="mt-6">
-                <div className="mb-1 block text-bodyMd text-gray-600">등록된 일정</div>
+                <div className="block mb-1 text-gray-600 text-bodyMd">등록된 일정</div>
                 <div className="space-y-2">
                   {schedules.map((schedule) => (
                     <div
                       key={schedule.id}
-                      className="flex items-center justify-between rounded-lg bg-gray-50 p-3"
+                      className="flex justify-between items-center p-3 bg-gray-50 rounded-lg"
                     >
-                      <div className="flex items-center gap-3">
+                      <div className="flex gap-3 items-center">
                         <span
                           className={`rounded-full px-3 py-1 text-sm font-medium ${ScheduleStyleMap[schedule.type]}`}
                         >
                           {ScheduleLabelMap[schedule.type]}
                         </span>
-                        <div className="flex items-center gap-2">
+                        <div className="flex gap-2 items-center">
                           <span className="text-sm text-gray-600">
                             {schedule.start_date.split('T')[0]}
                             {schedule.end_date &&
@@ -712,7 +709,7 @@ const ApplicationDetailPage: React.FC = () => {
                         onClick={() => removeSchedule(schedule.id)}
                         className="mr-4 text-red-500 hover:text-red-700"
                       >
-                        <TrashIcon className="h-4 w-4" />
+                        <TrashIcon className="w-4 h-4" />
                       </button>
                     </div>
                   ))}
@@ -723,7 +720,7 @@ const ApplicationDetailPage: React.FC = () => {
 
           {/* 상태 */}
           <div>
-            <label className="mb-3 block text-h4 font-semibold text-gray-600">상태</label>
+            <label className="block mb-3 font-semibold text-gray-600 text-h4">상태</label>
             <Dropdown
               options={statusOptions.map((status) => ({
                 value: status,
@@ -740,7 +737,7 @@ const ApplicationDetailPage: React.FC = () => {
           <button
             onClick={handleSubmit}
             disabled={updating || !selectedPosition || !applicationDate}
-            className="mt-14 rounded-lg bg-mainBlue px-10 py-2 text-h4 text-white hover:bg-subDarkBlue disabled:cursor-not-allowed disabled:bg-gray-400"
+            className="px-10 py-2 mt-14 text-white rounded-lg bg-mainBlue text-h4 hover:bg-subDarkBlue disabled:cursor-not-allowed disabled:bg-gray-400"
           >
             {updating ? '수정 중...' : '지원하기'}
           </button>

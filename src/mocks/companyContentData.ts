@@ -19,7 +19,7 @@ AI, 클라우드, IoT 등 최신 기술을 적극 도입해 나가고 있습니�
     companyName: '부산다이나믹스',
     createdAt: '2025-06-12T09:00:00Z',
     updatedAt: '2025-06-12T09:00:00Z',
-    imageUrl: '/companyImage.png',
+    imageUrl: '/company_thumbnail/one.png',
     hashtags: ['#회사블로그', '#부산다이나믹스', '#첫걸음'],
     description: '부산다이나믹스의 공식 블로그 오픈 소식과 회사 비전을 소개합니다.',
     author: '부산다이나믹스',
@@ -41,7 +41,7 @@ AI, 클라우드, IoT 등 최신 기술을 적극 도입해 나가고 있습니�
     companyName: '부산다이나믹스',
     createdAt: '2025-06-10T11:00:00Z',
     updatedAt: '2025-06-10T11:00:00Z',
-    imageUrl: '/companyImage.png',
+    imageUrl: '/company_thumbnail/two.png',
     hashtags: ['#온보딩', '#신입개발자', '#성장'],
     description:
       '부산다이나믹스의 신입 개발자 온보딩 프로그램과 첫 한 달의 성장 과정을 소개합니다.',
@@ -65,7 +65,7 @@ Notion에 남긴 기록은 누구나 쉽게 참고할 수 있죠.
     companyName: '부산다이나믹스',
     createdAt: '2025-06-08T14:30:00Z',
     updatedAt: '2025-06-08T14:30:00Z',
-    imageUrl: '/companyImage.png',
+    imageUrl: '/company_thumbnail/three.png',
     hashtags: ['#원격근무', '#팀문화', '#협업'],
     description: '부산다이나믹스의 원격 근무 도입 과정과 팀 협업 방식의 변화를 다룹니다.',
     author: '부산다이나믹스',
@@ -88,7 +88,7 @@ Kubernetes와 Docker, ArgoCD를 활용하여
     companyName: '부산다이나믹스',
     createdAt: '2025-06-07T10:00:00Z',
     updatedAt: '2025-06-07T10:00:00Z',
-    imageUrl: '/companyImage.png',
+    imageUrl: '/company_thumbnail/four.png',
     hashtags: ['#클라우드', '#DevOps', '#CI/CD'],
     description: '부산다이나믹스의 클라우드 네이티브 아키텍처 전환 과정과 그 효과를 설명합니다.',
     author: '부산다이나믹스',
@@ -110,7 +110,7 @@ AI 연구는 끝없는 탐구지만, 그만큼 즐거운 도전의 연속입니�
     companyName: '부산다이나믹스',
     createdAt: '2025-06-05T16:00:00Z',
     updatedAt: '2025-06-05T16:00:00Z',
-    imageUrl: '/companyImage.png',
+    imageUrl: '/company_thumbnail/five.png',
     hashtags: ['#AI연구', '#머신러닝', '#팀스토리'],
     description: '부산다이나믹스 AI 연구팀의 일상과 연구 과정을 소개합니다.',
     author: '부산다이나믹스',
@@ -132,7 +132,7 @@ AI 연구는 끝없는 탐구지만, 그만큼 즐거운 도전의 연속입니�
     companyName: '부산다이나믹스',
     createdAt: '2025-06-04T15:00:00Z',
     updatedAt: '2025-06-04T15:00:00Z',
-    imageUrl: '/companyImage.png',
+    imageUrl: '/company_thumbnail/six.png',
     hashtags: ['#IoT', '#스마트홈', '#프로젝트비하인드'],
     description:
       '부산다이나믹스 IoT 팀의 에너지 절약 프로젝트와 스마트홈 솔루션 개발 과정을 다룹니다.',
@@ -155,7 +155,7 @@ LiDAR와 카메라 센서가 수집한 데이터를 기반으로 차량이 스�
     companyName: '부산다이나믹스',
     createdAt: '2025-06-03T09:30:00Z',
     updatedAt: '2025-06-03T09:30:00Z',
-    imageUrl: '/companyImage.png',
+    imageUrl: '/company_thumbnail/seven.png',
     hashtags: ['#자율주행', '#테스트주행', '#R&D'],
     description: '부산다이나믹스 자율주행팀의 첫 도로 테스트 주행 경험과 연구 과정을 소개합니다.',
     author: '부산다이나믹스',
@@ -178,7 +178,7 @@ LiDAR와 카메라 센서가 수집한 데이터를 기반으로 차량이 스�
     companyName: '부산다이나믹스',
     createdAt: '2025-06-01T13:00:00Z',
     updatedAt: '2025-06-01T13:00:00Z',
-    imageUrl: '/companyImage.png',
+    imageUrl: '/company_thumbnail/one.png',
     hashtags: ['#멘토링', '#IT교육', '#성장스토리'],
     description:
       '부산다이나믹스의 IT 인재 양성 프로그램과 지역 개발자 생태계 구축 노력을 다룹니다.',
@@ -202,4 +202,29 @@ export const getPreviousContentId = (currentId: string): string | null => {
   const currentIndex = mockCompanyContents.findIndex((content) => content.id === currentId);
   if (currentIndex <= 0) return null;
   return mockCompanyContents[currentIndex - 1].id;
+};
+
+export const addNewCompanyContent = (
+  newContent: Omit<CompanyContent, 'id' | 'createdAt' | 'updatedAt' | 'date' | 'time' | 'imageUrl'>
+) => {
+  const now = new Date();
+  const newId = `company_${mockCompanyContents.length + 1}`;
+
+  const formattedDate = `${now.getFullYear()}. ${now.getMonth() + 1}. ${now.getDate()}.`;
+  const formattedTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+
+  const contentToAdd: CompanyContent = {
+    ...newContent,
+    id: newId,
+    createdAt: now.toISOString(),
+    updatedAt: now.toISOString(),
+    date: formattedDate,
+    time: formattedTime,
+    imageUrl: '/company_thumbnail/eight.png', // 무조건 eight.png 사용
+  };
+
+  // 새글을 배열 맨 앞에 추가 (최신글이 위에 오도록)
+  mockCompanyContents.unshift(contentToAdd);
+
+  return contentToAdd;
 };

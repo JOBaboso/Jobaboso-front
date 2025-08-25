@@ -103,7 +103,7 @@ const BenchmarkPage: React.FC = () => {
               currentPage={currentPage}
               totalPages={totalPages}
               onPageChange={handlePageChange}
-              className="mb-8 mt-8"
+              className="mt-8 mb-8"
             />
           </>
         );
@@ -128,11 +128,11 @@ const BenchmarkPage: React.FC = () => {
         return (
           <div className="space-y-6">
             {/* 카드 개수 표시 */}
-            <div className="mt-7 text-left text-bodyLg text-gray-600">총 1,070건</div>
+            <div className="mt-7 text-left text-gray-600 text-bodyLg">총 1,070건</div>
 
             {/* 상위 3개 고정 카드 */}
-            <div className="rounded-xl bg-gray-50 px-5 py-7">
-              <div className="flex items-center gap-2">
+            <div className="px-5 py-7 bg-gray-50 rounded-xl">
+              <div className="flex gap-2 items-center">
                 <img src="/benchmark/ic_person.svg" className="h-[24px] w-[24px]"></img>
                 <div className="text-h3">{userName} 님과 가장 비슷한 지원자</div>
               </div>
@@ -183,7 +183,7 @@ const BenchmarkPage: React.FC = () => {
             </div>
 
             {/* 나머지 9개 카드 (페이지네이션) */}
-            <div className="space-y-6 pt-3">
+            <div className="pt-3 space-y-6">
               {groupedRemainingCards.map((row, rowIndex) => (
                 <div key={rowIndex} className="grid grid-cols-3 gap-6">
                   {row.map((card) => (
@@ -212,7 +212,7 @@ const BenchmarkPage: React.FC = () => {
               currentPage={currentPage}
               totalPages={totalRemainingPages}
               onPageChange={handlePageChange}
-              className="mb-8 mt-8"
+              className="mt-8 mb-8"
             />
           </div>
         );
@@ -220,21 +220,21 @@ const BenchmarkPage: React.FC = () => {
         return (
           <div className="space-y-6">
             {/* 카드 개수 표시 */}
-            <div className="mt-7 text-left text-bodyLg text-gray-600">총 1,070건</div>
+            <div className="mt-7 text-left text-gray-600 text-bodyLg">총 1,070건</div>
 
             {/* 검색창 */}
             <div className="relative">
-              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-5">
-                <MagnifyingGlassIcon className="h-7 w-7 text-gray-400" />
+              <div className="flex absolute inset-y-0 left-0 items-center pl-5 pointer-events-none">
+                <MagnifyingGlassIcon className="w-7 h-7 text-gray-400" />
               </div>
               <input
                 type="text"
                 placeholder="기업을 검색해보세요. 해당 기업에 지원한 지원자들의 스펙을 볼 수 있습니다."
-                className="block w-full rounded-lg border border-gray-200 py-4 pl-16 pr-3 text-bodyLg text-gray-900 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
+                className="block py-4 pr-3 pl-16 w-full placeholder-gray-400 text-gray-900 rounded-lg border border-gray-200 text-bodyLg focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
               />
             </div>
 
-            <div className="flex items-center rounded-lg bg-gray-100 px-5 py-4">
+            <div className="flex items-center px-5 py-4 bg-gray-100 rounded-lg">
               <img src="/benchmark/ic_idea.svg" className="h-[24px] w-[24px]"></img>
               <div className="ml-3 text-bodyLg">아래는 {userName} 님이 관심 기업으로 설정한</div>
               <div className="ml-2 rounded-lg bg-gray-600 px-[8px] py-[2px] text-bodyMd text-white">
@@ -263,7 +263,7 @@ const BenchmarkPage: React.FC = () => {
                     gpa="4.1"
                     gpaScale="4.5"
                     acceptanceRate="95%"
-                    pointCost={15}
+                    pointCost={10}
                     result="final_accepted"
                   />
                   <SpecCard
@@ -271,12 +271,12 @@ const BenchmarkPage: React.FC = () => {
                     position="백엔드"
                     internships="인턴 및 대외활동 3회"
                     certificates="자격증 1개"
-                    university="부산대"
+                    university="부경대"
                     major="소프트웨어공학과"
                     gpa="3.9"
                     gpaScale="4.5"
                     acceptanceRate="92%"
-                    pointCost={12}
+                    pointCost={10}
                     result="final_accepted"
                   />
                   <SpecCard
@@ -284,12 +284,12 @@ const BenchmarkPage: React.FC = () => {
                     position="프론트엔드"
                     internships="인턴 및 대외활동 7회"
                     certificates="자격증 4개"
-                    university="부산대"
+                    university="동아대"
                     major="컴퓨터공학과"
                     gpa="4.3"
                     gpaScale="4.5"
                     acceptanceRate="97%"
-                    pointCost={18}
+                    pointCost={10}
                     result="final_accepted"
                   />
                 </div>
@@ -301,7 +301,7 @@ const BenchmarkPage: React.FC = () => {
                     position="백엔드"
                     internships="인턴 및 대외활동 2회"
                     certificates="자격증 2개"
-                    university="부산대"
+                    university="동서대"
                     major="정보통신공학과"
                     gpa="3.8"
                     gpaScale="4.5"
@@ -314,12 +314,12 @@ const BenchmarkPage: React.FC = () => {
                     position="프론트엔드"
                     internships="인턴 및 대외활동 6회"
                     certificates="자격증 3개"
-                    university="부산대"
+                    university="동의대"
                     major="컴퓨터공학과"
                     gpa="4.0"
                     gpaScale="4.5"
                     acceptanceRate="94%"
-                    pointCost={14}
+                    pointCost={10}
                     result="final_accepted"
                   />
                   <SpecCard
@@ -327,12 +327,12 @@ const BenchmarkPage: React.FC = () => {
                     position="백엔드"
                     internships="인턴 및 대외활동 4회"
                     certificates="자격증 2개"
-                    university="부산대"
+                    university="부경대"
                     major="소프트웨어공학과"
                     gpa="3.7"
                     gpaScale="4.5"
                     acceptanceRate="91%"
-                    pointCost={11}
+                    pointCost={10}
                     result="final_accepted"
                   />
                 </div>
@@ -350,12 +350,12 @@ const BenchmarkPage: React.FC = () => {
                     position="프론트엔드"
                     internships="인턴 및 대외활동 5회"
                     certificates="자격증 3개"
-                    university="부산대"
+                    university="동아대"
                     major="컴퓨터공학과"
                     gpa="4.1"
                     gpaScale="4.5"
                     acceptanceRate="95%"
-                    pointCost={15}
+                    pointCost={10}
                     result="final_accepted"
                   />
                   <SpecCard
@@ -363,12 +363,12 @@ const BenchmarkPage: React.FC = () => {
                     position="백엔드"
                     internships="인턴 및 대외활동 3회"
                     certificates="자격증 1개"
-                    university="부산대"
+                    university="동서대"
                     major="소프트웨어공학과"
                     gpa="3.9"
                     gpaScale="4.5"
                     acceptanceRate="92%"
-                    pointCost={12}
+                    pointCost={10}
                     result="final_accepted"
                   />
                   <SpecCard
@@ -376,12 +376,12 @@ const BenchmarkPage: React.FC = () => {
                     position="프론트엔드"
                     internships="인턴 및 대외활동 7회"
                     certificates="자격증 4개"
-                    university="부산대"
+                    university="동의대"
                     major="컴퓨터공학과"
                     gpa="4.3"
                     gpaScale="4.5"
                     acceptanceRate="97%"
-                    pointCost={18}
+                    pointCost={10}
                     result="final_accepted"
                   />
                 </div>
@@ -393,7 +393,7 @@ const BenchmarkPage: React.FC = () => {
                     position="백엔드"
                     internships="인턴 및 대외활동 2회"
                     certificates="자격증 2개"
-                    university="부산대"
+                    university="부경대"
                     major="정보통신공학과"
                     gpa="3.8"
                     gpaScale="4.5"
@@ -406,12 +406,12 @@ const BenchmarkPage: React.FC = () => {
                     position="프론트엔드"
                     internships="인턴 및 대외활동 6회"
                     certificates="자격증 3개"
-                    university="부산대"
+                    university="동아대"
                     major="컴퓨터공학과"
                     gpa="4.0"
                     gpaScale="4.5"
                     acceptanceRate="94%"
-                    pointCost={14}
+                    pointCost={10}
                     result="final_accepted"
                   />
                   <SpecCard
@@ -419,12 +419,12 @@ const BenchmarkPage: React.FC = () => {
                     position="백엔드"
                     internships="인턴 및 대외활동 4회"
                     certificates="자격증 2개"
-                    university="부산대"
+                    university="동서대"
                     major="소프트웨어공학과"
                     gpa="3.7"
                     gpaScale="4.5"
                     acceptanceRate="91%"
-                    pointCost={11}
+                    pointCost={10}
                     result="final_accepted"
                   />
                 </div>
@@ -436,7 +436,7 @@ const BenchmarkPage: React.FC = () => {
         return (
           <div className="space-y-6">
             {/* 카드 개수 표시 */}
-            <div className="mt-7 text-left text-bodyLg text-gray-600">총 1,070건</div>
+            <div className="mt-7 text-left text-gray-600 text-bodyLg">총 1,070건</div>
 
             <div className="pt-3">
               <div className="text-h3">{userSchool} 학생들의 스펙</div>
@@ -455,7 +455,7 @@ const BenchmarkPage: React.FC = () => {
                     gpa="4.2"
                     gpaScale="4.5"
                     acceptanceRate="96%"
-                    pointCost={16}
+                    pointCost={10}
                     result="final_accepted"
                   />
                   <SpecCard
@@ -468,7 +468,7 @@ const BenchmarkPage: React.FC = () => {
                     gpa="3.9"
                     gpaScale="4.5"
                     acceptanceRate="93%"
-                    pointCost={13}
+                    pointCost={10}
                     result="final_accepted"
                   />
                   <SpecCard
@@ -481,7 +481,7 @@ const BenchmarkPage: React.FC = () => {
                     gpa="4.4"
                     gpaScale="4.5"
                     acceptanceRate="98%"
-                    pointCost={20}
+                    pointCost={10}
                     result="final_accepted"
                   />
                 </div>
@@ -498,7 +498,7 @@ const BenchmarkPage: React.FC = () => {
                     gpa="3.8"
                     gpaScale="4.5"
                     acceptanceRate="91%"
-                    pointCost={11}
+                    pointCost={10}
                     result="final_accepted"
                   />
                   <SpecCard
@@ -511,7 +511,7 @@ const BenchmarkPage: React.FC = () => {
                     gpa="4.1"
                     gpaScale="4.5"
                     acceptanceRate="95%"
-                    pointCost={17}
+                    pointCost={10}
                     result="final_accepted"
                   />
                   <SpecCard
@@ -549,7 +549,7 @@ const BenchmarkPage: React.FC = () => {
                     gpa="4.1"
                     gpaScale="4.5"
                     acceptanceRate="95%"
-                    pointCost={15}
+                    pointCost={10}
                     result="final_accepted"
                   />
                   <SpecCard
@@ -562,7 +562,7 @@ const BenchmarkPage: React.FC = () => {
                     gpa="3.9"
                     gpaScale="4.5"
                     acceptanceRate="92%"
-                    pointCost={12}
+                    pointCost={10}
                     result="final_accepted"
                   />
                   <SpecCard
@@ -575,7 +575,7 @@ const BenchmarkPage: React.FC = () => {
                     gpa="4.3"
                     gpaScale="4.5"
                     acceptanceRate="97%"
-                    pointCost={18}
+                    pointCost={10}
                     result="final_accepted"
                   />
                 </div>
@@ -605,7 +605,7 @@ const BenchmarkPage: React.FC = () => {
                     gpa="4.0"
                     gpaScale="4.5"
                     acceptanceRate="94%"
-                    pointCost={14}
+                    pointCost={10}
                     result="final_accepted"
                   />
                   <SpecCard
@@ -618,7 +618,7 @@ const BenchmarkPage: React.FC = () => {
                     gpa="3.7"
                     gpaScale="4.5"
                     acceptanceRate="91%"
-                    pointCost={11}
+                    pointCost={10}
                     result="final_accepted"
                   />
                 </div>
@@ -634,25 +634,25 @@ const BenchmarkPage: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* 벤치마크 카드 그리드 1/2 (조건 맞아야 노출) */}
-      <div className="rounded-xl bg-gray-50 px-10 py-6">
-        <div className="flex items-center gap-2">
+      <div className="px-10 py-6 bg-gray-50 rounded-xl">
+        <div className="flex gap-2 items-center">
           <img src="/benchmark/ic_star.svg" className="h-[32px] w-[32px]"></img>
           <div className="text-h4">잡메이트 분석 결과</div>
         </div>
-        <div className="whitespace-pre-line pl-10 pt-4 text-bodyLg">
+        <div className="pt-4 pl-10 whitespace-pre-line text-bodyLg">
           {`합격자와 비교했을 때, 상대적으로 인턴 역량이 부족해요. 평균적으로 합격자들은 ‘인턴’ 이력을 1개 이상 보유하고 있어요.
           이 부분을 보완하시면, 더 좋은 결과를 얻을 수 있을 거예요! ☺️`}
         </div>
       </div>
 
       {/* 벤치마크 카드 그리드 2/2 (조건 맞아야 노출) */}
-      <div className="pb-10 pt-10">
+      <div className="pt-10 pb-10">
         <div className="text-h2">합격 가능성을 넓히는 기회! ✨</div>
         <div className="mt-4 text-bodyLg">
           현재 스펙과 유사한 수준을 요구하는 기업을 추천드려요. 합격 가능성이 높은 곳부터 확인해
           보세요!
         </div>
-        <div className="mt-4 grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-3 gap-6 mt-4">
           <div className="rounded-xl border-[1.5px] border-gray-300 px-7 py-6">
             <div className="flex gap-4">
               <div className="h-[40px] w-[40px] rounded-full bg-gray-300"></div>
@@ -663,14 +663,14 @@ const BenchmarkPage: React.FC = () => {
           <div className="rounded-xl border-[1.5px] border-gray-300 px-7 py-6">
             <div className="flex gap-4">
               <div className="h-[40px] w-[40px] rounded-full bg-gray-300"></div>
-              <div className="mt-1 text-h3">부산교통공사</div>
+              <div className="mt-1 text-h3">네이버 클라우드</div>
             </div>
-            <div className="ml-14 text-bodyLg">서버 인프라 관리직 채용 (정규직)</div>
+            <div className="ml-14 text-bodyLg">서버 보안 엔지니어 채용 (계약직</div>
           </div>
           <div className="rounded-xl border-[1.5px] border-gray-300 px-7 py-6">
             <div className="flex gap-4">
               <div className="h-[40px] w-[40px] rounded-full bg-gray-300"></div>
-              <div className="mt-1 text-h3">부산교통공사</div>
+              <div className="mt-1 text-h3">IT 인프라 운영직 채용 (신입)</div>
             </div>
             <div className="ml-14 text-bodyLg">서버 인프라 관리직 채용 (정규직)</div>
           </div>
@@ -697,7 +697,7 @@ const BenchmarkPage: React.FC = () => {
 
         {/* 선택된 탭의 총 건수 표시 */}
         {activeTab === '전체' && (
-          <div className="mt-7 text-left text-bodyLg text-gray-600">총 1,070건</div>
+          <div className="mt-7 text-left text-gray-600 text-bodyLg">총 1,070건</div>
         )}
       </div>
 

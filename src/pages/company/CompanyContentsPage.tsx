@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { mockCompanyContents } from '@mocks/companyContentData';
 import { EllipsisVerticalIcon, PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 
 const CompanyContentsPage: React.FC = () => {
-  const [contents] = useState(mockCompanyContents);
+  const [contents, setContents] = useState(mockCompanyContents);
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const location = useLocation();
+
+  // 페이지가 마운트되거나 location이 변경될 때마다 목록 새로고침
+  useEffect(() => {
+    setContents([...mockCompanyContents]);
+  }, [location]);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);

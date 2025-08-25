@@ -38,11 +38,11 @@ export const StatusSection: React.FC<StatusSectionProps> = ({ applications }) =>
 
   const statsData = {
     지원완료: `${totalApplications}곳`,
-    자소서: '0개',
+    자소서: '3개',
     서류합격: `${documentsPassed}곳`,
     면접: `${interviewCount}회`,
     최종합격: `${finalAccepted}개`,
-    찜: '0회',
+    찜: '1회',
   };
 
   return (
