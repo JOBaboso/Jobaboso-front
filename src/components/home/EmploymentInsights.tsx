@@ -1,12 +1,90 @@
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import pinIcon from '/pin.svg';
 import { Link } from 'react-router-dom';
+import ScrollArrowButton from '../common/ScrollArrowButton';
 
 interface EmploymentInsightsProps {
   userName: string;
 }
 
 const EmploymentInsights: React.FC<EmploymentInsightsProps> = ({ userName }) => {
+  // 뉴스 섹션 스크롤 관련
+  const newsScrollRef = useRef<HTMLDivElement>(null);
+  const [canNewsScrollLeft, setCanNewsScrollLeft] = useState(false);
+  const [canNewsScrollRight, setCanNewsScrollRight] = useState(true);
+
+  // 지원 프로그램 섹션 스크롤 관련
+  const supportScrollRef = useRef<HTMLDivElement>(null);
+  const [canSupportScrollLeft, setCanSupportScrollLeft] = useState(false);
+  const [canSupportScrollRight, setCanSupportScrollRight] = useState(true);
+
+  // 스크롤 위치 확인 함수
+  const checkNewsScrollPosition = () => {
+    if (newsScrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = newsScrollRef.current;
+      setCanNewsScrollLeft(scrollLeft > 0);
+      setCanNewsScrollRight(scrollLeft < scrollWidth - clientWidth - 1);
+    }
+  };
+
+  const checkSupportScrollPosition = () => {
+    if (supportScrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = supportScrollRef.current;
+      setCanSupportScrollLeft(scrollLeft > 0);
+      setCanSupportScrollRight(scrollLeft < scrollWidth - clientWidth - 1);
+    }
+  };
+
+  // 스크롤 이벤트 리스너 설정
+  useEffect(() => {
+    const newsContainer = newsScrollRef.current;
+    const supportContainer = supportScrollRef.current;
+
+    if (newsContainer) {
+      newsContainer.addEventListener('scroll', checkNewsScrollPosition);
+      checkNewsScrollPosition();
+    }
+
+    if (supportContainer) {
+      supportContainer.addEventListener('scroll', checkSupportScrollPosition);
+      checkSupportScrollPosition();
+    }
+
+    return () => {
+      if (newsContainer) {
+        newsContainer.removeEventListener('scroll', checkNewsScrollPosition);
+      }
+      if (supportContainer) {
+        supportContainer.removeEventListener('scroll', checkSupportScrollPosition);
+      }
+    };
+  }, []);
+
+  // 스크롤 핸들러 함수들
+  const handleNewsScrollLeft = () => {
+    if (newsScrollRef.current) {
+      newsScrollRef.current.scrollBy({ left: -240, behavior: 'smooth' });
+    }
+  };
+
+  const handleNewsScrollRight = () => {
+    if (newsScrollRef.current) {
+      newsScrollRef.current.scrollBy({ left: 240, behavior: 'smooth' });
+    }
+  };
+
+  const handleSupportScrollLeft = () => {
+    if (supportScrollRef.current) {
+      supportScrollRef.current.scrollBy({ left: -208, behavior: 'smooth' });
+    }
+  };
+
+  const handleSupportScrollRight = () => {
+    if (supportScrollRef.current) {
+      supportScrollRef.current.scrollBy({ left: 208, behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="mt-20 w-full bg-subLightBlue py-12">
       <div className="mx-auto w-[1528px]">
@@ -134,8 +212,8 @@ const EmploymentInsights: React.FC<EmploymentInsightsProps> = ({ userName }) => 
 
             <div className="relative">
               <div
-                className="flex gap-4 overflow-x-auto pb-4"
-                style={{ scrollbarWidth: 'thin', scrollbarColor: '#E5E7EB transparent' }}
+                ref={newsScrollRef}
+                className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide"
               >
                 {[
                   {
@@ -147,13 +225,13 @@ const EmploymentInsights: React.FC<EmploymentInsightsProps> = ({ userName }) => 
                   {
                     image: '/corporate.jpg',
                     source: 'WIRED 팟캐스트',
-                    headline: '“Vibe Coding” 시대 도래…AI로 코드 생성하는 새 개발 흐름',
+                    headline: '"Vibe Coding" 시대 도래…AI로 코드 생성하는 새 개발 흐름',
                     date: '2025-08-22',
                   },
                   {
                     image: '/corporate.jpg',
                     source: 'AWS CEO 코멘트',
-                    headline: 'AWS CEO “주니어 개발자를 AI로 대체하는 건 어리석은 일” 강조',
+                    headline: 'AWS CEO "주니어 개발자를 AI로 대체하는 건 어리석은 일" 강조',
                     date: '2025-08-23',
                   },
                 ].map((news, index) => (
@@ -179,6 +257,18 @@ const EmploymentInsights: React.FC<EmploymentInsightsProps> = ({ userName }) => 
                   </div>
                 ))}
               </div>
+              
+              {/* 뉴스 화살표 버튼들 */}
+              <ScrollArrowButton
+                direction="left"
+                onClick={handleNewsScrollLeft}
+                visible={canNewsScrollLeft}
+              />
+              <ScrollArrowButton
+                direction="right"
+                onClick={handleNewsScrollRight}
+                visible={canNewsScrollRight}
+              />
             </div>
           </div>
         </div>
@@ -261,8 +351,8 @@ const EmploymentInsights: React.FC<EmploymentInsightsProps> = ({ userName }) => 
 
             <div className="relative">
               <div
-                className="flex gap-4 overflow-x-auto pb-4"
-                style={{ scrollbarWidth: 'thin', scrollbarColor: '#E5E7EB transparent' }}
+                ref={supportScrollRef}
+                className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide"
               >
                 {[
                   {
@@ -311,6 +401,18 @@ const EmploymentInsights: React.FC<EmploymentInsightsProps> = ({ userName }) => 
                   </div>
                 ))}
               </div>
+              
+              {/* 지원 프로그램 화살표 버튼들 */}
+              <ScrollArrowButton
+                direction="left"
+                onClick={handleSupportScrollLeft}
+                visible={canSupportScrollLeft}
+              />
+              <ScrollArrowButton
+                direction="right"
+                onClick={handleSupportScrollRight}
+                visible={canSupportScrollRight}
+              />
             </div>
           </div>
         </div>

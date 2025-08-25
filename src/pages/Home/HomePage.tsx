@@ -3,13 +3,17 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getUpcomingSchedules, CalendarSchedule } from '@apis/employment';
 import { ScheduleLabelMap } from '@type/Schedules';
-import { ResultStyleMap, ResultLabelMap } from '@type/Result';
+import { ResultStyleMap, ResultLabelMap, Result } from '@type/Result';
 import EmploymentInsights from '@components/home/EmploymentInsights';
+import RecommendedJobs from '@components/home/RecommendedJobs';
+import SimilarSpecResults from '@components/home/SimilarSpecResults';
 
 const HomePage = () => {
   const [userName, setUserName] = useState('');
   const [upcomingSchedules, setUpcomingSchedules] = useState<CalendarSchedule[]>([]);
   const [selectedFilter, setSelectedFilter] = useState<string>('');
+
+
 
   useEffect(() => {
     const name = localStorage.getItem('name');
@@ -300,6 +304,12 @@ const HomePage = () => {
       
              {/* 취업 인사이트 섹션 */}
        <EmploymentInsights userName={userName} />
+       
+       {/* 추천 채용 공고 섹션 */}
+       <RecommendedJobs />
+       
+       {/* 비슷한 스펙을 가진 사람들의 합불 결과 섹션 */}
+       <SimilarSpecResults />
 
     </div>
 
