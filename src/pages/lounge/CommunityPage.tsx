@@ -76,7 +76,7 @@ const CommunityPage = () => {
       <TabBar tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
 
       {/* 건수 & 정렬 */}
-      <div className="flex justify-between items-center pb-4 mt-4">
+      <div className="flex items-center justify-between pb-4 mt-4">
         <div className="text-h4">
           <span className="text-gray-800">총 </span>
           <span className="font-semibold text-blue-500">{totalCount.toLocaleString()}</span>

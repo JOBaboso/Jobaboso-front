@@ -8,6 +8,7 @@ import { ResultStyleMap, ResultLabelMap } from '@type/Result';
 const HomePage = () => {
   const [userName, setUserName] = useState('');
   const [upcomingSchedules, setUpcomingSchedules] = useState<CalendarSchedule[]>([]);
+  const [selectedFilter, setSelectedFilter] = useState<string>('');
 
   useEffect(() => {
     const name = localStorage.getItem('name');
@@ -74,12 +75,89 @@ const HomePage = () => {
     </div>
   );
 
+  // 필터 버튼 렌더링 함수
+  const renderFilterButton = (icon: string, label: string) => {
+    const isSelected = selectedFilter === label;
+    return (
+      <div 
+        className={`text-[14px] border rounded-full flex gap-1 w-fit pl-[4px] pr-[7px] py-1 cursor-pointer transition-colors ${
+          isSelected 
+            ? 'text-mainBlue border-mainBlue bg-subLightBlue' 
+            : 'text-gray-400 border-gray-200 hover:border-gray-300'
+        }`}
+        onClick={() => setSelectedFilter(label)}
+      >
+        <img src={icon} alt={label}></img>
+        <div>{label}</div>
+      </div>
+    );
+  };
+
+  // 목록 아이템 렌더링 함수
+  const renderListItem = (
+    imageUrl: string,
+    category: string,
+    title: string,
+    locationIcon: string,
+    location: string
+  ) => {
+    // 카테고리에 따른 스타일 결정
+    let categoryStyle = "px-2 py-1 rounded-full w-fit text-[12px] ";
+    if (category === "채용박람회") {
+      categoryStyle += "bg-subLightBlue text-mainBlue";
+    } else if (category === "취업박람회") {
+      categoryStyle += "bg-[#D8FDD9] text-[#27B122]";
+    } else {
+      categoryStyle += "bg-subLightBlue text-mainBlue";
+    }
+
+    return (
+      <div className="flex gap-5">
+        <div className="w-[90px] h-[90px] bg-gray-200 rounded-lg">
+          {imageUrl && <img src={imageUrl} alt={title} className="object-cover w-full h-full rounded-xl" />}
+        </div>
+        <div>
+          <div className={categoryStyle}>{category}</div>
+          <div className="mt-1">{title}</div>
+          <div className="flex gap-2 mt-1">
+            <img src={locationIcon} alt="위치"></img>
+            <div>{location}</div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // 목록 데이터
+  const listData = [
+    { category: "채용박람회", title: "2025 부산광역시 장애인 진로 취업 박람회", location: "부산광역시청 1층 로비 및 대강당, 지하철 통로" },
+    { category: "채용박람회", title: "2025 부산 여성 취·창업박람회", location: "부산시민공원 다솜광장(다솜마당, 동백꽃방, 고등어방)" },
+    { category: "취업박람회", title: "2025 부산대학교 취업박람회", location: "부산대학교 학생회관 대강당" },
+    { category: "취업박람회", title: "부산시청 공공데이터 활용 아이디어 공모전", location: "부산광역시청 3층 대회의실" },
+    { category: "취업박람회", title: "2025 부산 IT 기업 채용박람회", location: "부산벡스코 제1전시장" },
+    { category: "기업", title: "LG화학 부산공장 기술직 채용", location: "부산광역시 울산구 염포동 LG화학로 1" },
+    { category: "취업박람회", title: "2025 부산 해양대학교 취업박람회", location: "부산해양대학교 체육관" },
+    { category: "공모전", title: "부산항만공사 창업 아이디어 공모전", location: "부산항만공사 본사 2층 강당" },
+    { category: "채용박람회", title: "2025 부산 중소기업 채용박람회", location: "부산시민공원 야외무대" },
+    { category: "기업", title: "현대자동차 부산공장 생산직 채용", location: "부산광역시 강서구 명지동 현대로 1" },
+    { category: "취업박람회", title: "2025 부산여자대학교 취업박람회", location: "부산여자대학교 대강당" },
+    { category: "공모전", title: "부산시청 스마트시티 솔루션 공모전", location: "부산광역시청 4층 세미나실" },
+    { category: "채용박람회", title: "2025 부산 관광업계 채용박람회", location: "부산 해운대 마린시티 컨벤션센터" },
+    { category: "기업", title: "포스코 부산제철소 기술직 채용", location: "부산광역시 포항시 남구 포스코대로 626" },
+    { category: "취업박람회", title: "2025 부산 동의대학교 취업박람회", location: "동의대학교 학생회관 대강당" }
+  ];
+
+  // 필터링된 데이터
+  const filteredData = selectedFilter === '' 
+    ? listData 
+    : listData.filter(item => item.category === selectedFilter);
+
   return (
     <div className="w-full">
       <div className="mx-auto w-[1528px]">
 
         {/* 배너 */}
-        <div className="mb-12 mt-8 text-[48px] font-['Paperlogy'] font-semibold text-gray-800 leading-[34px] font-['Pretendard'] border border-gray-300 bg-heartOfIce justify-center flex p-12 rounded-xl">
+        <div className="mb-12 mt-8 text-[48px] font-['Paperlogy'] font-semibold text-gray-800 leading-[34px] font-['Pretendard'] border border-gray-300 bg-blue-50 justify-center flex p-12 rounded-xl">
           부산교통공사 채용관 (배너)
         </div>
 
@@ -161,12 +239,70 @@ const HomePage = () => {
             <div className="text-white text-bodyMd">잡메이트가 준비한 면접 문항으로 심층 면접에 대비해보세요!</div>
           </div>
         </div>
-      </div>
 
+        {/* 커리어 지도*/}
+        <div className="mt-20 text-gray-700">
+          <div className="text-h2">부산 커리어 지도</div>
+          <div className="mt-2 text-bodyMd">부산의 기업은 물론,  취업 관련 행사가 열리는 곳들까지 모아볼 수 있어요.</div>
+          <div className="flex mt-3 border border-gray-300">
+            <img src="/map.svg" className="w-[1000px]" alt="부산 지도"></img>
+            <div className="flex justify-center p-6">
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="원하는 키워드를 검색해보세요."
+                  onChange={(e) => console.log('검색:', e.target.value)}
+                  className="py-2.5 pl-10 pr-4 border border-gray-300 rounded-lg w-[480px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+                <svg
+                  className="absolute left-3 top-[13px] w-5 h-5 text-gray-400 pointer-events-none"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+
+                {/* 필터 */}
+                <div className="flex gap-2 mt-4">
+                  {renderFilterButton("/ic_pin.svg", "기업")}
+                  {renderFilterButton("/ic_pin.svg", "채용박람회")}
+                  {renderFilterButton("/ic_pin.svg", "취업박람회")}
+                  {renderFilterButton("/ic_pin.svg", "공모전")}
+                </div>
+
+                {/* 목록 */}
+                <div className="max-h-[500px] overflow-y-auto mt-6">
+                  {filteredData.map((item, index) => (
+                    <div key={index} className={index === 0 ? "" : "mt-6"}>
+                      {renderListItem(
+                        "",
+                        item.category,
+                        item.title,
+                        "/ic_pin_black.svg",
+                        item.location
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
       {/* 전체 너비 섹션 */}
-      <div className="py-12 mt-20 w-full bg-gray-50">
+      <div className="py-12 mt-20 w-full bg-subLightBlue">
         <div className="mx-auto w-[1528px]">
-          
+          <div className="text-h2">취업 인사이트 📊</div>
+          <div className="mt-2 text-bodyMd">취업에 인사이트가 될 수 있는 정보들을 제공합니다.</div>
+
         </div>
       </div>
 

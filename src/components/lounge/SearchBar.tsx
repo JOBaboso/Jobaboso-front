@@ -3,15 +3,11 @@ import React from 'react';
 interface SearchBarProps {
   placeholder?: string;
   onSearch?: (query: string) => void;
-  onWriteClick?: () => void;
-  writeButtonText?: string;
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({
   placeholder = "태그로 검색해주세요.",
-  onSearch,
-  onWriteClick,
-  writeButtonText = "작성하기"
+  onSearch
 }) => {
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (onSearch) {
@@ -43,14 +39,6 @@ const SearchBar: React.FC<SearchBarProps> = ({
           />
         </svg>
       </div>
-      {onWriteClick && (
-        <button 
-          onClick={onWriteClick}
-          className="px-8 py-2.5 ml-4 text-white rounded-lg bg-mainBlue text-bodyLg hover:bg-blue-600 transition-colors"
-        >
-          {writeButtonText}
-        </button>
-      )}
     </div>
   );
 };
