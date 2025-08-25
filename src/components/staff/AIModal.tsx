@@ -52,16 +52,16 @@ const AIModal: React.FC<AIModalProps> = ({ isOpen, onClose, buttonPosition }) =>
           <motion.div
             className="fixed right-48 h-[366px] w-[821px] overflow-hidden rounded-3xl bg-white p-12 shadow-2xl"
             style={{
-              top: 'calc(50% - 45px)',
+              top: 'calc(61% - 45px)',
               transform: 'translateY(-50%)',
-              transformOrigin: 'right top',
+              transformOrigin: 'right bottom',
             }}
             initial={{
               scale: 0,
               borderRadius: '50%',
-              // 시작 위치: top 50% - 45px, right 12rem
+              // 시작 위치: 우측 하단에서 시작
               x: 0,
-              y: 0,
+              y: 100,
             }}
             animate={{
               scale: 1,
@@ -72,9 +72,9 @@ const AIModal: React.FC<AIModalProps> = ({ isOpen, onClose, buttonPosition }) =>
             exit={{
               scale: 0,
               borderRadius: '50%',
-              // 퇴장도 동일 위치에서
+              // 퇴장도 우측 하단으로
               x: 0,
-              y: 0,
+              y: 100,
             }}
             transition={{
               type: 'spring',
@@ -86,21 +86,21 @@ const AIModal: React.FC<AIModalProps> = ({ isOpen, onClose, buttonPosition }) =>
           >
             {/* X 버튼 */}
             <div className="mb-14">
-              <div className="my-6 flex h-12 w-12 items-center justify-center">
-                <img src="/staff/ai.svg" alt="AI" className="h-12 w-12" />
+              <div className="flex justify-center items-center my-6 w-12 h-12">
+                <img src="/staff/ai.svg" alt="AI" className="w-12 h-12" />
               </div>
               <div className="space-y-1">
-                <h2 className="text-h2 font-semibold text-gray-800">안녕하세요, 잡메이트예요.</h2>
-                <p className="text-h2 font-semibold text-gray-800">
+                <h2 className="font-semibold text-gray-800 text-h2">안녕하세요, 잡메이트예요.</h2>
+                <p className="font-semibold text-gray-800 text-h2">
                   학생들에 대해 궁금한 점을 물어보세요!
                 </p>
               </div>
             </div>
             <button
               onClick={onClose}
-              className="absolute right-6 top-6 z-10 flex h-8 w-8 items-center justify-center rounded-full text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-700"
+              className="flex absolute top-6 right-6 z-10 justify-center items-center w-8 h-8 text-gray-500 rounded-full transition-colors hover:bg-gray-100 hover:text-gray-700"
             >
-              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -118,13 +118,13 @@ const AIModal: React.FC<AIModalProps> = ({ isOpen, onClose, buttonPosition }) =>
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="무엇이든 물어보세요. 예시 : 부산 기업에 합격한 23년도 졸업생을 보여줘"
-                  className="w-full rounded-lg border border-gray-300 px-4 py-3 pr-14 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="px-4 py-3 pr-14 w-full rounded-lg border border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <button
                   type="submit"
-                  className="group absolute right-2 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-gray-200 transition-colors hover:bg-blue-600"
+                  className="flex absolute right-2 top-1/2 justify-center items-center w-8 h-8 bg-gray-200 rounded-full transition-colors -translate-y-1/2 group hover:bg-blue-600"
                 >
-                  <ArrowRightIcon className="h-4 w-4 font-bold text-gray-400 group-hover:text-white" />
+                  <ArrowRightIcon className="w-4 h-4 font-bold text-gray-400 group-hover:text-white" />
                 </button>
               </form>
             </div>
