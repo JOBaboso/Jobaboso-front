@@ -19,11 +19,20 @@ interface StatusSectionProps {
 export const StatusSection: React.FC<StatusSectionProps> = ({ applications }) => {
   // 통계 계산
   const totalApplications = applications.length;
-  const documentsPassed = applications.filter(app => app.status === 'documents_passed').length;
-  const interviewCount = applications.filter(app => 
-    ['preparing_interview', 'interview_completed', 'interview_under_review', 'interview_passed', 'interview_failed', 'final_accepted', 'final_rejected', 'offer_declined'].includes(app.status)
+  const documentsPassed = applications.filter((app) => app.status === 'documents_passed').length;
+  const interviewCount = applications.filter((app) =>
+    [
+      'preparing_interview',
+      'interview_completed',
+      'interview_under_review',
+      'interview_passed',
+      'interview_failed',
+      'final_accepted',
+      'final_rejected',
+      'offer_declined',
+    ].includes(app.status)
   ).length;
-  const finalAccepted = applications.filter(app => 
+  const finalAccepted = applications.filter((app) =>
     ['final_accepted', 'offer_declined'].includes(app.status)
   ).length;
 

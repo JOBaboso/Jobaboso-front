@@ -32,7 +32,7 @@ export const InputField: React.FC<InputFieldProps> = ({
   return (
     <div className={`mx-auto my-0 w-full ${className}`}>
       {/* 레이블 */}
-      <label htmlFor={id} className="block p-1 mb-2 font-medium text-gray-700 text-lg">
+      <label htmlFor={id} className="mb-2 block p-1 text-lg font-medium text-gray-700">
         {label.includes('*') ? (
           <>
             {label.replace('*', '')} <span className="text-red-500">*</span>
@@ -59,9 +59,9 @@ export const InputField: React.FC<InputFieldProps> = ({
           <button
             type="button"
             onClick={onRightIconClick}
-            className="absolute right-8 top-1/2 text-gray-500 -translate-y-1/2 hover:text-gray-800"
+            className="absolute right-8 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-800"
           >
-            <div className="flex justify-center items-center w-6 h-6">{rightIcon}</div>
+            <div className="flex h-6 w-6 items-center justify-center">{rightIcon}</div>
           </button>
         )}
       </div>

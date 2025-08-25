@@ -24,18 +24,18 @@ const SkillSearchSection: React.FC<SkillSearchSectionProps> = ({
           placeholder="찾으시는 스킬을 검색해보세요."
           disabled
         />
-        <FiSearch className="absolute text-xl text-gray-400 -translate-y-1/2 left-4 top-1/2" />
+        <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-xl text-gray-400" />
       </div>
-      <div className="flex items-center justify-between mb-4">
-        <span className="px-4 py-2 font-semibold text-gray-700 border rounded-full border-mainBlue text-h4">
+      <div className="mb-4 flex items-center justify-between">
+        <span className="rounded-full border border-mainBlue px-4 py-2 text-h4 font-semibold text-gray-700">
           UI·UX 디자이너
         </span>
-        <span className="text-xs text-gray-400 cursor-pointer">전체보기</span>
+        <span className="cursor-pointer text-xs text-gray-400">전체보기</span>
       </div>
-      <div className="mb-2 text-gray-500 text-bodyLg">
+      <div className="mb-2 text-bodyLg text-gray-500">
         선택하신 직무에 맞는 스킬을 추천해드려요!
       </div>
-      <div className="flex flex-wrap gap-2 mb-8">
+      <div className="mb-8 flex flex-wrap gap-2">
         {recommendedSkills.map((skill) => (
           <button
             key={skill}
@@ -61,4 +61,4 @@ const SkillSearchSection: React.FC<SkillSearchSectionProps> = ({
   );
 };
 
-export default SkillSearchSection; 
+export default SkillSearchSection;

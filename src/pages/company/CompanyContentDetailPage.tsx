@@ -25,7 +25,7 @@ const CompanyContentDetailPage: React.FC = () => {
   let content: any = getCompanyContentById(id);
   let nextId = getNextContentId(id);
   let prevId = getPreviousContentId(id);
-  
+
   // company 콘텐츠에서 찾지 못했다면 corporate 콘텐츠에서 찾기
   if (!content) {
     content = getCorporateContentById(id);
@@ -71,7 +71,6 @@ const CompanyContentDetailPage: React.FC = () => {
 
   return (
     <div className="mx-auto my-8 px-6 py-8">
-
       {/* 헤더 영역 */}
       <div>
         <h1 className="mb-4 text-h1 font-bold text-gray-700">{content.title}</h1>
@@ -80,7 +79,9 @@ const CompanyContentDetailPage: React.FC = () => {
           <div className="flex items-center space-x-3">
             <div className="flex items-center space-x-2">
               <UserCircleIcon className="h-8 w-8 text-gray-400" />
-              <span className="font-medium text-gray-700">{content.companyName || content.author}</span>
+              <span className="font-medium text-gray-700">
+                {content.companyName || content.author}
+              </span>
               <CheckBadgeIcon className="h-5 w-5 text-blue-600" />
             </div>
           </div>

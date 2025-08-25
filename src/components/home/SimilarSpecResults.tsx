@@ -82,7 +82,7 @@ const SimilarSpecResults: React.FC = () => {
   const userName = localStorage.getItem('name') || '사용자';
 
   return (
-    <div className="mt-20 w-full">
+    <div className="mb-20 mt-20 w-full">
       <div className="mx-auto w-[1528px]">
         <div className="flex items-center justify-between">
           <div className="text-h2 font-semibold text-gray-700">

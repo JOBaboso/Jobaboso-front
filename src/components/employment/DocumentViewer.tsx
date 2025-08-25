@@ -23,15 +23,15 @@ const DocumentViewer: React.FC<DocumentViewerProps> = ({ token }) => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center bg-gray-50">
         <div className="text-center">
-          <h2 className="text-xl font-semibold text-red-600 mb-2">에러가 발생했습니다</h2>
+          <h2 className="mb-2 text-xl font-semibold text-red-600">에러가 발생했습니다</h2>
           <p className="text-gray-600">{error}</p>
-          <a 
-            href={src} 
-            target="_blank" 
+          <a
+            href={src}
+            target="_blank"
             rel="noopener noreferrer"
-            className="inline-block mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            className="mt-4 inline-block rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
           >
             새 창에서 열기
           </a>
@@ -42,25 +42,25 @@ const DocumentViewer: React.FC<DocumentViewerProps> = ({ token }) => {
 
   return (
     <div className="min-h-screen bg-gray-50 p-4">
-      <div className="max-w-6xl mx-auto">
+      <div className="mx-auto max-w-6xl">
         {/* 헤더 */}
-        <div className="mb-4 p-4 bg-white rounded-lg shadow-sm">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">문서 뷰어</h1>
+        <div className="mb-4 rounded-lg bg-white p-4 shadow-sm">
+          <h1 className="mb-2 text-2xl font-bold text-gray-900">문서 뷰어</h1>
           <p className="text-gray-600">
-            토큰: <code className="bg-gray-100 px-2 py-1 rounded">{token}</code>
+            토큰: <code className="rounded bg-gray-100 px-2 py-1">{token}</code>
           </p>
-          <p className="text-gray-500 text-sm mt-2">
-            백엔드 URL: <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">{src}</code>
+          <p className="mt-2 text-sm text-gray-500">
+            백엔드 URL: <code className="rounded bg-gray-100 px-1 py-0.5 text-xs">{src}</code>
           </p>
         </div>
 
         {/* iframe 컨테이너 */}
-        <div className="relative bg-white rounded-lg shadow-lg overflow-hidden">
+        <div className="relative overflow-hidden rounded-lg bg-white shadow-lg">
           {/* 로딩 오버레이 */}
           {!loaded && (
-            <div className="absolute inset-0 bg-white flex items-center justify-center z-10">
+            <div className="absolute inset-0 z-10 flex items-center justify-center bg-white">
               <div className="text-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600"></div>
                 <p className="text-gray-600">문서를 불러오는 중...</p>
               </div>
             </div>
@@ -70,7 +70,7 @@ const DocumentViewer: React.FC<DocumentViewerProps> = ({ token }) => {
           <iframe
             src={src}
             title="JobMate 문서 뷰어"
-            className="w-full h-[85vh] border-0"
+            className="h-[85vh] w-full border-0"
             referrerPolicy="no-referrer"
             loading="lazy"
             onLoad={handleIframeLoad}
@@ -79,15 +79,20 @@ const DocumentViewer: React.FC<DocumentViewerProps> = ({ token }) => {
           />
 
           {/* 새 창으로 열기 링크 */}
-          <div className="p-4 bg-gray-50 border-t">
-            <a 
-              href={src} 
-              target="_blank" 
+          <div className="border-t bg-gray-50 p-4">
+            <a
+              href={src}
+              target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
+              className="inline-flex items-center font-medium text-blue-600 hover:text-blue-800"
             >
-              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              <svg className="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                />
               </svg>
               새 창에서 열기
             </a>
@@ -95,10 +100,12 @@ const DocumentViewer: React.FC<DocumentViewerProps> = ({ token }) => {
         </div>
 
         {/* 정보 박스 */}
-        <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-          <h3 className="font-semibold text-blue-800 mb-2">현재 상태</h3>
-          <p className="text-blue-700 text-sm">
-            이 페이지는 <code>http://43.201.126.183:8000/applications/30/documents/71/view</code>를 iframe으로 임베드하여 표시합니다.<br/>
+        <div className="mt-4 rounded-lg border border-blue-200 bg-blue-50 p-4">
+          <h3 className="mb-2 font-semibold text-blue-800">현재 상태</h3>
+          <p className="text-sm text-blue-700">
+            이 페이지는 <code>http://43.201.126.183:8000/applications/30/documents/71/view</code>를
+            iframe으로 임베드하여 표시합니다.
+            <br />
             토큰 <code>{token}</code>을 사용하여 백엔드에서 문서를 가져옵니다.
           </p>
         </div>

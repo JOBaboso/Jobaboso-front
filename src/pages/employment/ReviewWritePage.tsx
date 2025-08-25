@@ -10,14 +10,18 @@ const ReviewWritePage: React.FC = () => {
   const reviewId = searchParams.get('id');
   const isEditMode = !!reviewId;
   const [initialForm, setInitialForm] = useState<ReviewFormData | undefined>(undefined);
-  
+
   // 포인트 모달 상태
   const [isPointModalOpen, setIsPointModalOpen] = useState(false);
 
   const handleSubmit = async (data: ReviewFormData) => {
     const experienceLevel = data.interviewExperience === 'newcomer' ? 'entry' : 'experienced';
     const overallEvaluation =
-      data.overallRating === '긍정적' ? 'positive' : data.overallRating === '부정적' ? 'negative' : 'neutral';
+      data.overallRating === '긍정적'
+        ? 'positive'
+        : data.overallRating === '부정적'
+          ? 'negative'
+          : 'neutral';
     const difficulty =
       data.difficulty === '쉬움' ? 'easy' : data.difficulty === '어려움' ? 'hard' : 'medium';
     const interviewDate = `${data.interviewYear}-${String(data.interviewMonth).padStart(2, '0')}-01`;
@@ -25,10 +29,10 @@ const ReviewWritePage: React.FC = () => {
       data.passStatus === '최종합격'
         ? 'final_pass'
         : data.passStatus === '2차합격'
-        ? 'second_pass'
-        : data.passStatus === '1차합격'
-        ? 'first_pass'
-        : 'fail';
+          ? 'second_pass'
+          : data.passStatus === '1차합격'
+            ? 'first_pass'
+            : 'fail';
 
     const interviewQuestions = (data.interviewQuestion || '')
       .split('\n')
@@ -71,7 +75,7 @@ const ReviewWritePage: React.FC = () => {
         if (createPayload.application_id === undefined) {
           delete createPayload.application_id;
         }
-        
+
         console.log('전송할 데이터:', createPayload);
         await createJobReview(createPayload);
         // 새로 작성한 경우에만 포인트 모달 표시
@@ -106,10 +110,10 @@ const ReviewWritePage: React.FC = () => {
           r.final_result === 'final_pass'
             ? '최종합격'
             : r.final_result === 'second_pass'
-            ? '2차합격'
-            : r.final_result === 'first_pass'
-            ? '1차합격'
-            : '불합격';
+              ? '2차합격'
+              : r.final_result === 'first_pass'
+                ? '1차합격'
+                : '불합격';
         const [y, m] = r.interview_date.split('-');
         const interviewQuestion = (r.interview_questions || [])
           .map((q) => q.question)
@@ -127,8 +131,8 @@ const ReviewWritePage: React.FC = () => {
             r.overall_evaluation === 'positive'
               ? '긍정적'
               : r.overall_evaluation === 'negative'
-              ? '부정적'
-              : '보통',
+                ? '부정적'
+                : '보통',
           difficulty:
             r.difficulty === 'easy' ? '쉬움' : r.difficulty === 'hard' ? '어려움' : '보통',
           interviewQuestion,
@@ -146,8 +150,12 @@ const ReviewWritePage: React.FC = () => {
 
   return (
     <div className="w-full">
-      <ReviewWriteForm onSubmit={handleSubmit} initialData={initialForm} submitLabel={isEditMode ? '수정하기' : '등록하기'} />
-      
+      <ReviewWriteForm
+        onSubmit={handleSubmit}
+        initialData={initialForm}
+        submitLabel={isEditMode ? '수정하기' : '등록하기'}
+      />
+
       {/* 포인트 획득 모달 */}
       <PointModal
         isOpen={isPointModalOpen}

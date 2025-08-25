@@ -7,7 +7,7 @@ export const maskName = (name: string): string => {
   if (!name || name.length < 2) {
     return name;
   }
-  
+
   if (name.length === 2) {
     // 2글자 이름: 첫 글자 + *
     return name.charAt(0) + '*';
@@ -26,7 +26,7 @@ export const maskNameMiddle = (name: string): string => {
   if (!name || name.length < 2) {
     return name;
   }
-  
+
   if (name.length === 2) {
     // 2글자 이름: 첫 글자 + *
     return name.charAt(0) + '*';

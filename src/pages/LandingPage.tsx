@@ -14,7 +14,7 @@ const LandingPage = () => {
   return (
     <div className="min-h-screen bg-white">
       <div className="p-8">
-        <h2 className="mb-8 text-4xl font-bold text-center">랜딩 페이지</h2>
+        <h2 className="mb-8 text-center text-4xl font-bold">랜딩 페이지</h2>
         <p className="text-center text-gray-600">여기에 내용을 추가하세요</p>
       </div>
     </div>

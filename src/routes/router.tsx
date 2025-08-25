@@ -120,12 +120,10 @@ const router = createBrowserRouter([
         ],
       },
       {
-      path: 'spec',
+        path: 'spec',
         element: <CompanyLikesLayout />,
-        children: [
-          { path: ':id', element: <SpecPage /> },
-        ],
-      }
+        children: [{ path: ':id', element: <SpecPage /> }],
+      },
     ],
   },
 ]);

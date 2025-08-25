@@ -20,18 +20,22 @@ const LikeUserCard: React.FC<LikeUserCardProps> = ({ like, onUnlike, onClick }) 
   };
 
   return (
-         <div
-       className="cursor-pointer rounded-2xl border border-[#E5E7EB] bg-white transition-shadow hover:shadow-lg p-6"
-       onClick={onClick}
-       style={{
-         fontFamily: 'Pretendard, sans-serif',
-       }}
-     >
-      <div className="flex justify-between items-start mb-6">
+    <div
+      className="cursor-pointer rounded-2xl border border-[#E5E7EB] bg-white p-6 transition-shadow hover:shadow-lg"
+      onClick={onClick}
+      style={{
+        fontFamily: 'Pretendard, sans-serif',
+      }}
+    >
+      <div className="mb-6 flex items-start justify-between">
         <div className="flex items-center gap-4">
           {/* 프로필 이미지 */}
           <div className="flex h-[69px] w-[69px] items-center justify-center rounded-full border border-[#E5E7EB] bg-[#F3F4F6]">
-            <svg className="h-[53px] w-[53px] text-[#9CA3AF]" fill="currentColor" viewBox="0 0 24 24">
+            <svg
+              className="h-[53px] w-[53px] text-[#9CA3AF]"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
               <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
             </svg>
           </div>
@@ -62,37 +66,43 @@ const LikeUserCard: React.FC<LikeUserCardProps> = ({ like, onUnlike, onClick }) 
       </div>
 
       {/* 구분선 */}
-      <div className="border-t border-[#E5E7EB] my-4"></div>
+      <div className="my-4 border-t border-[#E5E7EB]"></div>
 
       {/* 제안 정보들 */}
       <div className="space-y-3">
         {/* 제안 날짜 */}
         {like.created_at && (
           <div className="flex items-center space-x-2">
-            <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center">
+            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-100">
               <CalendarIcon className="h-4 w-4 text-blue-600" />
             </div>
-            <span className="text-base font-medium leading-6 text-[#4B5563]">{formatDate(like.created_at)}</span>
+            <span className="text-base font-medium leading-6 text-[#4B5563]">
+              {formatDate(like.created_at)}
+            </span>
           </div>
         )}
 
         {/* 제안 메시지 */}
         {like.message && (
           <div className="flex items-center space-x-2">
-            <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+            <div className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-blue-100">
               <ChatBubbleLeftRightIcon className="h-4 w-4 text-blue-600" />
             </div>
-            <span className="text-base leading-6 font-medium text-[#4B5563] break-words whitespace-normal min-w-0 flex-1">{like.message}</span>
+            <span className="min-w-0 flex-1 whitespace-normal break-words text-base font-medium leading-6 text-[#4B5563]">
+              {like.message}
+            </span>
           </div>
         )}
 
         {/* 제안 직무 */}
         {like.suggested_position && (
           <div className="flex items-center space-x-2">
-            <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center">
+            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-100">
               <BriefcaseIcon className="h-4 w-4 text-blue-600" />
             </div>
-            <span className="text-base font-medium leading-6 text-[#4B5563]">{like.suggested_position}</span>
+            <span className="text-base font-medium leading-6 text-[#4B5563]">
+              {like.suggested_position}
+            </span>
           </div>
         )}
       </div>

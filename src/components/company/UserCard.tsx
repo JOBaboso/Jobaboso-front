@@ -105,7 +105,9 @@ const UserCard: React.FC<UserCardProps> = ({
 
             <div className="mb-1 flex flex-col gap-1">
               <div className="flex">
-                <span className="rounded px-2 py-1 text-xs border border-gray-200 bg-white text-gray-600">{job}</span>
+                <span className="rounded border border-gray-200 bg-white px-2 py-1 text-xs text-gray-600">
+                  {job}
+                </span>
               </div>
 
               {/* 스킬 태그들 */}

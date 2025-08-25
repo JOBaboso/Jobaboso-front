@@ -66,10 +66,10 @@ const ReviewPage: React.FC = () => {
         r.final_result === 'final_pass'
           ? '최종합격'
           : r.final_result === 'second_pass'
-          ? '2차합격'
-          : r.final_result === 'first_pass'
-          ? '1차합격'
-          : '불합격';
+            ? '2차합격'
+            : r.final_result === 'first_pass'
+              ? '1차합격'
+              : '불합격';
 
       return {
         id: r.id ?? idx,
@@ -92,12 +92,8 @@ const ReviewPage: React.FC = () => {
         </button>
       </div>
 
-      {loading && (
-        <div className="py-10 text-center text-gray-500">불러오는 중...</div>
-      )}
-      {error && !loading && (
-        <div className="py-10 text-center text-red-500">{error}</div>
-      )}
+      {loading && <div className="py-10 text-center text-gray-500">불러오는 중...</div>}
+      {error && !loading && <div className="py-10 text-center text-red-500">{error}</div>}
       {!loading && !error && (
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {uiReviews.map((review) => (
@@ -110,7 +106,9 @@ const ReviewPage: React.FC = () => {
             />
           ))}
           {uiReviews.length === 0 && (
-            <div className="col-span-full py-10 text-center text-gray-500">작성한 후기가 없습니다.</div>
+            <div className="col-span-full py-10 text-center text-gray-500">
+              작성한 후기가 없습니다.
+            </div>
           )}
         </div>
       )}

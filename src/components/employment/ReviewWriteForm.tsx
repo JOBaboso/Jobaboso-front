@@ -24,7 +24,11 @@ interface ReviewWriteFormProps {
   submitLabel?: string;
 }
 
-export const ReviewWriteForm: React.FC<ReviewWriteFormProps> = ({ onSubmit, initialData, submitLabel = '등록하기' }) => {
+export const ReviewWriteForm: React.FC<ReviewWriteFormProps> = ({
+  onSubmit,
+  initialData,
+  submitLabel = '등록하기',
+}) => {
   const [formData, setFormData] = useState<ReviewFormData>(
     initialData ?? {
       applicationId: null,
@@ -56,28 +60,19 @@ export const ReviewWriteForm: React.FC<ReviewWriteFormProps> = ({ onSubmit, init
   };
 
   const updateFormData = (updates: Partial<ReviewFormData>) => {
-    setFormData(prev => ({ ...prev, ...updates }));
+    setFormData((prev) => ({ ...prev, ...updates }));
   };
 
   return (
     <div className="w-full">
-      <CompanyInfoSection 
-        formData={formData}
-        onUpdate={updateFormData}
-      />
-      
-      <InterviewInfoSection 
-        formData={formData}
-        onUpdate={updateFormData}
-      />
+      <CompanyInfoSection formData={formData} onUpdate={updateFormData} />
 
-      <PassInfoSection 
-        formData={formData}
-        onUpdate={updateFormData}
-      />
+      <InterviewInfoSection formData={formData} onUpdate={updateFormData} />
 
-      <div className="flex justify-end mt-40">
-        <Button onClick={handleSubmit} className="w-auto px-[68px] h-[66px]">
+      <PassInfoSection formData={formData} onUpdate={updateFormData} />
+
+      <div className="mt-40 flex justify-end">
+        <Button onClick={handleSubmit} className="h-[66px] w-auto px-[68px]">
           {submitLabel}
         </Button>
       </div>

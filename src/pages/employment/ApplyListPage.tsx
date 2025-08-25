@@ -21,13 +21,13 @@ const ApplyListPage: React.FC = () => {
   const handleApply = async (company: Company) => {
     try {
       const today = new Date().toISOString();
-      
+
       const response = await createApplication({
         company_name: company.name,
         position: '', // 빈칸으로 설정
-        application_date: today
+        application_date: today,
       });
-      
+
       // 응답을 받은 후 해당 지원서 상세 페이지로 이동
       navigate(`/employment/applications/${response.id}`);
     } catch (error) {

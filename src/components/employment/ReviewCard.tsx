@@ -19,39 +19,48 @@ const statusStyleMap: Record<string, string> = {
   불합격: 'bg-[#FFD9D1] text-[#D84D4D] border border-[#D84D4D]',
 };
 
-const ReviewCard: React.FC<ReviewCardProps> = ({ reviewId, company, status, content, date, logoUrl, onEdit, onDelete }) => {
+const ReviewCard: React.FC<ReviewCardProps> = ({
+  reviewId,
+  company,
+  status,
+  content,
+  date,
+  logoUrl,
+  onEdit,
+  onDelete,
+}) => {
   const [open, setOpen] = useState(false);
   return (
-    <div className="relative px-5 py-8 bg-white rounded-2xl border border-gray-200 transition-shadow duration-200 hover:shadow-md">
+    <div className="relative rounded-2xl border border-gray-200 bg-white px-5 py-8 transition-shadow duration-200 hover:shadow-md">
       {/* 상단: 프로필 + 기업명 + 점 세 개 */}
-      <div className="flex justify-between items-center mb-4">
+      <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center space-x-3">
           {logoUrl ? (
             <img
               src={logoUrl}
               alt={`${company} 로고`}
-              className="object-cover w-8 h-8 rounded-full"
+              className="h-8 w-8 rounded-full object-cover"
             />
           ) : (
-            <div className="w-8 h-8 bg-gray-300 rounded-full" />
+            <div className="h-8 w-8 rounded-full bg-gray-300" />
           )}
-          <h3 className="font-semibold text-gray-600 text-h3">{company}</h3>
+          <h3 className="text-h3 font-semibold text-gray-600">{company}</h3>
         </div>
         <button
           type="button"
-          className="flex justify-center items-center w-6 h-6 text-gray-400 hover:text-gray-600"
+          className="flex h-6 w-6 items-center justify-center text-gray-400 hover:text-gray-600"
           onClick={() => setOpen((v) => !v)}
           aria-label="옵션 열기"
         >
-          <HiOutlineDotsVertical className="w-5 h-5" />
+          <HiOutlineDotsVertical className="h-5 w-5" />
         </button>
       </div>
 
       {open && (
-        <div className="overflow-hidden absolute right-3 top-10 z-10 w-36 bg-white rounded-lg border border-gray-200 shadow-md">
+        <div className="absolute right-3 top-10 z-10 w-36 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md">
           <button
             type="button"
-            className="block px-4 py-2 w-full text-sm text-left text-gray-700 hover:bg-gray-50"
+            className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50"
             onClick={() => {
               setOpen(false);
               onEdit && onEdit(reviewId);
@@ -61,7 +70,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ reviewId, company, status, cont
           </button>
           <button
             type="button"
-            className="block px-4 py-2 w-full text-sm text-left text-red-600 hover:bg-red-50"
+            className="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50"
             onClick={() => {
               setOpen(false);
               onDelete && onDelete(reviewId);
@@ -73,14 +82,14 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ reviewId, company, status, cont
       )}
 
       {/* 아래 내용 전체를 기업명 기준 왼쪽 정렬 */}
-      <div className="pl-11 space-y-2">
+      <div className="space-y-2 pl-11">
         <span
           className={`inline-flex h-[26px] items-center justify-center rounded-[4px] p-2 text-xs font-medium ${statusStyleMap[status] || 'border border-gray-300 bg-gray-200 text-gray-700'}`}
         >
           {status}
         </span>
 
-        <p className="text-sm text-gray-600 line-clamp-4">{content}</p>
+        <p className="line-clamp-4 text-sm text-gray-600">{content}</p>
         <p className="text-xs text-gray-400">{date}</p>
       </div>
     </div>

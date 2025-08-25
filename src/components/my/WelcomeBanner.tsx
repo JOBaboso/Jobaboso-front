@@ -25,4 +25,4 @@ const WelcomeBanner: React.FC<WelcomeBannerProps> = ({ name }) => {
   );
 };
 
-export default WelcomeBanner; 
+export default WelcomeBanner;

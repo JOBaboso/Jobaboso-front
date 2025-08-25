@@ -211,10 +211,7 @@ const EmploymentInsights: React.FC<EmploymentInsightsProps> = ({ userName }) => 
             </div>
 
             <div className="relative">
-              <div
-                ref={newsScrollRef}
-                className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide"
-              >
+              <div ref={newsScrollRef} className="scrollbar-hide flex gap-4 overflow-x-auto pb-4">
                 {[
                   {
                     image: '/corporate.jpg',
@@ -257,7 +254,7 @@ const EmploymentInsights: React.FC<EmploymentInsightsProps> = ({ userName }) => 
                   </div>
                 ))}
               </div>
-              
+
               {/* 뉴스 화살표 버튼들 */}
               <ScrollArrowButton
                 direction="left"
@@ -352,7 +349,7 @@ const EmploymentInsights: React.FC<EmploymentInsightsProps> = ({ userName }) => 
             <div className="relative">
               <div
                 ref={supportScrollRef}
-                className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide"
+                className="scrollbar-hide flex gap-4 overflow-x-auto pb-4"
               >
                 {[
                   {
@@ -401,7 +398,7 @@ const EmploymentInsights: React.FC<EmploymentInsightsProps> = ({ userName }) => 
                   </div>
                 ))}
               </div>
-              
+
               {/* 지원 프로그램 화살표 버튼들 */}
               <ScrollArrowButton
                 direction="left"
