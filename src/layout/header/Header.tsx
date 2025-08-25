@@ -59,7 +59,7 @@ const Header = ({ onToggleSidebar }: HeaderProps) => {
               userType === 'company'
                 ? '/company/contents'
                 : userType === 'university_staff'
-                  ? '/staff'
+                  ? '/staff/department'
                   : userType === 'personal'
                     ? '/home'
                     : '/'
@@ -94,6 +94,15 @@ const Header = ({ onToggleSidebar }: HeaderProps) => {
                   </NavigationLink>
                   <NavigationLink to="/company/likes" pathPrefix="/company/likes">
                     찜하기
+                  </NavigationLink>
+                </>
+              ) : userType === 'university_staff' ? (
+                <>
+                  <NavigationLink to="/staff/department" pathPrefix="/staff/department">
+                    우리 학과 취업 현황
+                  </NavigationLink>
+                  <NavigationLink to="/staff/students" pathPrefix="/staff/students">
+                    학생 스펙 확인하기
                   </NavigationLink>
                 </>
               ) : null}
