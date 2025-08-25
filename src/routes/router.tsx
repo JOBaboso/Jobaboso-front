@@ -35,13 +35,16 @@ import CompanyLikesCollectPage from '@pages/company/CompanyLikesCollectPage';
 import CompanyContentsLayout from '@layout/CompanyContentsLayout';
 import CompanyLikesLayout from '@layout/CompanyLikesLayout';
 import StaffPage from '@pages/staff/StaffPage';
+import LandingPage from '@pages/LandingPage';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <MainLayout />,
     children: [
-      { index: true, element: <HomePage /> },
+      { index: true, element: <LandingPage /> },
+      { path: 'home', element: <HomePage /> },
+      { path: 'staff', element: <StaffPage /> },
       // { path: "dashboard", element: <DashboardPage /> }, 이런 식으로 여기 라우트 걸기
     ],
   },
@@ -124,10 +127,6 @@ const router = createBrowserRouter([
         ],
       }
     ],
-  },
-  {
-    path: '/staff',
-    element: <StaffPage />,
   },
 ]);
 
