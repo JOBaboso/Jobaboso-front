@@ -11,6 +11,7 @@ const StaffStudentsPage: React.FC = () => {
   const sortQuery = searchParams.get('sort_query') || 'high';
 
   const [students, setStudents] = useState<StudentSpec[]>(staffStudentsData);
+  const [filteredStudents, setFilteredStudents] = useState<StudentSpec[]>(staffStudentsData);
   const [sortOrder, setSortOrder] = useState<'high' | 'low' | 'recent'>(
     sortQuery as 'high' | 'low' | 'recent'
   );
@@ -49,34 +50,22 @@ const StaffStudentsPage: React.FC = () => {
   useEffect(() => {
     const currentSortQuery = sortQuery as 'high' | 'low' | 'recent';
     if (currentSortQuery !== sortOrder) {
-      const sorted = [...students].sort((a, b) => {
-        if (currentSortQuery === 'high') {
-          return b.acceptanceRate - a.acceptanceRate;
-        } else if (currentSortQuery === 'low') {
-          return a.acceptanceRate - b.acceptanceRate;
-        } else {
-          // recent
-          return b.id.localeCompare(a.id);
-        }
-      });
-      setStudents(sorted);
       setSortOrder(currentSortQuery);
     }
-  }, [sortQuery]);
+  }, [sortQuery, sortOrder]);
 
   const handleSortSelect = (newSortOrder: 'high' | 'low' | 'recent') => {
-    const sorted = [...students].sort((a, b) => {
+    const sorted = [...filteredStudents].sort((a, b) => {
       if (newSortOrder === 'high') {
         return b.acceptanceRate - a.acceptanceRate;
       } else if (newSortOrder === 'low') {
         return a.acceptanceRate - b.acceptanceRate;
       } else {
-        // recent
-        // 최근 합격순 - 여기서는 예시로 ID 기준으로 정렬 (실제로는 합격 날짜 필드 사용)
-        return b.id.localeCompare(a.id);
+        // recent - 랜덤 정렬
+        return Math.random() - 0.5;
       }
     });
-    setStudents(sorted);
+    setFilteredStudents(sorted);
     setSortOrder(newSortOrder);
     setOpenSortDropdown(false);
 
@@ -180,12 +169,85 @@ const StaffStudentsPage: React.FC = () => {
     }
   };
 
+  // 필터링 함수들
+  const applyFilters = (studentsToFilter: StudentSpec[]) => {
+    return studentsToFilter.filter((student) => {
+      return activeFilters.every((filter) => {
+        switch (filter.columnName) {
+          case 'gender':
+            return student.gender === filter.value;
+          
+          case 'gpa':
+            switch (filter.value) {
+              case '4.0 이상':
+                return student.gpa >= 4.0;
+              case '3.5 이상':
+                return student.gpa >= 3.5 && student.gpa < 4.0;
+              case '3.0 이상':
+                return student.gpa >= 3.0 && student.gpa < 3.5;
+              case '3.0 미만':
+                return student.gpa < 3.0;
+              default:
+                return true;
+            }
+          
+          case 'acceptanceRate':
+            switch (filter.value) {
+              case '80% 이상':
+                return student.acceptanceRate >= 80;
+              case '50% 이상':
+                return student.acceptanceRate >= 50 && student.acceptanceRate < 80;
+              case '30% 이상':
+                return student.acceptanceRate >= 30 && student.acceptanceRate < 50;
+              case '30% 미만':
+                return student.acceptanceRate < 30;
+              default:
+                return true;
+            }
+          
+          case 'status':
+            return student.status === filter.value;
+          
+          default:
+            return true;
+        }
+      });
+    });
+  };
+
+  // 필터 적용 및 정렬 useEffect
+  useEffect(() => {
+    let filtered = students;
+    
+    // 기존 필터 적용
+    filtered = applyFilters(students);
+    
+    // AI 쿼리가 있을 때 추가로 졸업 필터 적용
+    if (aiQuery) {
+      filtered = filtered.filter(student => student.status === '졸업');
+    }
+    
+    // 정렬 적용
+    filtered = filtered.sort((a, b) => {
+      if (sortOrder === 'high') {
+        return b.acceptanceRate - a.acceptanceRate;
+      } else if (sortOrder === 'low') {
+        return a.acceptanceRate - b.acceptanceRate;
+      } else {
+        // recent - 랜덤 정렬
+        return Math.random() - 0.5;
+      }
+    });
+    
+    setFilteredStudents(filtered);
+  }, [activeFilters, students, sortOrder, aiQuery]);
+
   // 드롭다운 옵션 정의
   const dropdownOptions = {
     gender: ['남성', '여성'],
     gpa: ['4.0 이상', '3.5 이상', '3.0 이상', '3.0 미만'],
     acceptanceRate: ['80% 이상', '50% 이상', '30% 이상', '30% 미만'],
-    status: ['졸업', '재학 중'],
+    status: ['졸업', '재학'],
   };
 
   return (
@@ -405,7 +467,7 @@ const StaffStudentsPage: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {students.map((student) => (
+              {(aiQuery ? filteredStudents.slice(0, 3) : filteredStudents).map((student) => (
                 <tr key={student.id} className="border-b border-gray-100 hover:bg-gray-50">
                   <td className="px-4 py-4 text-bodyLg text-gray-600">{student.gender}</td>
                   <td className="px-4 py-4 text-bodyLg text-gray-600">{student.gpa}</td>
