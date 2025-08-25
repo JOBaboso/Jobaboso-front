@@ -45,14 +45,14 @@ const HomePage = () => {
     gpa: string,
     acceptanceRate: number
   ) => (
-    <div className="rounded-xl bg-white p-4">
+    <div className="p-4 bg-white rounded-xl">
       <div className="flex w-fit rounded-md border-[0.8px] border-gray-300 bg-gray-100 px-1">
         <div className="text-[12px] leading-[20px]">AI 매칭</div>
         <div className="ml-1 text-[12px] font-semibold leading-[20px] text-mainBlue">
           {matchingPercent}%
         </div>
       </div>
-      <div className="mt-4 flex items-center">
+      <div className="flex items-center mt-4">
         <div className="text-[16px] font-semibold">{company}</div>
         <span
           className={`ml-2 rounded-full border px-[6px] py-[2px] text-caption font-medium ${ResultStyleMap[status as keyof typeof ResultStyleMap] || 'border-gray-300 bg-gray-100 text-gray-600'}`}
@@ -61,7 +61,7 @@ const HomePage = () => {
         </span>
       </div>
       <div className="mt-2 text-bodySm">{position}</div>
-      <div className="mt-2 flex items-center gap-2">
+      <div className="flex gap-2 items-center mt-2">
         <div className="rounded-md bg-gray-100 px-1 text-[10px] text-gray-700">
           인턴 및 대외활동 {internshipCount}회
         </div>
@@ -94,7 +94,7 @@ const HomePage = () => {
         className={`flex w-fit cursor-pointer gap-1 rounded-full border py-1 pl-[4px] pr-[7px] text-[14px] transition-colors ${
           isSelected
             ? 'border-mainBlue bg-subLightBlue text-mainBlue'
-            : 'border-gray-200 text-gray-400 hover:border-gray-300'
+            : 'text-gray-400 border-gray-200 hover:border-gray-300'
         }`}
         onClick={() => setSelectedFilter(label)}
       >
@@ -126,13 +126,13 @@ const HomePage = () => {
       <div className="flex gap-5">
         <div className="h-[90px] w-[90px] rounded-lg bg-gray-200">
           {imageUrl && (
-            <img src={imageUrl} alt={title} className="h-full w-full rounded-xl object-cover" />
+            <img src={imageUrl} alt={title} className="object-cover w-full h-full rounded-xl" />
           )}
         </div>
         <div>
           <div className={categoryStyle}>{category}</div>
           <div className="mt-1">{title}</div>
-          <div className="mt-1 flex gap-2">
+          <div className="flex gap-2 mt-1">
             <img src={locationIcon} alt="위치"></img>
             <div>{location}</div>
           </div>
@@ -147,76 +147,91 @@ const HomePage = () => {
       category: '채용박람회',
       title: '2025 부산광역시 장애인 진로 취업 박람회',
       location: '부산광역시청 1층 로비 및 대강당, 지하철 통로',
+      imageUrl: '/company_thumbnail/two.png',
     },
     {
       category: '채용박람회',
       title: '2025 부산 여성 취·창업박람회',
       location: '부산시민공원 다솜광장(다솜마당, 동백꽃방, 고등어방)',
+      imageUrl: '/company_thumbnail/three.png',
     },
     {
       category: '취업박람회',
       title: '2025 부산대학교 취업박람회',
       location: '부산대학교 학생회관 대강당',
+      imageUrl: '/company_thumbnail/four.png',
     },
     {
       category: '취업박람회',
       title: '부산시청 공공데이터 활용 아이디어 공모전',
       location: '부산광역시청 3층 대회의실',
+      imageUrl: '/company_thumbnail/five.png',
     },
     {
       category: '취업박람회',
       title: '2025 부산 IT 기업 채용박람회',
       location: '부산벡스코 제1전시장',
+      imageUrl: '/company_thumbnail/six.png',
     },
     {
       category: '기업',
       title: 'LG화학 부산공장 기술직 채용',
       location: '부산광역시 울산구 염포동 LG화학로 1',
+      imageUrl: '/company_thumbnail/eight.png',
     },
     {
       category: '취업박람회',
       title: '2025 부산 해양대학교 취업박람회',
       location: '부산해양대학교 체육관',
+      imageUrl: '/company_thumbnail/one.png',
     },
     {
       category: '공모전',
       title: '부산항만공사 창업 아이디어 공모전',
       location: '부산항만공사 본사 2층 강당',
+      imageUrl: '/company_thumbnail/one.png',
     },
     {
       category: '채용박람회',
       title: '2025 부산 중소기업 채용박람회',
       location: '부산시민공원 야외무대',
+      imageUrl: '/company_thumbnail/one.png',
     },
     {
       category: '기업',
       title: '현대자동차 부산공장 생산직 채용',
       location: '부산광역시 강서구 명지동 현대로 1',
+      imageUrl: '/company_thumbnail/five.png',
     },
     {
       category: '취업박람회',
       title: '2025 부산여자대학교 취업박람회',
       location: '부산여자대학교 대강당',
+      imageUrl: '/company_thumbnail/one.png',
     },
     {
       category: '공모전',
       title: '부산시청 스마트시티 솔루션 공모전',
       location: '부산광역시청 4층 세미나실',
+      imageUrl: '/company_thumbnail/one.png',
     },
     {
       category: '채용박람회',
       title: '2025 부산 관광업계 채용박람회',
       location: '부산 해운대 마린시티 컨벤션센터',
+      imageUrl: '/company_thumbnail/one.png',
     },
     {
       category: '기업',
       title: '포스코 부산제철소 기술직 채용',
       location: '부산광역시 포항시 남구 포스코대로 626',
+      imageUrl: '/company_thumbnail/seven.png',
     },
     {
       category: '취업박람회',
       title: '2025 부산 동의대학교 취업박람회',
       location: '동의대학교 학생회관 대강당',
+      imageUrl: '/company_thumbnail/one.png',
     },
   ];
 
@@ -228,7 +243,7 @@ const HomePage = () => {
     <div className="w-full">
       <div className="mx-auto w-[1528px]">
         {/* 배너 */}
-        <div className="mb-12 mt-10 flex justify-center">
+        <div className="flex justify-center mt-10 mb-12">
           <img 
             src="/mainBanner.png" 
             alt="부산교통공사 채용관" 
@@ -242,15 +257,15 @@ const HomePage = () => {
         {/* 맞춤 피드 */}
         <div className="mt-6 grid grid-cols-[400px_700px_400px] gap-4">
           {/* 다가오는 취업 일정 */}
-          <div className="rounded-xl bg-gray-50 p-6">
-            <div className="mb-4 flex items-center justify-between text-gray-700">
-              <div className="flex items-center gap-3">
+          <div className="p-6 bg-gray-50 rounded-xl">
+            <div className="flex justify-between items-center mb-4 text-gray-700">
+              <div className="flex gap-3 items-center">
                 <img src="/ic_calendar.svg"></img>
                 <div className="text-h3">다가오는 취업 일정</div>
               </div>
               <Link
                 to="/employment/calendar"
-                className="text-bodySm transition-colors hover:text-mainBlue"
+                className="transition-colors text-bodySm hover:text-mainBlue"
               >
                 캘린더 보기 ﹥
               </Link>
@@ -262,10 +277,10 @@ const HomePage = () => {
                 upcomingSchedules.map((schedule, index) => (
                   <div key={index} className="">
                     {/* 일정 내용 */}
-                    <div className="ml-4 p-3">
-                      <div className="flex items-center gap-5">
+                    <div className="p-3 ml-4">
+                      <div className="flex gap-5 items-center">
                         {/* 동그라미 */}
-                        <div className="relative z-10 h-2 w-2 rounded-full bg-mainBlue"></div>
+                        <div className="relative z-10 w-2 h-2 rounded-full bg-mainBlue"></div>
                         {/* 세로 선 */}
                         <div className="absolute left-[31px] top-7 h-[205px] border-[1px] border-dashed border-gray-400"></div>
                         {/* 날짜 */}
@@ -292,15 +307,15 @@ const HomePage = () => {
           </div>
 
           {/* 닮은 지원자 top 3 */}
-          <div className="rounded-xl bg-subLightBlue px-6 pt-6 text-gray-700">
-            <div className="mb-2 flex items-center gap-3">
+          <div className="px-6 pt-6 text-gray-700 rounded-xl bg-subLightBlue">
+            <div className="flex gap-3 items-center mb-2">
               <img src="/ic_person.svg"></img>
               <div className="text-h3">{userName} 님과 닮은 지원자 TOP3</div>
             </div>
             <div className="mb-6 ml-9 text-bodyMd">
               잡메이트가 분석한 {userName} 님과 닮은 지원자를 확인하시고 취업 준비에 매진해보세요!
             </div>
-            <div className="flex justify-center gap-4">
+            <div className="flex gap-4 justify-center">
               {renderSimilarUserCard(
                 96,
                 '토스',
@@ -316,24 +331,24 @@ const HomePage = () => {
               {renderSimilarUserCard(
                 89,
                 '네이버',
-                '프론트엔드',
+                '백엔드',
                 'final_accepted',
                 5,
                 3,
-                '부산대학교',
-                '컴퓨터공학과',
+                '부경대학교',
+                '소프트웨어공학과',
                 '4.0/4.5',
                 87
               )}
               {renderSimilarUserCard(
                 62,
                 '카카오',
-                '프론트엔드',
+                '데이터엔지니어',
                 'final_accepted',
                 6,
                 1,
-                '부산대학교',
-                '컴퓨터공학과',
+                '동아대학교',
+                '정보통신공학과',
                 '4.1/4.5',
                 91
               )}
@@ -341,7 +356,7 @@ const HomePage = () => {
           </div>
 
           {/* 미션 */}
-          <div className="rounded-xl bg-gradient-to-b from-mainBlue to-blue-300 px-8 py-12">
+          <div className="px-8 py-12 bg-gradient-to-b to-blue-300 rounded-xl from-mainBlue">
             <div className="flex justify-between">
               <div className="font-['Paperlogy'] text-[16px] font-light text-white">
                 오늘의 미션
@@ -357,8 +372,8 @@ const HomePage = () => {
             <div className="mt-3 font-['Paperlogy'] text-[32px] font-semibold text-white">
               면접 답변 작성하기
             </div>
-            <div className="mt-2 text-bodyMd text-white">면접 합격률을 한 단계 UP!</div>
-            <div className="text-bodyMd text-white">
+            <div className="mt-2 text-white text-bodyMd">면접 합격률을 한 단계 UP!</div>
+            <div className="text-white text-bodyMd">
               잡메이트가 준비한 면접 문항으로 심층 면접에 대비해보세요!
             </div>
           </div>
@@ -370,7 +385,7 @@ const HomePage = () => {
           <div className="mt-2 text-bodyMd">
             부산의 기업은 물론, 취업 관련 행사가 열리는 곳들까지 모아볼 수 있어요.
           </div>
-          <div className="mt-3 flex border border-gray-300">
+          <div className="flex mt-3 border border-gray-300">
             <img src="/map.svg" className="w-[1000px]" alt="부산 지도"></img>
             <div className="flex justify-center p-6">
               <div className="relative">
@@ -396,7 +411,7 @@ const HomePage = () => {
                 </svg>
 
                 {/* 필터 */}
-                <div className="mt-4 flex gap-2">
+                <div className="flex gap-2 mt-4">
                   {renderFilterButton('/ic_pin.svg', '기업')}
                   {renderFilterButton('/ic_pin.svg', '채용박람회')}
                   {renderFilterButton('/ic_pin.svg', '취업박람회')}
@@ -408,7 +423,7 @@ const HomePage = () => {
                   {filteredData.map((item, index) => (
                     <div key={index} className={index === 0 ? '' : 'mt-6'}>
                       {renderListItem(
-                        '',
+                        item.imageUrl || '/company_thumbnail/one.png',
                         item.category,
                         item.title,
                         '/ic_pin_black.svg',

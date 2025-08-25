@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TagInput from '@components/common/TagInput';
+import { addNewCompanyContent } from '@mocks/companyContentData';
 
 const CompanyContentWritePage: React.FC = () => {
   const navigate = useNavigate();
@@ -48,8 +49,18 @@ const CompanyContentWritePage: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // 여기에 실제 제출 로직 구현
-    console.log('Form submitted:', formData);
+    // 새글 추가
+    const newContent = {
+      title: formData.title,
+      content: formData.content,
+      companyName: '부산다이나믹스', // 기본값 설정
+      hashtags: formData.hashtags,
+      description: formData.content.substring(0, 100) + '...', // 내용의 첫 100자
+      author: '부산다이나믹스', // 기본값 설정
+      tags: formData.hashtags,
+    };
+
+    addNewCompanyContent(newContent);
 
     // 작성 완료 후 목록 페이지로 이동
     navigate('/company/contents');
