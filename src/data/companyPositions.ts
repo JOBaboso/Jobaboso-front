@@ -15,7 +15,7 @@ export const companies: Company[] = [
     industry: '이동전화기 제조업',
     companyType: '대기업',
     yearsInBusiness: 57,
-    logo: '/company_porfile/samsung.svg'
+    logo: '/company_porfile/samsung.svg',
   },
   {
     id: 2,
@@ -23,7 +23,7 @@ export const companies: Company[] = [
     industry: '통신 및 방송 장비 제조업',
     companyType: '대기업',
     yearsInBusiness: 24,
-    logo: '/company_porfile/lg.svg'
+    logo: '/company_porfile/lg.svg',
   },
   {
     id: 3,
@@ -31,7 +31,7 @@ export const companies: Company[] = [
     industry: '승용차 및 기타 여객용 자동차 제조업',
     companyType: '대기업',
     yearsInBusiness: 59,
-    logo: '/company_porfile/hyundai.svg'
+    logo: '/company_porfile/hyundai.svg',
   },
   {
     id: 4,
@@ -39,7 +39,7 @@ export const companies: Company[] = [
     industry: '포털 및 기타 인터넷 정보매개 서비스',
     companyType: '대기업',
     yearsInBusiness: 17,
-    logo: '/company_porfile/navercloud.svg'
+    logo: '/company_porfile/navercloud.svg',
   },
   {
     id: 5,
@@ -47,7 +47,7 @@ export const companies: Company[] = [
     industry: '그 외 기타 금융 지원 서비스업',
     companyType: '스타트업',
     yearsInBusiness: 13,
-    logo: '/company_porfile/toss.svg'
+    logo: '/company_porfile/toss.svg',
   },
   {
     id: 6,
@@ -55,7 +55,7 @@ export const companies: Company[] = [
     industry: '응용 소프트웨어 개발 및 공급업',
     companyType: '스타트업',
     yearsInBusiness: 11,
-    logo: '/company_porfile/carrot.svg'
+    logo: '/company_porfile/carrot.svg',
   },
   {
     id: 7,
@@ -63,6 +63,6 @@ export const companies: Company[] = [
     industry: '도시철도 운송업',
     companyType: '공기업',
     yearsInBusiness: 20,
-    logo: '/company_porfile/busantransport.svg'
-  }
+    logo: '/company_porfile/busantransport.svg',
+  },
 ];

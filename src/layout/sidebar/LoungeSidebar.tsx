@@ -4,15 +4,11 @@ const LoungeSidebar = () => {
   const sections: SidebarSection[] = [
     {
       title: '커뮤니티',
-      links: [
-        { to: '/lounge/community', label: '취업이야기' },
-      ],
+      links: [{ to: '/lounge/community', label: '취업이야기' }],
     },
     {
       title: '기업 콘텐츠',
-      links: [
-        { to: '/lounge/corporate', label: '기업 콘텐츠' },
-      ],
+      links: [{ to: '/lounge/corporate', label: '기업 콘텐츠' }],
     },
   ];
 

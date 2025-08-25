@@ -32,7 +32,7 @@ const CompanyLikesLayout: React.FC<CompanyLikesLayoutProps> = ({ title }) => {
   const pageTitle = getPageTitle();
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex min-h-screen flex-col bg-white">
       <ScrollToTop />
       {/* Header에 토글 버튼 추가 */}
       <Header onToggleSidebar={toggleSidebar} />
@@ -58,7 +58,7 @@ const CompanyLikesLayout: React.FC<CompanyLikesLayoutProps> = ({ title }) => {
         )}
 
         {/* 메인 콘텐츠 */}
-        <main className="flex-1 px-4 py-6 overflow-y-auto md:px-8">
+        <main className="flex-1 overflow-y-auto px-4 py-6 md:px-8">
           <div className="mx-auto w-[1096px]">
             {pageTitle && (
               <h2 className="mb-8 mt-8 text-[40px] font-bold text-gray-800">{pageTitle}</h2>

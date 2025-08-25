@@ -103,7 +103,7 @@ const BenchmarkPage: React.FC = () => {
               currentPage={currentPage}
               totalPages={totalPages}
               onPageChange={handlePageChange}
-              className="mt-8 mb-8"
+              className="mb-8 mt-8"
             />
           </>
         );
@@ -113,7 +113,10 @@ const BenchmarkPage: React.FC = () => {
         const remainingCardsPerPage = 9; // 한 페이지당 9개
         const remainingIndexOfLastCard = currentPage * remainingCardsPerPage;
         const remainingIndexOfFirstCard = remainingIndexOfLastCard - remainingCardsPerPage;
-        const currentRemainingCards = remainingCards.slice(remainingIndexOfFirstCard, remainingIndexOfLastCard);
+        const currentRemainingCards = remainingCards.slice(
+          remainingIndexOfFirstCard,
+          remainingIndexOfLastCard
+        );
         const totalRemainingPages = Math.ceil(remainingCards.length / remainingCardsPerPage);
 
         // 9개를 3개씩 3줄로 그룹화
@@ -125,17 +128,17 @@ const BenchmarkPage: React.FC = () => {
         return (
           <div className="space-y-6">
             {/* 카드 개수 표시 */}
-            <div className="mt-7 text-left text-gray-600 text-bodyLg">
-              총 1,070건
-            </div>
-          
+            <div className="mt-7 text-left text-bodyLg text-gray-600">총 1,070건</div>
+
             {/* 상위 3개 고정 카드 */}
-            <div className="px-5 py-7 bg-gray-50 rounded-xl">
-              <div className="flex gap-2 items-center">
+            <div className="rounded-xl bg-gray-50 px-5 py-7">
+              <div className="flex items-center gap-2">
                 <img src="/benchmark/ic_person.svg" className="h-[24px] w-[24px]"></img>
                 <div className="text-h3">{userName} 님과 가장 비슷한 지원자</div>
               </div>
-              <div className="px-8 py-3 text-bodyLg">AI가 선별한 {userName} 님과 가장 비슷한 지원자예요.</div>
+              <div className="px-8 py-3 text-bodyLg">
+                AI가 선별한 {userName} 님과 가장 비슷한 지원자예요.
+              </div>
               <div className="grid grid-cols-3 gap-6 px-6">
                 <SpecCard
                   company="토스"
@@ -180,7 +183,7 @@ const BenchmarkPage: React.FC = () => {
             </div>
 
             {/* 나머지 9개 카드 (페이지네이션) */}
-            <div className="pt-3 space-y-6">
+            <div className="space-y-6 pt-3">
               {groupedRemainingCards.map((row, rowIndex) => (
                 <div key={rowIndex} className="grid grid-cols-3 gap-6">
                   {row.map((card) => (
@@ -209,7 +212,7 @@ const BenchmarkPage: React.FC = () => {
               currentPage={currentPage}
               totalPages={totalRemainingPages}
               onPageChange={handlePageChange}
-              className="mt-8 mb-8"
+              className="mb-8 mt-8"
             />
           </div>
         );
@@ -217,33 +220,35 @@ const BenchmarkPage: React.FC = () => {
         return (
           <div className="space-y-6">
             {/* 카드 개수 표시 */}
-            <div className="mt-7 text-left text-gray-600 text-bodyLg">
-              총 1,070건
-            </div>
-            
+            <div className="mt-7 text-left text-bodyLg text-gray-600">총 1,070건</div>
+
             {/* 검색창 */}
             <div className="relative">
-              <div className="flex absolute inset-y-0 left-0 items-center pl-5 pointer-events-none">
-                <MagnifyingGlassIcon className="w-7 h-7 text-gray-400" />
+              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-5">
+                <MagnifyingGlassIcon className="h-7 w-7 text-gray-400" />
               </div>
               <input
                 type="text"
                 placeholder="기업을 검색해보세요. 해당 기업에 지원한 지원자들의 스펙을 볼 수 있습니다."
-                className="block py-4 pr-3 pl-16 w-full placeholder-gray-400 text-gray-900 rounded-lg border border-gray-200 text-bodyLg focus:outline-none focus:ring-1 focus:ring-mainBlue focus:border-mainBlue"
+                className="block w-full rounded-lg border border-gray-200 py-4 pl-16 pr-3 text-bodyLg text-gray-900 placeholder-gray-400 focus:border-mainBlue focus:outline-none focus:ring-1 focus:ring-mainBlue"
               />
             </div>
 
-            <div className="flex items-center px-5 py-4 bg-gray-100 rounded-lg">
+            <div className="flex items-center rounded-lg bg-gray-100 px-5 py-4">
               <img src="/benchmark/ic_idea.svg" className="h-[24px] w-[24px]"></img>
               <div className="ml-3 text-bodyLg">아래는 {userName} 님이 관심 기업으로 설정한</div>
-              <div className="ml-2 text-white bg-gray-600 rounded-lg text-bodyMd px-[8px] py-[2px]">부산기업 A</div>
-              <div className="ml-1 text-white bg-gray-600 rounded-lg text-bodyMd px-[8px] py-[2px]">부산기업 B</div>
+              <div className="ml-2 rounded-lg bg-gray-600 px-[8px] py-[2px] text-bodyMd text-white">
+                부산기업 A
+              </div>
+              <div className="ml-1 rounded-lg bg-gray-600 px-[8px] py-[2px] text-bodyMd text-white">
+                부산기업 B
+              </div>
               <div className="ml-2 text-bodyLg">에 지원한 사람들의 스펙입니다.</div>
             </div>
 
             <div className="pt-3">
               <div className="text-h3">{userName} 님의 관심 기업 A의 지원자들</div>
-              
+
               {/* 카드 3개씩 2줄 */}
               <div className="mt-6 space-y-6">
                 {/* 첫 번째 줄 */}
@@ -288,7 +293,7 @@ const BenchmarkPage: React.FC = () => {
                     result="final_accepted"
                   />
                 </div>
-                
+
                 {/* 두 번째 줄 */}
                 <div className="grid grid-cols-3 gap-6">
                   <SpecCard
@@ -335,7 +340,7 @@ const BenchmarkPage: React.FC = () => {
             </div>
             <div className="pt-5">
               <div className="text-h3">{userName} 님의 관심 기업 B의 지원자들</div>
-              
+
               {/* 카드 3개씩 2줄 */}
               <div className="mt-6 space-y-6">
                 {/* 첫 번째 줄 */}
@@ -380,7 +385,7 @@ const BenchmarkPage: React.FC = () => {
                     result="final_accepted"
                   />
                 </div>
-                
+
                 {/* 두 번째 줄 */}
                 <div className="grid grid-cols-3 gap-6">
                   <SpecCard
@@ -430,196 +435,196 @@ const BenchmarkPage: React.FC = () => {
       case '동일 학교':
         return (
           <div className="space-y-6">
-          {/* 카드 개수 표시 */}
-          <div className="mt-7 text-left text-gray-600 text-bodyLg">
-            총 1,070건
-          </div>
+            {/* 카드 개수 표시 */}
+            <div className="mt-7 text-left text-bodyLg text-gray-600">총 1,070건</div>
 
-          <div className="pt-3">
-            <div className="text-h3">{userSchool} 학생들의 스펙</div>
-            
-            {/* 카드 3개씩 2줄 */}
-            <div className="mt-6 space-y-6">
-              {/* 첫 번째 줄 */}
-              <div className="grid grid-cols-3 gap-6">
-                <SpecCard
-                  company="삼성전자"
-                  position="프론트엔드"
-                  internships="인턴 및 대외활동 6회"
-                  certificates="자격증 3개"
-                  university={userSchool}
-                  major="소프트웨어공학과"
-                  gpa="4.2"
-                  gpaScale="4.5"
-                  acceptanceRate="96%"
-                  pointCost={16}
-                  result="final_accepted"
-                />
-                <SpecCard
-                  company="LG전자"
-                  position="백엔드"
-                  internships="인턴 및 대외활동 4회"
-                  certificates="자격증 2개"
-                  university={userSchool}
-                  major="정보통신공학과"
-                  gpa="3.9"
-                  gpaScale="4.5"
-                  acceptanceRate="93%"
-                  pointCost={13}
-                  result="final_accepted"
-                />
-                <SpecCard
-                  company="네이버"
-                  position="프론트엔드"
-                  internships="인턴 및 대외활동 8회"
-                  certificates="자격증 5개"
-                  university={userSchool}
-                  major="컴퓨터공학과"
-                  gpa="4.4"
-                  gpaScale="4.5"
-                  acceptanceRate="98%"
-                  pointCost={20}
-                  result="final_accepted"
-                />
+            <div className="pt-3">
+              <div className="text-h3">{userSchool} 학생들의 스펙</div>
+
+              {/* 카드 3개씩 2줄 */}
+              <div className="mt-6 space-y-6">
+                {/* 첫 번째 줄 */}
+                <div className="grid grid-cols-3 gap-6">
+                  <SpecCard
+                    company="삼성전자"
+                    position="프론트엔드"
+                    internships="인턴 및 대외활동 6회"
+                    certificates="자격증 3개"
+                    university={userSchool}
+                    major="소프트웨어공학과"
+                    gpa="4.2"
+                    gpaScale="4.5"
+                    acceptanceRate="96%"
+                    pointCost={16}
+                    result="final_accepted"
+                  />
+                  <SpecCard
+                    company="LG전자"
+                    position="백엔드"
+                    internships="인턴 및 대외활동 4회"
+                    certificates="자격증 2개"
+                    university={userSchool}
+                    major="정보통신공학과"
+                    gpa="3.9"
+                    gpaScale="4.5"
+                    acceptanceRate="93%"
+                    pointCost={13}
+                    result="final_accepted"
+                  />
+                  <SpecCard
+                    company="네이버"
+                    position="프론트엔드"
+                    internships="인턴 및 대외활동 8회"
+                    certificates="자격증 5개"
+                    university={userSchool}
+                    major="컴퓨터공학과"
+                    gpa="4.4"
+                    gpaScale="4.5"
+                    acceptanceRate="98%"
+                    pointCost={20}
+                    result="final_accepted"
+                  />
+                </div>
+
+                {/* 두 번째 줄 */}
+                <div className="grid grid-cols-3 gap-6">
+                  <SpecCard
+                    company="카카오"
+                    position="백엔드"
+                    internships="인턴 및 대외활동 3회"
+                    certificates="자격증 1개"
+                    university={userSchool}
+                    major="전자공학과"
+                    gpa="3.8"
+                    gpaScale="4.5"
+                    acceptanceRate="91%"
+                    pointCost={11}
+                    result="final_accepted"
+                  />
+                  <SpecCard
+                    company="토스"
+                    position="프론트엔드"
+                    internships="인턴 및 대외활동 7회"
+                    certificates="자격증 4개"
+                    university={userSchool}
+                    major="산업공학과"
+                    gpa="4.1"
+                    gpaScale="4.5"
+                    acceptanceRate="95%"
+                    pointCost={17}
+                    result="final_accepted"
+                  />
+                  <SpecCard
+                    company="쿠팡"
+                    position="백엔드"
+                    internships="인턴 및 대외활동 5회"
+                    certificates="자격증 3개"
+                    university={userSchool}
+                    major="기계공학과"
+                    gpa="3.7"
+                    gpaScale="4.5"
+                    acceptanceRate="89%"
+                    pointCost={10}
+                    result="final_accepted"
+                  />
+                </div>
               </div>
-              
-              {/* 두 번째 줄 */}
-              <div className="grid grid-cols-3 gap-6">
-                <SpecCard
-                  company="카카오"
-                  position="백엔드"
-                  internships="인턴 및 대외활동 3회"
-                  certificates="자격증 1개"
-                  university={userSchool}
-                  major="전자공학과"
-                  gpa="3.8"
-                  gpaScale="4.5"
-                  acceptanceRate="91%"
-                  pointCost={11}
-                  result="final_accepted"
-                />
-                <SpecCard
-                  company="토스"
-                  position="프론트엔드"
-                  internships="인턴 및 대외활동 7회"
-                  certificates="자격증 4개"
-                  university={userSchool}
-                  major="산업공학과"
-                  gpa="4.1"
-                  gpaScale="4.5"
-                  acceptanceRate="95%"
-                  pointCost={17}
-                  result="final_accepted"
-                />
-                <SpecCard
-                  company="쿠팡"
-                  position="백엔드"
-                  internships="인턴 및 대외활동 5회"
-                  certificates="자격증 3개"
-                  university={userSchool}
-                  major="기계공학과"
-                  gpa="3.7"
-                  gpaScale="4.5"
-                  acceptanceRate="89%"
-                  pointCost={10}
-                  result="final_accepted"
-                />
+            </div>
+            <div className="pt-5">
+              <div className="text-h3">
+                {userSchool} {userMajor} 학생들의 스펙
+              </div>
+
+              {/* 카드 3개씩 2줄 */}
+              <div className="mt-6 space-y-6">
+                {/* 첫 번째 줄 */}
+                <div className="grid grid-cols-3 gap-6">
+                  <SpecCard
+                    company="삼성전자"
+                    position="프론트엔드"
+                    internships="인턴 및 대외활동 5회"
+                    certificates="자격증 3개"
+                    university={userSchool}
+                    major={userMajor}
+                    gpa="4.1"
+                    gpaScale="4.5"
+                    acceptanceRate="95%"
+                    pointCost={15}
+                    result="final_accepted"
+                  />
+                  <SpecCard
+                    company="LG전자"
+                    position="백엔드"
+                    internships="인턴 및 대외활동 3회"
+                    certificates="자격증 1개"
+                    university={userSchool}
+                    major={userMajor}
+                    gpa="3.9"
+                    gpaScale="4.5"
+                    acceptanceRate="92%"
+                    pointCost={12}
+                    result="final_accepted"
+                  />
+                  <SpecCard
+                    company="네이버"
+                    position="프론트엔드"
+                    internships="인턴 및 대외활동 7회"
+                    certificates="자격증 4개"
+                    university={userSchool}
+                    major={userMajor}
+                    gpa="4.3"
+                    gpaScale="4.5"
+                    acceptanceRate="97%"
+                    pointCost={18}
+                    result="final_accepted"
+                  />
+                </div>
+
+                {/* 두 번째 줄 */}
+                <div className="grid grid-cols-3 gap-6">
+                  <SpecCard
+                    company="카카오"
+                    position="백엔드"
+                    internships="인턴 및 대외활동 2회"
+                    certificates="자격증 2개"
+                    university={userSchool}
+                    major={userMajor}
+                    gpa="3.8"
+                    gpaScale="4.5"
+                    acceptanceRate="89%"
+                    pointCost={10}
+                    result="final_accepted"
+                  />
+                  <SpecCard
+                    company="토스"
+                    position="프론트엔드"
+                    internships="인턴 및 대외활동 6회"
+                    certificates="자격증 3개"
+                    university={userSchool}
+                    major={userMajor}
+                    gpa="4.0"
+                    gpaScale="4.5"
+                    acceptanceRate="94%"
+                    pointCost={14}
+                    result="final_accepted"
+                  />
+                  <SpecCard
+                    company="쿠팡"
+                    position="백엔드"
+                    internships="인턴 및 대외활동 4회"
+                    certificates="자격증 2개"
+                    university={userSchool}
+                    major={userMajor}
+                    gpa="3.7"
+                    gpaScale="4.5"
+                    acceptanceRate="91%"
+                    pointCost={11}
+                    result="final_accepted"
+                  />
+                </div>
               </div>
             </div>
           </div>
-          <div className="pt-5">
-            <div className="text-h3">{userSchool} {userMajor} 학생들의 스펙</div>
-            
-            {/* 카드 3개씩 2줄 */}
-            <div className="mt-6 space-y-6">
-              {/* 첫 번째 줄 */}
-              <div className="grid grid-cols-3 gap-6">
-                <SpecCard
-                  company="삼성전자"
-                  position="프론트엔드"
-                  internships="인턴 및 대외활동 5회"
-                  certificates="자격증 3개"
-                  university={userSchool}
-                  major={userMajor}
-                  gpa="4.1"
-                  gpaScale="4.5"
-                  acceptanceRate="95%"
-                  pointCost={15}
-                  result="final_accepted"
-                />
-                <SpecCard
-                  company="LG전자"
-                  position="백엔드"
-                  internships="인턴 및 대외활동 3회"
-                  certificates="자격증 1개"
-                  university={userSchool}
-                  major={userMajor}
-                  gpa="3.9"
-                  gpaScale="4.5"
-                  acceptanceRate="92%"
-                  pointCost={12}
-                  result="final_accepted"
-                />
-                <SpecCard
-                  company="네이버"
-                  position="프론트엔드"
-                  internships="인턴 및 대외활동 7회"
-                  certificates="자격증 4개"
-                  university={userSchool}
-                  major={userMajor}
-                  gpa="4.3"
-                  gpaScale="4.5"
-                  acceptanceRate="97%"
-                  pointCost={18}
-                  result="final_accepted"
-                />
-              </div>
-              
-              {/* 두 번째 줄 */}
-              <div className="grid grid-cols-3 gap-6">
-                <SpecCard
-                  company="카카오"
-                  position="백엔드"
-                  internships="인턴 및 대외활동 2회"
-                  certificates="자격증 2개"
-                  university={userSchool}
-                  major={userMajor}
-                  gpa="3.8"
-                  gpaScale="4.5"
-                  acceptanceRate="89%"
-                  pointCost={10}
-                  result="final_accepted"
-                />
-                <SpecCard
-                  company="토스"
-                  position="프론트엔드"
-                  internships="인턴 및 대외활동 6회"
-                  certificates="자격증 3개"
-                  university={userSchool}
-                  major={userMajor}
-                  gpa="4.0"
-                  gpaScale="4.5"
-                  acceptanceRate="94%"
-                  pointCost={14}
-                  result="final_accepted"
-                />
-                <SpecCard
-                  company="쿠팡"
-                  position="백엔드"
-                  internships="인턴 및 대외활동 4회"
-                  certificates="자격증 2개"
-                  university={userSchool}
-                  major={userMajor}
-                  gpa="3.7"
-                  gpaScale="4.5"
-                  acceptanceRate="91%"
-                  pointCost={11}
-                  result="final_accepted"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
         );
       default:
         return null;
@@ -628,41 +633,43 @@ const BenchmarkPage: React.FC = () => {
 
   return (
     <div className="space-y-6">
-
       {/* 벤치마크 카드 그리드 1/2 (조건 맞아야 노출) */}
-      <div className="px-10 py-6 bg-gray-50 rounded-xl">
-        <div className="flex gap-2 items-center">
+      <div className="rounded-xl bg-gray-50 px-10 py-6">
+        <div className="flex items-center gap-2">
           <img src="/benchmark/ic_star.svg" className="h-[32px] w-[32px]"></img>
           <div className="text-h4">잡메이트 분석 결과</div>
         </div>
-        <div className="pt-4 pl-10 whitespace-pre-line text-bodyLg">
+        <div className="whitespace-pre-line pl-10 pt-4 text-bodyLg">
           {`합격자와 비교했을 때, 상대적으로 인턴 역량이 부족해요. 평균적으로 합격자들은 ‘인턴’ 이력을 1개 이상 보유하고 있어요.
           이 부분을 보완하시면, 더 좋은 결과를 얻을 수 있을 거예요! ☺️`}
         </div>
       </div>
 
       {/* 벤치마크 카드 그리드 2/2 (조건 맞아야 노출) */}
-      <div className="pt-10 pb-10">
+      <div className="pb-10 pt-10">
         <div className="text-h2">합격 가능성을 넓히는 기회! ✨</div>
-        <div className="mt-4 text-bodyLg">현재 스펙과 유사한 수준을 요구하는 기업을 추천드려요. 합격 가능성이 높은 곳부터 확인해 보세요!</div>
-        <div className="grid grid-cols-3 gap-6 mt-4">
-          <div className="rounded-xl border-[1.5px] border-gray-300 py-6 px-7">
+        <div className="mt-4 text-bodyLg">
+          현재 스펙과 유사한 수준을 요구하는 기업을 추천드려요. 합격 가능성이 높은 곳부터 확인해
+          보세요!
+        </div>
+        <div className="mt-4 grid grid-cols-3 gap-6">
+          <div className="rounded-xl border-[1.5px] border-gray-300 px-7 py-6">
             <div className="flex gap-4">
-              <div className="bg-gray-300 rounded-full w-[40px] h-[40px]"></div>
+              <div className="h-[40px] w-[40px] rounded-full bg-gray-300"></div>
               <div className="mt-1 text-h3">부산교통공사</div>
             </div>
             <div className="ml-14 text-bodyLg">서버 인프라 관리직 채용 (정규직)</div>
           </div>
-          <div className="rounded-xl border-[1.5px] border-gray-300 py-6 px-7">
+          <div className="rounded-xl border-[1.5px] border-gray-300 px-7 py-6">
             <div className="flex gap-4">
-              <div className="bg-gray-300 rounded-full w-[40px] h-[40px]"></div>
+              <div className="h-[40px] w-[40px] rounded-full bg-gray-300"></div>
               <div className="mt-1 text-h3">부산교통공사</div>
             </div>
             <div className="ml-14 text-bodyLg">서버 인프라 관리직 채용 (정규직)</div>
           </div>
-          <div className="rounded-xl border-[1.5px] border-gray-300 py-6 px-7">
+          <div className="rounded-xl border-[1.5px] border-gray-300 px-7 py-6">
             <div className="flex gap-4">
-              <div className="bg-gray-300 rounded-full w-[40px] h-[40px]"></div>
+              <div className="h-[40px] w-[40px] rounded-full bg-gray-300"></div>
               <div className="mt-1 text-h3">부산교통공사</div>
             </div>
             <div className="ml-14 text-bodyLg">서버 인프라 관리직 채용 (정규직)</div>
@@ -677,22 +684,20 @@ const BenchmarkPage: React.FC = () => {
             <button
               key={tab}
               onClick={() => handleTabChange(tab)}
-              className={`py-2 text-h3 font-medium transition-colors px-4 ${
+              className={`px-4 py-2 text-h3 font-medium transition-colors ${
                 activeTab === tab
-                  ? 'text-gray-900 border-b-[3px] border-mainBlue'
-                  : 'text-gray-400 hover:text-gray-600 border-b-[3px] border-white'
+                  ? 'border-b-[3px] border-mainBlue text-gray-900'
+                  : 'border-b-[3px] border-white text-gray-400 hover:text-gray-600'
               }`}
             >
               {tab}
             </button>
           ))}
         </div>
-        
+
         {/* 선택된 탭의 총 건수 표시 */}
         {activeTab === '전체' && (
-          <div className="mt-7 text-left text-gray-600 text-bodyLg">
-            총 1,070건
-          </div>
+          <div className="mt-7 text-left text-bodyLg text-gray-600">총 1,070건</div>
         )}
       </div>
 
@@ -702,4 +707,4 @@ const BenchmarkPage: React.FC = () => {
   );
 };
 
-export default BenchmarkPage; 
+export default BenchmarkPage;

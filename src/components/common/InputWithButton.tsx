@@ -49,7 +49,7 @@ export const InputWithButton: React.FC<InputWithButtonProps> = ({
         <button
           type="button"
           onClick={onButtonClick}
-          className="h-[66px] w-1/4 rounded-r-xl border border-l-0 border-gray-200 bg-mainBlue text-h4 font-medium text-white hover:opacity-50 disabled:opacity-30 disabled:cursor-not-allowed"
+          className="h-[66px] w-1/4 rounded-r-xl border border-l-0 border-gray-200 bg-mainBlue text-h4 font-medium text-white hover:opacity-50 disabled:cursor-not-allowed disabled:opacity-30"
           disabled={disabled}
         >
           {buttonText}

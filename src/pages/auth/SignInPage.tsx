@@ -40,7 +40,7 @@ const SigninPage = () => {
   // 🚨 엔터 키로 로그인 실행을 위해 폼에 onSubmit 추가
   const renderTabContent = () => (
     <form
-      className="flex flex-col flex-1 gap-5"
+      className="flex flex-1 flex-col gap-5"
       onSubmit={(e) => {
         e.preventDefault();
         handleLogin();
@@ -77,13 +77,13 @@ const SigninPage = () => {
   );
 
   return (
-    <div className="flex flex-col items-center px-4 py-10 w-full bg-white">
+    <div className="flex w-full flex-col items-center bg-white px-4 py-10">
       <div className="h-[153px] w-full max-w-[704px] text-center">
         {/* 타이틀 */}
         <h2 className="m-10 text-[40px] font-bold text-gray-800">로그인</h2>
 
         {/* 탭 */}
-        <div className="flex justify-center mb-8">
+        <div className="mb-8 flex justify-center">
           {[
             { label: '개인 회원', value: 'personal' },
             { label: '기업 회원', value: 'company' },
@@ -107,7 +107,7 @@ const SigninPage = () => {
           })}
         </div>
         {/* 로그인 폼 + 버튼 */}
-        <div className="flex gap-6 justify-center">
+        <div className="flex justify-center gap-6">
           {renderTabContent()}
           <div className="flex flex-col items-center">
             <Button className="h-full w-[148px]" onClick={handleLogin}>
@@ -117,11 +117,11 @@ const SigninPage = () => {
         </div>
 
         {/* 로그인 유지하기 & IP 보안 */}
-        <div className="flex justify-between items-center px-1 mt-3 w-full text-sm text-gray-400">
-          <label className="flex gap-2 items-center text-gray-600 cursor-pointer">
+        <div className="mt-3 flex w-full items-center justify-between px-1 text-sm text-gray-400">
+          <label className="flex cursor-pointer items-center gap-2 text-gray-600">
             <input
               type="checkbox"
-              className="w-4 h-4 accent-mainBlue"
+              className="h-4 w-4 accent-mainBlue"
               checked={keepLogin}
               onChange={(e) => setKeepLogin(e.target.checked)}
             />

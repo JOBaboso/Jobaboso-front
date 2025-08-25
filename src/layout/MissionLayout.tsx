@@ -10,18 +10,18 @@ const MissionLayout = () => {
 
   // 포인트 새로고침 함수
   const refreshPoints = useCallback(() => {
-    setRefreshKey(prev => prev + 1);
+    setRefreshKey((prev) => prev + 1);
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex min-h-screen flex-col bg-white">
       <ScrollToTop />
       <Header />
 
       {/* 메인 콘텐츠 */}
-      <main className="overflow-y-auto flex-1 px-4 py-6 md:px-8">
+      <main className="flex-1 overflow-y-auto px-4 py-6 md:px-8">
         <div className="mx-auto w-[1160px]">
-          <div className="flex justify-between items-center">
+          <div className="flex items-center justify-between">
             <h2 className="mb-8 mt-8 text-[40px] font-bold text-gray-800">나의 미션</h2>
             <PointDisplay key={refreshKey} onRefresh={refreshPoints} />
           </div>

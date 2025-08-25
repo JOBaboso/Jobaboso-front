@@ -12,7 +12,6 @@ import {
   uploadDocuments,
   deleteDocument,
   downloadDocument,
-
   DocumentResponse,
 } from '../../apis/employment';
 import { Status, StatusLabelMap, StatusStyleMap } from '../../type/Status';
@@ -333,8 +332,6 @@ const ApplicationDetailPage: React.FC = () => {
     }
   };
 
-
-
   // 문서 타입 변경 핸들러
   const handleDocumentTypeChange = (index: number, type: string) => {
     const newTypes = [...documentTypes];
@@ -404,13 +401,13 @@ const ApplicationDetailPage: React.FC = () => {
             <div className="flex items-center gap-3">
               <div className="flex h-[34px] w-[34px] items-center justify-center rounded-[45px] border border-gray-300 bg-white">
                 {(() => {
-                  const company = companies.find(c => c.name === companyName);
+                  const company = companies.find((c) => c.name === companyName);
                   const logoPath = company?.logo;
-                  
+
                   if (logoPath) {
                     return (
-                      <img 
-                        src={logoPath} 
+                      <img
+                        src={logoPath}
                         alt={`${companyName} 로고`}
                         className="h-6 w-6 object-contain"
                         onError={(e) => {
@@ -421,7 +418,7 @@ const ApplicationDetailPage: React.FC = () => {
                       />
                     );
                   }
-                  
+
                   return null;
                 })()}
               </div>
@@ -522,7 +519,6 @@ const ApplicationDetailPage: React.FC = () => {
                       </button>
                     </div>
                     <div className="mr-4 flex items-center gap-4">
-
                       <button
                         onClick={() => handleDocumentDownload(doc.id, doc.original_name)}
                         className="flex items-center gap-1 text-sm text-green-600 hover:text-green-800"
@@ -750,8 +746,6 @@ const ApplicationDetailPage: React.FC = () => {
           </button>
         </div>
       </div>
-
-
     </div>
   );
 };

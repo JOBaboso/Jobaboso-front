@@ -26,7 +26,7 @@ const EducationForm: React.FC<EducationFormProps> = ({
 }) => {
   return (
     <div className="mb-16">
-      <h2 className="mb-10 font-semibold text-gray-800 text-h2">학력</h2>
+      <h2 className="mb-10 text-h2 font-semibold text-gray-800">학력</h2>
       <div className="grid grid-cols-[700px] gap-6">
         <div className="grid grid-cols-[212px_278px] gap-6">
           {/* 1행: 학교명, 주전공 */}
@@ -70,10 +70,7 @@ const EducationForm: React.FC<EducationFormProps> = ({
             onChange={onEndDateChange}
           />
           <div>
-            <label
-              htmlFor="status"
-              className="block p-1 mb-2 font-medium text-gray-700 text-h4"
-            >
+            <label htmlFor="status" className="mb-2 block p-1 text-h4 font-medium text-gray-700">
               상태
             </label>
             <select
@@ -93,4 +90,4 @@ const EducationForm: React.FC<EducationFormProps> = ({
   );
 };
 
-export default EducationForm; 
+export default EducationForm;

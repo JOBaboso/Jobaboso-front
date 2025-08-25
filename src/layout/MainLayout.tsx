@@ -17,6 +17,8 @@ const MainLayout = () => {
 
     if (type === 'company') {
       navigate('/company/contents');
+    } else if (type === 'university_staff') {
+      navigate('/staff/department');
     }
   }, [navigate]);
 
@@ -27,13 +29,7 @@ const MainLayout = () => {
 
       <div className="flex flex-1 overflow-hidden">
         <main className="flex-1 overflow-y-auto bg-white py-6">
-          {userType === 'university_staff' ? (
-            <StaffPage />
-          ) : userType === 'personal' ? (
-            <HomePage />
-          ) : (
-            <Outlet />
-          )}
+          <Outlet />
         </main>
       </div>
 

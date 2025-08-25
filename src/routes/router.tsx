@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 
 import MainLayout from '@layout/MainLayout';
+import StaffLayout from '@layout/StaffLayout';
 import AuthLayout from '@layout/AuthLayout';
 import MyLayout from '@layout/MyLayout';
 import EmploymentLayout from '@layout/EmploymentLayout';
@@ -35,6 +36,7 @@ import CompanyLikesCollectPage from '@pages/company/CompanyLikesCollectPage';
 import CompanyContentsLayout from '@layout/CompanyContentsLayout';
 import CompanyLikesLayout from '@layout/CompanyLikesLayout';
 import StaffPage from '@pages/staff/StaffPage';
+import StaffStudentsPage from '@pages/staff/StaffStudentsPage';
 import LandingPage from '@pages/LandingPage';
 
 const router = createBrowserRouter([
@@ -44,9 +46,13 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <LandingPage /> },
       { path: 'home', element: <HomePage /> },
-      { path: 'staff', element: <StaffPage /> },
-      // { path: "dashboard", element: <DashboardPage /> }, 이런 식으로 여기 라우트 걸기
+      { path: 'staff/department', element: <StaffPage /> },
     ],
+  },
+  {
+    path: '/staff',
+    element: <StaffLayout />,
+    children: [{ path: 'students', element: <StaffStudentsPage /> }],
   },
   {
     path: '/auth',
@@ -120,12 +126,10 @@ const router = createBrowserRouter([
         ],
       },
       {
-      path: 'spec',
+        path: 'spec',
         element: <CompanyLikesLayout />,
-        children: [
-          { path: ':id', element: <SpecPage /> },
-        ],
-      }
+        children: [{ path: ':id', element: <SpecPage /> }],
+      },
     ],
   },
 ]);

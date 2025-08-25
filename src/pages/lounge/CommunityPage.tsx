@@ -22,19 +22,21 @@ const CommunityPage = () => {
 
   // 데이터 필터링
   useEffect(() => {
-    let filtered = activeTab === '전체' 
-      ? communityData 
-      : communityData.filter(item => item.type === activeTab);
-    
+    let filtered =
+      activeTab === '전체'
+        ? communityData
+        : communityData.filter((item) => item.type === activeTab);
+
     // 검색어 필터링 추가
     if (searchQuery.trim()) {
-      filtered = filtered.filter(item => 
-        item.title.includes(searchQuery) || 
-        item.body.includes(searchQuery) ||
-        item.tags.some((tag: string) => tag.includes(searchQuery))
+      filtered = filtered.filter(
+        (item) =>
+          item.title.includes(searchQuery) ||
+          item.body.includes(searchQuery) ||
+          item.tags.some((tag: string) => tag.includes(searchQuery))
       );
     }
-    
+
     setFilteredData(filtered);
     setTotalCount(filtered.length);
   }, [activeTab, searchQuery]);
@@ -67,22 +69,19 @@ const CommunityPage = () => {
   return (
     <div className="w-full">
       {/* 검색창 */}
-      <SearchBar 
-        onSearch={handleSearch}
-        onWriteClick={handleWriteClick}
-      />
+      <SearchBar onSearch={handleSearch} onWriteClick={handleWriteClick} />
 
       {/* 탭 */}
       <TabBar tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
 
       {/* 건수 & 정렬 */}
-      <div className="flex items-center justify-between pb-4 mt-4">
+      <div className="mt-4 flex items-center justify-between pb-4">
         <div className="text-h4">
           <span className="text-gray-800">총 </span>
           <span className="font-semibold text-blue-500">{totalCount.toLocaleString()}</span>
           <span className="text-gray-800">건</span>
         </div>
-        <div className="text-gray-500 text-caption">
+        <div className="text-caption text-gray-500">
           모든 글들이 최신순으로 정렬되어 보여집니다.
         </div>
       </div>
@@ -97,20 +96,20 @@ const CommunityPage = () => {
       {/* 검색 결과가 없을 때 */}
       {currentPosts.length === 0 && (
         <div className="py-12 text-center">
-          <p className="text-gray-500 text-bodyLg">
+          <p className="text-bodyLg text-gray-500">
             {searchQuery.trim() ? '검색 결과가 없습니다.' : '게시글이 없습니다.'}
           </p>
         </div>
       )}
 
       {/* 페이지네이션 */}
-      <Pagination 
-        currentPage={currentPage} 
-        totalPages={totalPages} 
-        onPageChange={handlePageChange} 
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
       />
     </div>
   );
 };
 
-export default CommunityPage; 
+export default CommunityPage;

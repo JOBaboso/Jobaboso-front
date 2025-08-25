@@ -52,7 +52,7 @@ const CorporatePage: React.FC = () => {
         {corporatePageData.map((content: CorporateContent) => (
           <div
             key={content.id}
-            className="overflow-hidden border-t border-solid border-t-gray-300 bg-white p-8 cursor-pointer hover:bg-gray-50 transition-colors"
+            className="cursor-pointer overflow-hidden border-t border-solid border-t-gray-300 bg-white p-8 transition-colors hover:bg-gray-50"
             onClick={() => handleContentClick(content.id)}
           >
             <div className="flex">

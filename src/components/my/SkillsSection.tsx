@@ -6,32 +6,32 @@ interface SkillsSectionProps {
   onSkillRemove: (skillToRemove: string) => void;
 }
 
-const SkillsSection: React.FC<SkillsSectionProps> = ({
-  skills,
-  userName,
-  onSkillRemove,
-}) => {
+const SkillsSection: React.FC<SkillsSectionProps> = ({ skills, userName, onSkillRemove }) => {
   return (
     <div className="mb-16 w-[862px]">
-      <h2 className="mb-10 font-semibold text-gray-800 text-h2">스킬</h2>
-      <div className="p-6 rounded-xl border border-gray-200">
-        <div className="flex gap-2 items-center mb-2 font-semibold text-gray-700 text-h4">
+      <h2 className="mb-10 text-h2 font-semibold text-gray-800">스킬</h2>
+      <div className="rounded-xl border border-gray-200 p-6">
+        <div className="mb-2 flex items-center gap-2 text-h4 font-semibold text-gray-700">
           나의 스킬 <span className="text-sm">({skills.length}/20)</span>
         </div>
-        <div className="mb-2 text-gray-500 text-bodyLg">
+        <div className="mb-2 text-bodyLg text-gray-500">
           {userName} 님이 선택하신 스킬을 기반으로 추천해드려요!
         </div>
         <div className="flex flex-wrap gap-2">
           {skills.map((skill, index) => {
-            const skillText = typeof skill === 'string' ? skill : 
-                             (skill && typeof skill === 'object' && skill.skill_name ? skill.skill_name : '');
-            
+            const skillText =
+              typeof skill === 'string'
+                ? skill
+                : skill && typeof skill === 'object' && skill.skill_name
+                  ? skill.skill_name
+                  : '';
+
             if (!skillText) return null;
-            
+
             return (
               <span
                 key={skillText || index}
-                className="flex gap-1 items-center px-4 py-2 font-medium rounded-xl border shadow-none border-mainBlue bg-subLightBlue text-h4 text-mainBlue"
+                className="flex items-center gap-1 rounded-xl border border-mainBlue bg-subLightBlue px-4 py-2 text-h4 font-medium text-mainBlue shadow-none"
               >
                 {skillText}
                 <button
@@ -50,4 +50,4 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({
   );
 };
 
-export default SkillsSection; 
+export default SkillsSection;

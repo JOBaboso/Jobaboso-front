@@ -113,8 +113,8 @@ const StaffPage: React.FC = () => {
 
   return (
     <div className="mx-auto w-[1360px]">
-      <div className="items-center mb-8">
-        <div className="mb-4 mt-8 text-[24px] font-bold text-gray-800 leading-[34px] tracking-[0%] font-['Pretendard']">
+      <div className="mb-8 items-center">
+        <div className="mb-4 mt-8 font-['Pretendard'] text-[24px] font-bold leading-[34px] tracking-[0%] text-gray-800">
           부산대학교 정보컴퓨터공학과 취업 현황
         </div>
         <div className="text-bodyLg">
@@ -123,75 +123,96 @@ const StaffPage: React.FC = () => {
       </div>
 
       {/* 통계 1행 */}
-      <div className="grid grid-cols-[655px_310px_360px] gap-4 h-[310px]">
+      <div className="grid h-[310px] grid-cols-[655px_310px_360px] gap-4">
         {/* 졸업년도별 취업률 */}
-        <div className="p-6 bg-gray-600 rounded-xl">
-          <div className="mb-2 text-white text-h3">졸업년도별 취업률</div>
-          <div className="flex items-center justify-between mb-6">
+        <div className="rounded-xl bg-gray-600 p-6">
+          <div className="mb-2 text-h3 text-white">졸업년도별 취업률</div>
+          <div className="mb-6 flex items-center justify-between">
             <div className="flex gap-2">
               <img src="/staff/ic_loading.svg"></img>
-              <div className="text-white text-bodyMd">
-                {new Date().toLocaleString('ko-KR', { 
-                  year: 'numeric', 
-                  month: 'long', 
-                  day: 'numeric', 
-                  hour: 'numeric', 
+              <div className="text-bodyMd text-white">
+                {new Date().toLocaleString('ko-KR', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                  hour: 'numeric',
                   minute: 'numeric',
-                  hour12: true 
-                })} 기준
+                  hour12: true,
+                })}{' '}
+                기준
               </div>
             </div>
-            <div className="flex items-center gap-2 px-2 py-1 bg-gray-400 rounded-lg cursor-pointer">
-              <span className="text-white text-bodySm">2025년</span>
-              <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            <div className="flex cursor-pointer items-center gap-2 rounded-lg bg-gray-400 px-2 py-1">
+              <span className="text-bodySm text-white">2025년</span>
+              <svg
+                className="h-4 w-4 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
               </svg>
             </div>
           </div>
           <div className="grid grid-cols-3 gap-3">
             {/* 전체 */}
-            <div className="px-6 pt-6 pb-8 rounded-lg bg-gradient-to-b from-white to-gray-100">
-              <div className="mb-8 text-gray-700 text-h4">전체</div>
+            <div className="rounded-lg bg-gradient-to-b from-white to-gray-100 px-6 pb-8 pt-6">
+              <div className="mb-8 text-h4 text-gray-700">전체</div>
               <div className="flex justify-end">
                 <div className="text-bodySm">200명 중</div>
-                <div className="ml-1 font-bold text-bodySm">160명</div>
+                <div className="ml-1 text-bodySm font-bold">160명</div>
               </div>
-              <div className="flex justify-end text-transparent bg-clip-text bg-gradient-to-b from-gray-700 to-mainBlue text-h1">80.0%</div>
+              <div className="flex justify-end bg-gradient-to-b from-gray-700 to-mainBlue bg-clip-text text-h1 text-transparent">
+                80.0%
+              </div>
             </div>
             {/* 남자 */}
-            <div className="px-6 pt-6 pb-8 rounded-lg bg-gradient-to-b from-white to-gray-100">
-              <div className="mb-8 text-gray-700 text-h4">남자</div>
+            <div className="rounded-lg bg-gradient-to-b from-white to-gray-100 px-6 pb-8 pt-6">
+              <div className="mb-8 text-h4 text-gray-700">남자</div>
               <div className="flex justify-end">
                 <div className="text-bodySm">150명 중</div>
-                <div className="ml-1 font-bold text-bodySm">118명</div>
+                <div className="ml-1 text-bodySm font-bold">118명</div>
               </div>
-              <div className="flex justify-end text-transparent bg-clip-text bg-gradient-to-b from-gray-700 to-mainBlue text-h1">78.6%</div>
+              <div className="flex justify-end bg-gradient-to-b from-gray-700 to-mainBlue bg-clip-text text-h1 text-transparent">
+                78.6%
+              </div>
             </div>
             {/* 여자 */}
-            <div className="px-6 pt-6 pb-8 rounded-lg bg-gradient-to-b from-white to-gray-100">
-              <div className="mb-8 text-gray-700 text-h4">여자</div>
+            <div className="rounded-lg bg-gradient-to-b from-white to-gray-100 px-6 pb-8 pt-6">
+              <div className="mb-8 text-h4 text-gray-700">여자</div>
               <div className="flex justify-end">
                 <div className="text-bodySm">50명 중</div>
-                <div className="ml-1 font-bold text-bodySm">42명</div>
+                <div className="ml-1 text-bodySm font-bold">42명</div>
               </div>
-              <div className="flex justify-end text-transparent bg-clip-text bg-gradient-to-b from-gray-700 to-mainBlue text-h1">84.0%</div>
+              <div className="flex justify-end bg-gradient-to-b from-gray-700 to-mainBlue bg-clip-text text-h1 text-transparent">
+                84.0%
+              </div>
             </div>
           </div>
         </div>
 
         {/* 평균 취준 기간 */}
-        <div className="p-6 bg-gray-600 rounded-xl">
-          <div className="mb-2 text-white text-h3">평균 취준 기간</div>
-          <div className="mb-20 text-white text-bodyMd">전체 학생들의 평균 취준 기간이에요.</div>
-          <div className="flex justify-end bg-gradient-to-b from-white to-subSkyBlue bg-clip-text text-transparent text-[52px] font-semibold">2.1년</div>
-          <div className="flex justify-end text-white text-caption">*'취업 년도 - 졸업 년도' 기준</div>
+        <div className="rounded-xl bg-gray-600 p-6">
+          <div className="mb-2 text-h3 text-white">평균 취준 기간</div>
+          <div className="mb-20 text-bodyMd text-white">전체 학생들의 평균 취준 기간이에요.</div>
+          <div className="flex justify-end bg-gradient-to-b from-white to-subSkyBlue bg-clip-text text-[52px] font-semibold text-transparent">
+            2.1년
+          </div>
+          <div className="flex justify-end text-caption text-white">
+            *'취업 년도 - 졸업 년도' 기준
+          </div>
         </div>
 
         {/* 목표 기업 분포 */}
-        <div className="px-6 pt-6 bg-gray-600 rounded-xl">
-          <div className="mb-4 text-white text-h3">목표 기업 분포</div>
+        <div className="rounded-xl bg-gray-600 px-6 pt-6">
+          <div className="mb-4 text-h3 text-white">목표 기업 분포</div>
           <div className="flex justify-center">
-            <div className="[&_.apexcharts-pie]:!stroke-none [&_.apexcharts-donut]:!stroke-none [&_.apexcharts-slice]:!stroke-none [&_.apexcharts-arc]:!stroke-none [&_path]:!stroke-none [&_circle]:!stroke-none [&_.apexcharts-legend-marker]:!rounded-md [&_.apexcharts-legend-marker]:!border-radius-[6px] [&_.apexcharts-legend-marker]:!overflow-hidden [&_.apexcharts-legend-marker]:!border-white [&_.apexcharts-legend-marker]:!width-[9px] [&_.apexcharts-legend-marker]:!height-[9px] [&_.apexcharts-legend-marker]:!border-radius-[6px] [&_.apexcharts-legend-marker]:!border-[1.5px] [&_.apexcharts-datalabel]:!text-shadow-none [&_.apexcharts-datalabel]:!filter-none [&_.apexcharts-datalabel]:!drop-shadow-none [&_.apexcharts-datalabel]:!box-shadow-none [&_text]:!text-shadow-none [&_text]:!filter-none [&_text]:!drop-shadow-none [&_text]:!box-shadow-none">
+            <div className="[&_.apexcharts-legend-marker]:!border-radius-[6px] [&_.apexcharts-legend-marker]:!width-[9px] [&_.apexcharts-legend-marker]:!height-[9px] [&_.apexcharts-legend-marker]:!border-radius-[6px] [&_.apexcharts-datalabel]:!text-shadow-none [&_.apexcharts-datalabel]:!box-shadow-none [&_text]:!text-shadow-none [&_text]:!box-shadow-none [&_.apexcharts-arc]:!stroke-none [&_.apexcharts-datalabel]:!drop-shadow-none [&_.apexcharts-datalabel]:!filter-none [&_.apexcharts-donut]:!stroke-none [&_.apexcharts-legend-marker]:!overflow-hidden [&_.apexcharts-legend-marker]:!rounded-md [&_.apexcharts-legend-marker]:!border-[1.5px] [&_.apexcharts-legend-marker]:!border-white [&_.apexcharts-pie]:!stroke-none [&_.apexcharts-slice]:!stroke-none [&_circle]:!stroke-none [&_path]:!stroke-none [&_text]:!drop-shadow-none [&_text]:!filter-none">
               <ReactApexChart
                 options={donutChartOptions}
                 series={donutChartOptions.series}
@@ -202,57 +223,58 @@ const StaffPage: React.FC = () => {
             </div>
           </div>
         </div>
-        
       </div>
 
       {/* 통계 2행 */}
-      <div className="grid grid-cols-[370px_972px] gap-4 mt-8 h-[310px]">
+      <div className="mt-8 grid h-[310px] grid-cols-[370px_972px] gap-4">
         {/* 기업 지역 분포 */}
-        <div className="p-6 bg-gray-600 rounded-xl">
-          <div className="flex items-center justify-between mb-4">
-            <div className="text-white text-h3">기업 지역 분포</div>
-            <div className="text-white text-bodySm">자세히 보기 ﹥</div>
+        <div className="rounded-xl bg-gray-600 p-6">
+          <div className="mb-4 flex items-center justify-between">
+            <div className="text-h3 text-white">기업 지역 분포</div>
+            <div className="text-bodySm text-white">자세히 보기 ﹥</div>
           </div>
-          <div className="mb-6 text-white text-bodyMd">전체 학생들의 합격 기업의 지역 분포예요.</div>
-          <div className="flex items-center justify-between px-5 py-3 mb-3 rounded-lg bg-gradient-to-r from-gray-50 to-blue-50">
+          <div className="mb-6 text-bodyMd text-white">
+            전체 학생들의 합격 기업의 지역 분포예요.
+          </div>
+          <div className="mb-3 flex items-center justify-between rounded-lg bg-gradient-to-r from-gray-50 to-blue-50 px-5 py-3">
             <div className="flex items-center gap-2">
               <img src="/staff/ic_gold_medal.svg"></img>
-              <div className="text-[16px] text-gray-700 font-medium">서울특별시</div>
+              <div className="text-[16px] font-medium text-gray-700">서울특별시</div>
             </div>
-            <div className="text-gray-700 text-bodySm">41.2%</div>
+            <div className="text-bodySm text-gray-700">41.2%</div>
           </div>
-          <div className="flex items-center justify-between px-5 py-3 mb-3 rounded-lg bg-gradient-to-r from-gray-50 to-blue-50">
+          <div className="mb-3 flex items-center justify-between rounded-lg bg-gradient-to-r from-gray-50 to-blue-50 px-5 py-3">
             <div className="flex items-center gap-2">
               <img src="/staff/ic_silver_medal.svg"></img>
-              <div className="text-[16px] text-gray-700 font-medium">경기도 성남시</div>
+              <div className="text-[16px] font-medium text-gray-700">경기도 성남시</div>
             </div>
-            <div className="text-gray-700 text-bodySm">12.1%</div>
+            <div className="text-bodySm text-gray-700">12.1%</div>
           </div>
-          <div className="flex items-center justify-between px-5 py-3 rounded-lg bg-gradient-to-r from-gray-50 to-blue-50">
+          <div className="flex items-center justify-between rounded-lg bg-gradient-to-r from-gray-50 to-blue-50 px-5 py-3">
             <div className="flex items-center gap-2">
               <img src="/staff/ic_bronze_medal.svg"></img>
-              <div className="text-[16px] text-gray-700 font-medium">부산광역시</div>
+              <div className="text-[16px] font-medium text-gray-700">부산광역시</div>
             </div>
-            <div className="text-gray-700 text-bodySm">10.9%</div>
+            <div className="text-bodySm text-gray-700">10.9%</div>
           </div>
         </div>
 
         {/* 선호하는 취업 조건 */}
-        <div className="p-6 bg-gray-600 rounded-xl">
-          <div className="flex items-center justify-between mb-4">
-            <div className="text-white text-h3">선호하는 취업 조건</div>
+        <div className="rounded-xl bg-gray-600 p-6">
+          <div className="mb-4 flex items-center justify-between">
+            <div className="text-h3 text-white">선호하는 취업 조건</div>
           </div>
         </div>
       </div>
 
       {/* 학생 비교 파트 */}
-      <div className="px-20 py-5 mt-20 bg-gray-100 rounded-xl">
+      <div className="mt-20 rounded-xl bg-gray-100 px-20 py-5">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <img src="/staff/ic_arrow.svg"></img>
-            <div className="ml-8 text-gray-700 text-h2">
+            <div className="ml-8 text-h2 text-gray-700">
               <div>전국 정보컴퓨터공학 계열 학생과 비교했을 때, </div>
-              <div className="flex item-center">
+              <div className="item-center flex">
                 <div>부산대학교 정보컴퓨터공학과 학생들은</div>
                 <div className="ml-2 font-bold">‘대외활동'</div>
                 <div className="ml-2">스펙이</div>
@@ -264,8 +286,6 @@ const StaffPage: React.FC = () => {
           <img src="/staff/ic_chart.svg"></img>
         </div>
       </div>
-
-      
     </div>
   );
 };

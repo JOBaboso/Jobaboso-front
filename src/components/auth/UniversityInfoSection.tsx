@@ -33,11 +33,11 @@ export const UniversityInfoSection: React.FC<UniversityInfoSectionProps> = ({
       />
 
       {/* 학과명 작성 */}
-      <InputField 
-        id="DepartmentName" 
-        label="학과명" 
-        placeholder="학과명을 입력해 주세요." 
-        value={field} 
+      <InputField
+        id="DepartmentName"
+        label="학과명"
+        placeholder="학과명을 입력해 주세요."
+        value={field}
         onChange={onChangeField}
         error={fieldError}
       />
@@ -47,7 +47,7 @@ export const UniversityInfoSection: React.FC<UniversityInfoSectionProps> = ({
         id="CertificationOfEmployment"
         label="재직증명서"
         placeholder="재직증명서를 첨부해주세요."
-        value={""}
+        value={''}
         onChange={() => {}}
       />
     </div>

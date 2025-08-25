@@ -6,8 +6,8 @@ interface SearchBarProps {
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({
-  placeholder = "태그로 검색해주세요.",
-  onSearch
+  placeholder = '태그로 검색해주세요.',
+  onSearch,
 }) => {
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (onSearch) {
@@ -22,10 +22,10 @@ const SearchBar: React.FC<SearchBarProps> = ({
           type="text"
           placeholder={placeholder}
           onChange={handleSearch}
-          className="py-2.5 pl-10 pr-4 border border-gray-300 rounded-lg w-[372px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="w-[372px] rounded-lg border border-gray-300 py-2.5 pl-10 pr-4 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <svg
-          className="absolute left-3 top-1/2 w-5 h-5 text-gray-500 transform -translate-y-1/2"
+          className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 transform text-gray-500"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -43,4 +43,4 @@ const SearchBar: React.FC<SearchBarProps> = ({
   );
 };
 
-export default SearchBar; 
+export default SearchBar;

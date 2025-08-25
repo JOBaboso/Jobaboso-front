@@ -66,11 +66,11 @@ export const CompanyInfoSection: React.FC<CompanyInfoSectionProps> = ({
       />
 
       {/* 회사명 */}
-      <InputField 
-        id="companyName" 
-        label="회사명" 
-        placeholder="회사명을 입력해 주세요." 
-        value={companyName} 
+      <InputField
+        id="companyName"
+        label="회사명"
+        placeholder="회사명을 입력해 주세요."
+        value={companyName}
         onChange={onChangeCompanyName}
         error={companyNameError}
       />
@@ -94,7 +94,9 @@ export const CompanyInfoSection: React.FC<CompanyInfoSectionProps> = ({
         placeholder="사업자등록증명원 발급번호를 입력해 주세요."
         rightIcon={<FiHelpCircle size={24} />}
         onRightIconClick={() => {}}
-        error={businessLicenseNoError || "* 발급일 90일 이내사업자등록증명원의 발급번호만 가능합니다."}
+        error={
+          businessLicenseNoError || '* 발급일 90일 이내사업자등록증명원의 발급번호만 가능합니다.'
+        }
         value={businessLicenseNo}
         onChange={onChangeBusinessLicenseNo}
       />

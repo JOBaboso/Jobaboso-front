@@ -28,17 +28,17 @@ const Sidebar = ({ title, sections }: SidebarProps) => {
     `block hover:text-mainBlue ${isActive(path) ? 'text-mainBlue font-semibold' : 'text-gray-700'}`;
 
   return (
-    <nav className="overflow-y-auto fixed left-0 px-8 py-8 w-64 h-screen bg-white shadow-sm top-header text-bodyLg">
+    <nav className="top-header fixed left-0 h-screen w-64 overflow-y-auto bg-white px-8 py-8 text-bodyLg shadow-sm">
       <ul className="space-y-6">
         {/* 메인 제목 */}
         <li>
-          <h2 className="mb-6 font-bold text-gray-700 text-h2">{title}</h2>
+          <h2 className="mb-6 text-h2 font-bold text-gray-700">{title}</h2>
         </li>
 
         {/* 섹션들 */}
         {sections.map((section, sectionIndex) => (
           <li key={sectionIndex}>
-            <h4 className="mb-4 font-bold text-gray-700 text-h4">{section.title}</h4>
+            <h4 className="mb-4 text-h4 font-bold text-gray-700">{section.title}</h4>
             <ul className="space-y-2">
               {section.links.map((link, linkIndex) => (
                 <li key={linkIndex}>

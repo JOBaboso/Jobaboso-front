@@ -13,14 +13,10 @@ interface PersonalInfoFormProps {
   onPhoneChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
-  form,
-  onChange,
-  onPhoneChange,
-}) => {
+const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({ form, onChange, onPhoneChange }) => {
   return (
     <div className="mb-16">
-      <h2 className="mb-10 font-semibold text-gray-800 text-h2">인적사항</h2>
+      <h2 className="mb-10 text-h2 font-semibold text-gray-800">인적사항</h2>
       <div className="grid grid-cols-[700px] gap-6">
         <div className="grid grid-cols-[212px_278px_149px] gap-6">
           {/* 1행 */}
@@ -39,10 +35,7 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
             onChange={onPhoneChange}
           />
           <div>
-            <label
-              htmlFor="gender"
-              className="block p-1 mb-2 font-medium text-gray-700 text-h4"
-            >
+            <label htmlFor="gender" className="mb-2 block p-1 text-h4 font-medium text-gray-700">
               성별
             </label>
             <select
@@ -79,4 +72,4 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
   );
 };
 
-export default PersonalInfoForm; 
+export default PersonalInfoForm;

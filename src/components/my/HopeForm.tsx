@@ -20,7 +20,7 @@ const HopeForm: React.FC<HopeFormProps> = ({
 }) => {
   return (
     <div className="mb-16">
-      <h2 className="mb-10 font-semibold text-gray-800 text-h2">희망 근무 조건</h2>
+      <h2 className="mb-10 text-h2 font-semibold text-gray-800">희망 근무 조건</h2>
       <div className="grid grid-cols-[865px] gap-6">
         <TagInput
           id="companies"
@@ -48,4 +48,4 @@ const HopeForm: React.FC<HopeFormProps> = ({
   );
 };
 
-export default HopeForm; 
+export default HopeForm;

@@ -16,4 +16,4 @@ const HomeSidebar = () => {
   return <Sidebar title="JobMate" sections={sections} />;
 };
 
-export default HomeSidebar; 
+export default HomeSidebar;
