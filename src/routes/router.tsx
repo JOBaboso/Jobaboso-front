@@ -18,9 +18,9 @@ import TouchPage from '@pages/employment/TouchPage';
 import ReviewPage from '@pages/employment/ReviewPage';
 import LoungeLayout from '@layout/LoungeLayout';
 import HomePage from '@pages/home/HomePage';
-import SigninPage from '@pages/auth/SigninPage';
-import SignupTypePage from '@pages/auth/SignupTypePage';
-import SignupPersonalPage from '@pages/auth/SignupPersonalPage';
+import SignInPage from '@pages/auth/SignInPage';
+import SignUpTypePage from '@pages/auth/SignUpTypePage';
+import SignUpPersonalPage from '@pages/auth/SignUpPersonalPage';
 import BenchmarkPage from '@pages/benchmark/BenchmarkPage';
 import MissionPage from '@pages/mission/MissionPage';
 import CommunityPage from '@pages/lounge/CommunityPage';
@@ -52,9 +52,9 @@ const router = createBrowserRouter([
     path: '/auth',
     element: <AuthLayout />,
     children: [
-      { path: 'signin', element: <SigninPage /> },
-      { path: 'signup/type', element: <SignupTypePage /> },
-      { path: 'signup/personal', element: <SignupPersonalPage /> },
+      { path: 'signin', element: <SignInPage /> },
+      { path: 'signup/type', element: <SignUpTypePage /> },
+      { path: 'signup/personal', element: <SignUpPersonalPage /> },
       { path: 'signup/company', element: <SignupCompanyPage /> },
       { path: 'signup/university', element: <SignupUniversityPage /> },
     ],

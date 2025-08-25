@@ -4,7 +4,7 @@ import Header from './header/Header';
 import Footer from './footer/Footer';
 import ScrollToTop from '@components/common/ScrollToTop';
 import StaffPage from '@pages/staff/StaffPage';
-import HomePage from '@pages/Home/HomePage';
+import HomePage from '@pages/home/HomePage';
 
 const MainLayout = () => {
   const [userType, setUserType] = useState<string | null>(null);
@@ -21,12 +21,12 @@ const MainLayout = () => {
   }, [navigate]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex min-h-screen flex-col bg-white">
       <ScrollToTop />
       <Header />
 
-      <div className="flex overflow-hidden flex-1">
-        <main className="overflow-y-auto flex-1 py-6 bg-white">
+      <div className="flex flex-1 overflow-hidden">
+        <main className="flex-1 overflow-y-auto bg-white py-6">
           {userType === 'university_staff' ? (
             <StaffPage />
           ) : userType === 'personal' ? (

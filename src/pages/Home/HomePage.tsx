@@ -3,12 +3,17 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getUpcomingSchedules, CalendarSchedule } from '@apis/employment';
 import { ScheduleLabelMap } from '@type/Schedules';
-import { ResultStyleMap, ResultLabelMap } from '@type/Result';
+import { ResultStyleMap, ResultLabelMap, Result } from '@type/Result';
+import EmploymentInsights from '@components/home/EmploymentInsights';
+import RecommendedJobs from '@components/home/RecommendedJobs';
+import SimilarSpecResults from '@components/home/SimilarSpecResults';
 
 const HomePage = () => {
   const [userName, setUserName] = useState('');
   const [upcomingSchedules, setUpcomingSchedules] = useState<CalendarSchedule[]>([]);
   const [selectedFilter, setSelectedFilter] = useState<string>('');
+
+
 
   useEffect(() => {
     const name = localStorage.getItem('name');
@@ -214,7 +219,7 @@ const HomePage = () => {
               <img src="/ic_person.svg"></img>
               <div className="text-h3">{userName} 님과 닮은 지원자 TOP3</div>
             </div>
-            <div className="mb-6 ml-9 text-bodyMd">잡메이트가 분석한 김잡메 님과 닮은 지원자를 확인하시고 취업 준비에 매진해보세요!</div>
+            <div className="mb-6 ml-9 text-bodyMd">잡메이트가 분석한 {userName} 님과 닮은 지원자를 확인하시고 취업 준비에 매진해보세요!</div>
             <div className="flex gap-4 justify-center">
               {renderSimilarUserCard(96, "토스", "프론트엔드", "final_accepted", 8, 2, "부산대학교", "컴퓨터공학과", "4.2/4.5", 95)}
               {renderSimilarUserCard(89, "네이버", "프론트엔드", "final_accepted", 5, 3, "부산대학교", "컴퓨터공학과", "4.0/4.5", 87)}
@@ -297,14 +302,14 @@ const HomePage = () => {
         </div>
       </div>
       
-      {/* 전체 너비 섹션 */}
-      <div className="py-12 mt-20 w-full bg-subLightBlue">
-        <div className="mx-auto w-[1528px]">
-          <div className="text-h2">취업 인사이트 📊</div>
-          <div className="mt-2 text-bodyMd">취업에 인사이트가 될 수 있는 정보들을 제공합니다.</div>
-
-        </div>
-      </div>
+             {/* 취업 인사이트 섹션 */}
+       <EmploymentInsights userName={userName} />
+       
+       {/* 추천 채용 공고 섹션 */}
+       <RecommendedJobs />
+       
+       {/* 비슷한 스펙을 가진 사람들의 합불 결과 섹션 */}
+       <SimilarSpecResults />
 
     </div>
 
