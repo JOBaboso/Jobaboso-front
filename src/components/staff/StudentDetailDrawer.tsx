@@ -62,11 +62,13 @@ const StudentDetailDrawer: React.FC<StudentDetailDrawerProps> = ({ isOpen, stude
               ease: [0.25, 0.46, 0.45, 0.94],
               duration: 0.3,
             }}
-            className="fixed left-0 top-[104px] z-30 h-[calc(100vh-104px)] w-[700px] overflow-y-auto border-r border-gray-200 bg-white shadow-md"
+            className="fixed left-0 top-[104px] z-30 h-[calc(100vh-104px)] w-[700px] overflow-y-auto border-r border-gray-200 bg-gray-200 shadow-md"
           >
             {/* Header */}
             <div className="sticky top-0 flex items-center justify-between border-b border-gray-200 bg-gray-50 p-6">
-              <h3 className="text-lg font-semibold text-gray-900">학생 상세 정보</h3>
+              <h3 className="ml-2 text-h2 font-semibold text-gray-900">
+                학생 스펙 및 지원 현황 정보
+              </h3>
               <button
                 onClick={onClose}
                 className="z-40 rounded-full p-2 transition-colors hover:bg-gray-200"
@@ -86,6 +88,30 @@ const StudentDetailDrawer: React.FC<StudentDetailDrawerProps> = ({ isOpen, stude
                 <div className="py-8 text-center text-red-600">{error}</div>
               ) : studentDetail ? (
                 <>
+                  {/* 지원 현황을 먼저 표시 */}
+                  {(() => {
+                    const hasApplications =
+                      studentDetail.student.applications &&
+                      studentDetail.student.applications.length > 0;
+
+                    return hasApplications ? (
+                      <ApplicationTable
+                        rows={studentDetail.student.applications.map((app, index) => ({
+                          id: index + 1,
+                          company: app.company_name || '',
+                          position: app.position || '',
+                          date: app.application_date
+                            ? new Date(app.application_date).toLocaleDateString('ko-KR')
+                            : '',
+                          status: app.status || '',
+                          originalStatus: app.status || '',
+                          companyLogo: '/company_porfile/default.svg',
+                        }))}
+                        onRowClick={(id) => console.log('지원 현황 클릭:', id)}
+                      />
+                    ) : null;
+                  })()}
+
                   {/* 학력 정보 */}
                   <EducationSection
                     gender={
@@ -111,7 +137,7 @@ const StudentDetailDrawer: React.FC<StudentDetailDrawerProps> = ({ isOpen, stude
                     targetRegion={studentDetail.student.target_region || ''}
                   />
 
-                  {/* 스펙 및 지원 정보 확인 */}
+                  {/* 스펙 정보 확인 */}
                   {(() => {
                     const hasSpecs =
                       studentDetail.student.specs &&
@@ -124,11 +150,7 @@ const StudentDetailDrawer: React.FC<StudentDetailDrawerProps> = ({ isOpen, stude
                         (studentDetail.student.specs.skills &&
                           studentDetail.student.specs.skills.length > 0));
 
-                    const hasApplications =
-                      studentDetail.student.applications &&
-                      studentDetail.student.applications.length > 0;
-
-                    if (!hasSpecs && !hasApplications) {
+                    if (!hasSpecs) {
                       return (
                         <div className="rounded-xl border border-gray-200 bg-white p-12 text-center">
                           <div className="mb-4">
@@ -139,7 +161,7 @@ const StudentDetailDrawer: React.FC<StudentDetailDrawerProps> = ({ isOpen, stude
                             />
                           </div>
                           <h3 className="mb-2 text-lg font-medium text-gray-700">
-                            아직 학생이 스펙 및 지원 정보를 등록하지 않았습니다
+                            아직 학생이 스펙 정보를 등록하지 않았습니다
                           </h3>
                           <p className="text-sm text-gray-500">
                             학생이 정보를 입력하면 여기에 표시됩니다
@@ -149,68 +171,46 @@ const StudentDetailDrawer: React.FC<StudentDetailDrawerProps> = ({ isOpen, stude
                     }
 
                     return (
-                      <>
-                        {hasSpecs && (
-                          <AbilitySection
-                            certificates={
-                              studentDetail.student.specs?.certificates
-                                ? Array.isArray(studentDetail.student.specs.certificates)
-                                  ? studentDetail.student.specs.certificates.map((cert) =>
-                                      typeof cert === 'string' ? { name: cert } : cert
-                                    )
-                                  : []
-                                : []
-                            }
-                            activities={
-                              studentDetail.student.specs?.activities
-                                ? Array.isArray(studentDetail.student.specs.activities)
-                                  ? studentDetail.student.specs.activities.map((activity) =>
-                                      typeof activity === 'string' ? { title: activity } : activity
-                                    )
-                                  : []
-                                : []
-                            }
-                            projects={
-                              studentDetail.student.specs?.projects
-                                ? Array.isArray(studentDetail.student.specs.projects)
-                                  ? studentDetail.student.specs.projects.map((project) =>
-                                      typeof project === 'string' ? { name: project } : project
-                                    )
-                                  : []
-                                : []
-                            }
-                            skills={
-                              studentDetail.student.specs?.skills
-                                ? Array.isArray(studentDetail.student.specs.skills)
-                                  ? studentDetail.student.specs.skills.map((skill) =>
-                                      typeof skill === 'string'
-                                        ? skill
-                                        : skill.skill_name || skill.name || String(skill)
-                                    )
-                                  : []
-                                : []
-                            }
-                          />
-                        )}
-
-                        {hasApplications && (
-
-                            <ApplicationTable
-                              rows={studentDetail.student.applications.map((app, index) => ({
-                                id: index + 1,
-                                company: app.company_name || '',
-                                position: app.position || '',
-                                date: app.application_date
-                                  ? new Date(app.application_date).toLocaleDateString('ko-KR')
-                                  : '',
-                                status: app.status || '',
-                                originalStatus: app.status || '',
-                                companyLogo: '/company_porfile/default.svg',
-                              }))}
-                              onRowClick={(id) => console.log('지원 현황 클릭:', id)}
-                            />
-                        )}
-                      </>
+                      <AbilitySection
+                        certificates={
+                          studentDetail.student.specs?.certificates
+                            ? Array.isArray(studentDetail.student.specs.certificates)
+                              ? studentDetail.student.specs.certificates.map((cert) =>
+                                  typeof cert === 'string' ? { name: cert } : cert
+                                )
+                              : []
+                            : []
+                        }
+                        activities={
+                          studentDetail.student.specs?.activities
+                            ? Array.isArray(studentDetail.student.specs.activities)
+                              ? studentDetail.student.specs.activities.map((activity) =>
+                                  typeof activity === 'string' ? { title: activity } : activity
+                                )
+                              : []
+                            : []
+                        }
+                        projects={
+                          studentDetail.student.specs?.projects
+                            ? Array.isArray(studentDetail.student.specs.projects)
+                              ? studentDetail.student.specs.projects.map((project) =>
+                                  typeof project === 'string' ? { name: project } : project
+                                )
+                              : []
+                            : []
+                        }
+                        skills={
+                          studentDetail.student.specs?.skills
+                            ? Array.isArray(studentDetail.student.specs.skills)
+                              ? studentDetail.student.specs.skills.map((skill) =>
+                                  typeof skill === 'string'
+                                    ? skill
+                                    : skill.skill_name || skill.name || String(skill)
+                                )
+                              : []
+                            : []
+                        }
+                      />
                     );
                   })()}
                 </>
