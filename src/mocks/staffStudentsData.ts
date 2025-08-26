@@ -6,277 +6,126 @@ export interface StudentSpec {
   totalApplications: number;
   acceptedApplications: number;
   status: string;
+  graduationYear?: string; // 졸업 연도 (선택적)
+  
+  // 프로필 정보
+  name: string;
+  birthDate: string;
+  phone: string;
+  email: string;
+  
+  // 학력 정보
+  education: {
+    schoolName: string;
+    major: string;
+    admissionYear: string;
+    status: string;
+    score: string;
+    graduationYear: string;
+  };
+  
+  // 보유역량 정보
+  certificates: Array<{
+    certificate_date?: string;
+    date?: string;
+    cert_name?: string;
+    name?: string;
+    score?: string;
+    issuer?: string;
+  }>;
+  activities: Array<{
+    activity_date?: string;
+    title?: string;
+    type?: string;
+  }>;
+  projects: Array<{
+    start_date?: string;
+    end_date?: string;
+    period?: string;
+    project_name?: string;
+    name?: string;
+    description?: string;
+  }>;
+  skills: string[];
 }
 
-export const staffStudentsData: StudentSpec[] = [
+// Mock 데이터 추가
+export const mockStudents: StudentSpec[] = [
   {
-    id: '1',
-    gender: '여성',
+    id: "student_001",
+    gender: "남성",
     gpa: 4.2,
-    acceptanceRate: 85,
+    acceptanceRate: 85.5,
     totalApplications: 12,
     acceptedApplications: 10,
-    status: '재학',
+    status: "졸업",
+    graduationYear: "2024-02",
+    
+    // 프로필 정보
+    name: "김철수",
+    birthDate: "2000년 3월 15일",
+    phone: "010-1234-5678",
+    email: "kim@example.com",
+    
+    education: {
+      schoolName: "서울대학교",
+      major: "컴퓨터공학과",
+      admissionYear: "2020년 3월",
+      status: "졸업",
+      score: "4.2/4.5",
+      graduationYear: "2024년 2월"
+    },
+    
+    // 보유역량 정보
+    certificates: [
+      { name: "정보처리기사", date: "2023년 6월", issuer: "한국산업인력공단" },
+      { name: "SQLD", date: "2023년 3월", issuer: "한국데이터산업진흥원" }
+    ],
+    activities: [
+      { title: "삼성전자 인턴", type: "intern", activity_date: "2023년 7월" },
+      { title: "알고리즘 동아리", type: "club", activity_date: "2022년 3월" }
+    ],
+    projects: [
+      { name: "웹 포트폴리오", period: "2023년 9월 ~ 12월", description: "React 기반 개인 포트폴리오 웹사이트" },
+      { name: "쇼핑몰 API", period: "2023년 3월 ~ 6월", description: "Spring Boot 기반 쇼핑몰 백엔드 API" }
+    ],
+    skills: ["Java", "Spring Boot", "React", "TypeScript", "MySQL", "Docker"]
   },
   {
-    id: '2',
-    gender: '남성',
-    gpa: 3.80,
-    acceptanceRate: 60,
-    totalApplications: 15,
-    acceptedApplications: 9,
-    status: '졸업', // 부산 기업 희망
-  },
-  {
-    id: '3',
-    gender: '여성',
-    gpa: 3.20,
-    acceptanceRate: 40,
-    totalApplications: 20,
-    acceptedApplications: 8,
-    status: '재학',
-  },
-  {
-    id: '4',
-    gender: '남성',
-    gpa: 2.80,
-    acceptanceRate: 25,
+    id: "student_002",
+    gender: "여성",
+    gpa: 3.8,
+    acceptanceRate: 72.3,
     totalApplications: 8,
-    acceptedApplications: 2,
-    status: '졸업',
-  },
-  {
-    id: '5',
-    gender: '여성',
-    gpa: 4.1,
-    acceptanceRate: 90,
-    totalApplications: 10,
-    acceptedApplications: 9,
-    status: '재학',
-  },
-  {
-    id: '6',
-    gender: '남성',
-    gpa: 3.60,
-    acceptanceRate: 55,
-    totalApplications: 18,
-    acceptedApplications: 10,
-    status: '졸업',
-  },
-  {
-    id: '7',
-    gender: '여성',
-    gpa: 3.90,
-    acceptanceRate: 75,
-    totalApplications: 16,
-    acceptedApplications: 12,
-    status: '재학',
-  },
-  {
-    id: '8',
-    gender: '남성',
-    gpa: 3.10,
-    acceptanceRate: 35,
-    totalApplications: 14,
-    acceptedApplications: 5,
-    status: '졸업',
-  },
-  {
-    id: '9',
-    gender: '여성',
-    gpa: 4.3,
-    acceptanceRate: 88,
-    totalApplications: 8,
-    acceptedApplications: 7,
-    status: '재학',
-  },
-  {
-    id: '10',
-    gender: '남성',
-    gpa: 2.90,
-    acceptanceRate: 20,
-    totalApplications: 25,
-    acceptedApplications: 5,
-    status: '졸업',
-  },
-  {
-    id: '11',
-    gender: '여성',
-    gpa: 3.7,
-    acceptanceRate: 65,
-    totalApplications: 13,
-    acceptedApplications: 8,
-    status: '재학',
-  },
-  {
-    id: '12',
-    gender: '남성',
-    gpa: 4.00,
-    acceptanceRate: 82,
-    totalApplications: 11,
-    acceptedApplications: 9,
-    status: '졸업', // 부산 기업 희망
-  },
-  {
-    id: '13',
-    gender: '여성',
-    gpa: 3.30,
-    acceptanceRate: 45,
-    totalApplications: 22,
-    acceptedApplications: 10,
-    status: '재학',
-  },
-  {
-    id: '14',
-    gender: '남성',
-    gpa: 3.50,
-    acceptanceRate: 52,
-    totalApplications: 19,
-    acceptedApplications: 10,
-    status: '졸업',
-  },
-  {
-    id: '15',
-    gender: '여성',
-    gpa: 2.70,
-    acceptanceRate: 18,
-    totalApplications: 17,
-    acceptedApplications: 3,
-    status: '재학',
-  },
-  {
-    id: '16',
-    gender: '남성',
-    gpa: 4.40,
-    acceptanceRate: 92,
-    totalApplications: 12,
-    acceptedApplications: 11,
-    status: '졸업', // 부산 기업 희망
-  },
-  {
-    id: '17',
-    gender: '여성',
-    gpa: 3.80,
-    acceptanceRate: 70,
-    totalApplications: 10,
-    acceptedApplications: 7,
-    status: '재학',
-  },
-  {
-    id: '18',
-    gender: '남성',
-    gpa: 3.00,
-    acceptanceRate: 33,
-    totalApplications: 15,
-    acceptedApplications: 5,
-    status: '졸업',
-  },
-  {
-    id: '19',
-    gender: '여성',
-    gpa: 4.2,
-    acceptanceRate: 86,
-    totalApplications: 14,
-    acceptedApplications: 12,
-    status: '재학',
-  },
-  {
-    id: '20',
-    gender: '남성',
-    gpa: 2.60,
-    acceptanceRate: 15,
-    totalApplications: 20,
-    acceptedApplications: 3,
-    status: '졸업',
-  },
-  {
-    id: '21',
-    gender: '여성',
-    gpa: 3.60,
-    acceptanceRate: 58,
-    totalApplications: 12,
-    acceptedApplications: 7,
-    status: '재학',
-  },
-  {
-    id: '22',
-    gender: '남성',
-    gpa: 3.90,
-    acceptanceRate: 78,
-    totalApplications: 9,
-    acceptedApplications: 7,
-    status: '졸업',
-  },
-  {
-    id: '23',
-    gender: '여성',
-    gpa: 3.40,
-    acceptanceRate: 48,
-    totalApplications: 21,
-    acceptedApplications: 10,
-    status: '재학',
-  },
-  {
-    id: '24',
-    gender: '남성',
-    gpa: 4.1,
-    acceptanceRate: 84,
-    totalApplications: 13,
-    acceptedApplications: 11,
-    status: '졸업',
-  },
-  {
-    id: '25',
-    gender: '여성',
-    gpa: 2.80,
-    acceptanceRate: 22,
-    totalApplications: 18,
-    acceptedApplications: 4,
-    status: '재학',
-  },
-  {
-    id: '26',
-    gender: '남성',
-    gpa: 3.7,
-    acceptanceRate: 62,
-    totalApplications: 16,
-    acceptedApplications: 10,
-    status: '졸업',
-  },
-  {
-    id: '27',
-    gender: '여성',
-    gpa: 4.00,
-    acceptanceRate: 80,
-    totalApplications: 10,
-    acceptedApplications: 8,
-    status: '재학',
-  },
-  {
-    id: '28',
-    gender: '남성',
-    gpa: 3.20,
-    acceptanceRate: 38,
-    totalApplications: 24,
-    acceptedApplications: 9,
-    status: '졸업',
-  },
-  {
-    id: '29',
-    gender: '여성',
-    gpa: 3.50,
-    acceptanceRate: 50,
-    totalApplications: 14,
-    acceptedApplications: 7,
-    status: '재학',
-  },
-  {
-    id: '30',
-    gender: '남성',
-    gpa: 2.90,
-    acceptanceRate: 28,
-    totalApplications: 25,
-    acceptedApplications: 7,
-    status: '졸업',
-  },
+    acceptedApplications: 6,
+    status: "재학",
+    
+    // 프로필 정보
+    name: "이영희",
+    birthDate: "2001년 7월 22일",
+    phone: "010-9876-5432",
+    email: "lee@example.com",
+    
+    education: {
+      schoolName: "연세대학교",
+      major: "전자공학과",
+      admissionYear: "2021년 3월",
+      status: "재학",
+      score: "3.8/4.5",
+      graduationYear: "2025년 2월"
+    },
+    
+    // 보유역량 정보
+    certificates: [
+      { name: "전자기기기사", date: "2023년 12월", issuer: "한국산업인력공단" }
+    ],
+    activities: [
+      { title: "LG전자 인턴", type: "intern", activity_date: "2023년 12월" },
+      { title: "로봇공학 대회", type: "contest", activity_date: "2023년 9월" }
+    ],
+    projects: [
+      { name: "IoT 스마트홈", period: "2023년 6월 ~ 9월", description: "Arduino 기반 IoT 스마트홈 시스템" }
+    ],
+    skills: ["C++", "Python", "Arduino", "IoT", "Circuit Design"]
+  }
 ];
