@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { motion, AnimatePresence } from 'framer-motion';
 import { StudentSpec } from '../../mocks/staffStudentsData';
-import ProfileCard from './drawer/ProfileCard';
+import { fetchStudentDetail, StudentDetailResponse } from '../../apis/staff';
 import EducationSection from './drawer/EducationSection';
 import AbilitySection from './drawer/AbilitySection';
+import PreferenceSection from './drawer/PreferenceSection';
 import { ApplicationTable, ApplicationRow } from './drawer/ApplicationTable';
+import LoadingSpinner from './LoadingSpinner';
 
 interface StudentDetailDrawerProps {
   isOpen: boolean;
@@ -13,19 +15,37 @@ interface StudentDetailDrawerProps {
   onClose: () => void;
 }
 
-const StudentDetailDrawer: React.FC<StudentDetailDrawerProps> = ({
-  isOpen,
-  student,
-  onClose,
-}) => {
-  if (!student) return null;
+const StudentDetailDrawer: React.FC<StudentDetailDrawerProps> = ({ isOpen, student, onClose }) => {
+  const [studentDetail, setStudentDetail] = useState<StudentDetailResponse | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  // 나이 계산 함수
-  const calculateAge = (birthDate: string) => {
-    const birthYear = parseInt(birthDate.split('년')[0]);
-    const currentYear = new Date().getFullYear();
-    return currentYear - birthYear;
-  };
+  // 학생 상세 정보 API 호출
+  useEffect(() => {
+    const loadStudentDetail = async () => {
+      if (!student || !isOpen) {
+        setStudentDetail(null);
+        return;
+      }
+
+      try {
+        setIsLoading(true);
+        setError(null);
+        const response = await fetchStudentDetail(student.id);
+        setStudentDetail(response);
+      } catch (err) {
+        console.error('학생 상세 정보 로딩 실패:', err);
+        setError(`아직 학생이 스펙 및 지원 정보를 등록하지 않았습니다.`);
+        setStudentDetail(null);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadStudentDetail();
+  }, [student, isOpen]);
+
+  if (!student) return null;
 
   return (
     <>
@@ -33,128 +53,168 @@ const StudentDetailDrawer: React.FC<StudentDetailDrawerProps> = ({
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ x: -450 }}
-            animate={{ x: 0 }}
-            exit={{ x: -450 }}
-            transition={{ 
-              type: "spring", 
-              damping: 25, 
-              stiffness: 200,
-              duration: 0.4
+            key="student-drawer"
+            initial={{ x: -600, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: -600, opacity: 0 }}
+            transition={{
+              type: 'tween',
+              ease: [0.25, 0.46, 0.45, 0.94],
+              duration: 0.3,
             }}
-            className="fixed left-0 top-[104px] h-[calc(100vh-104px)] w-[450px] bg-white shadow-md z-30 border-r border-gray-200 overflow-y-auto"
+            className="fixed left-0 top-[104px] z-30 h-[calc(100vh-104px)] w-[700px] overflow-y-auto border-r border-gray-200 bg-white shadow-md"
           >
             {/* Header */}
-            <div className="sticky top-0 flex items-center justify-between p-6 border-b border-gray-200 bg-gray-50">
+            <div className="sticky top-0 flex items-center justify-between border-b border-gray-200 bg-gray-50 p-6">
               <h3 className="text-lg font-semibold text-gray-900">학생 상세 정보</h3>
               <button
                 onClick={onClose}
-                className="p-2 rounded-full hover:bg-gray-200 transition-colors z-40"
+                className="z-40 rounded-full p-2 transition-colors hover:bg-gray-200"
                 title="닫기"
               >
-                <XMarkIcon className="w-6 h-6 text-gray-600" />
+                <XMarkIcon className="h-6 w-6 text-gray-600" />
               </button>
             </div>
 
             {/* Content */}
-            <div className="p-6 space-y-6">
-              {/* 지원 현황 요약 */}
-              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-lg border border-blue-200">
-                <div className="text-center mb-4">
-                  <div className="text-3xl font-bold text-blue-600 mb-2">
-                    {student.acceptanceRate.toFixed(1)}%
-                  </div>
-                  <div className="text-sm text-blue-700">
-                    합격률
-                  </div>
+            <div className="space-y-6 p-6">
+              {isLoading ? (
+                <div className="flex justify-center py-8">
+                  <LoadingSpinner message="학생 상세 정보를 불러오는 중..." />
                 </div>
-                
-                <div className="grid grid-cols-3 gap-4 text-center">
-                  <div>
-                    <div className="text-lg font-bold text-gray-900">{student.totalApplications}</div>
-                    <div className="text-xs text-gray-600">전체 지원</div>
-                  </div>
-                  <div>
-                    <div className="text-lg font-bold text-green-600">{student.acceptedApplications}</div>
-                    <div className="text-xs text-gray-600">합격</div>
-                  </div>
-                  <div>
-                    <div className="text-lg font-bold text-red-600">
-                      {student.totalApplications - student.acceptedApplications}
-                    </div>
-                    <div className="text-xs text-gray-600">불합격</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* 프로필 정보 */}
-              <ProfileCard
-                name={student.name}
-                gender={student.gender}
-                birthDate={student.birthDate}
-                age={calculateAge(student.birthDate)}
-                phone={student.phone}
-                email={student.email}
-              />
-
-              {/* 학력 정보 */}
-              <EducationSection
-                schoolName={student.education.schoolName}
-                major={student.education.major}
-                admissionYear={student.education.admissionYear}
-                status={student.education.status}
-                score={student.education.score}
-                graduationYear={student.education.graduationYear}
-              />
-
-              {/* 보유역량 정보 */}
-              <AbilitySection
-                certificates={student.certificates}
-                activities={student.activities}
-                projects={student.projects}
-                skills={student.skills}
-              />
-
-              {/* 지원 현황 테이블 */}
-              <div className="rounded-xl border border-gray-200 p-6 bg-white">
-                <div className="flex items-center mb-4">
-                  <img src="/ic_skill_2.svg" alt="지원 현황" className="w-8 h-8 mr-3" />
-                  <h3 className="text-lg font-semibold text-gray-800">지원 현황</h3>
-                </div>
-                
-                <ApplicationTable 
-                  rows={[
-                    {
-                      id: 1,
-                      company: "삼성전자",
-                      position: "소프트웨어 개발자",
-                      date: "2024-01-15",
-                      status: "서류 합격",
-                      originalStatus: "documents_passed",
-                      companyLogo: "/company_porfile/samsung.svg"
-                    },
-                    {
-                      id: 2,
-                      company: "LG전자",
-                      position: "백엔드 개발자",
-                      date: "2024-01-10",
-                      status: "면접 준비중",
-                      originalStatus: "preparing_interview",
-                      companyLogo: "/company_porfile/lg.svg"
-                    },
-                    {
-                      id: 3,
-                      company: "네이버",
-                      position: "프론트엔드 개발자",
-                      date: "2024-01-05",
-                      status: "최종 합격",
-                      originalStatus: "final_accepted",
-                      companyLogo: "/company_porfile/navercloud.svg"
+              ) : error ? (
+                <div className="py-8 text-center text-red-600">{error}</div>
+              ) : studentDetail ? (
+                <>
+                  {/* 학력 정보 */}
+                  <EducationSection
+                    gender={
+                      studentDetail.student.gender === 'M'
+                        ? '남성'
+                        : studentDetail.student.gender === 'W'
+                          ? '여성'
+                          : ''
                     }
-                  ]}
-                  onRowClick={(id) => console.log('지원 현황 클릭:', id)}
-                />
-              </div>
+                    status={studentDetail.student.status || ''}
+                    score={
+                      studentDetail.student.score
+                        ? `${studentDetail.student.score.toFixed(1)}/4.5`
+                        : ''
+                    }
+                    graduationYear={studentDetail.student.graduation_year || ''}
+                  />
+
+                  {/* 희망 정보 */}
+                  <PreferenceSection
+                    targetCompany={studentDetail.student.target_company || ''}
+                    targetJob={studentDetail.student.target_job || ''}
+                    targetRegion={studentDetail.student.target_region || ''}
+                  />
+
+                  {/* 스펙 및 지원 정보 확인 */}
+                  {(() => {
+                    const hasSpecs =
+                      studentDetail.student.specs &&
+                      ((studentDetail.student.specs.certificates &&
+                        studentDetail.student.specs.certificates.length > 0) ||
+                        (studentDetail.student.specs.activities &&
+                          studentDetail.student.specs.activities.length > 0) ||
+                        (studentDetail.student.specs.projects &&
+                          studentDetail.student.specs.projects.length > 0) ||
+                        (studentDetail.student.specs.skills &&
+                          studentDetail.student.specs.skills.length > 0));
+
+                    const hasApplications =
+                      studentDetail.student.applications &&
+                      studentDetail.student.applications.length > 0;
+
+                    if (!hasSpecs && !hasApplications) {
+                      return (
+                        <div className="rounded-xl border border-gray-200 bg-white p-12 text-center">
+                          <div className="mb-4">
+                            <img
+                              src="/ic_empty.svg"
+                              alt="정보 없음"
+                              className="mx-auto h-16 w-16 opacity-50"
+                            />
+                          </div>
+                          <h3 className="mb-2 text-lg font-medium text-gray-700">
+                            아직 학생이 스펙 및 지원 정보를 등록하지 않았습니다
+                          </h3>
+                          <p className="text-sm text-gray-500">
+                            학생이 정보를 입력하면 여기에 표시됩니다
+                          </p>
+                        </div>
+                      );
+                    }
+
+                    return (
+                      <>
+                        {hasSpecs && (
+                          <AbilitySection
+                            certificates={
+                              studentDetail.student.specs?.certificates
+                                ? Array.isArray(studentDetail.student.specs.certificates)
+                                  ? studentDetail.student.specs.certificates.map((cert) =>
+                                      typeof cert === 'string' ? { name: cert } : cert
+                                    )
+                                  : []
+                                : []
+                            }
+                            activities={
+                              studentDetail.student.specs?.activities
+                                ? Array.isArray(studentDetail.student.specs.activities)
+                                  ? studentDetail.student.specs.activities.map((activity) =>
+                                      typeof activity === 'string' ? { title: activity } : activity
+                                    )
+                                  : []
+                                : []
+                            }
+                            projects={
+                              studentDetail.student.specs?.projects
+                                ? Array.isArray(studentDetail.student.specs.projects)
+                                  ? studentDetail.student.specs.projects.map((project) =>
+                                      typeof project === 'string' ? { name: project } : project
+                                    )
+                                  : []
+                                : []
+                            }
+                            skills={
+                              studentDetail.student.specs?.skills
+                                ? Array.isArray(studentDetail.student.specs.skills)
+                                  ? studentDetail.student.specs.skills.map((skill) =>
+                                      typeof skill === 'string'
+                                        ? skill
+                                        : skill.skill_name || skill.name || String(skill)
+                                    )
+                                  : []
+                                : []
+                            }
+                          />
+                        )}
+
+                        {hasApplications && (
+
+                            <ApplicationTable
+                              rows={studentDetail.student.applications.map((app, index) => ({
+                                id: index + 1,
+                                company: app.company_name || '',
+                                position: app.position || '',
+                                date: app.application_date
+                                  ? new Date(app.application_date).toLocaleDateString('ko-KR')
+                                  : '',
+                                status: app.status || '',
+                                originalStatus: app.status || '',
+                                companyLogo: '/company_porfile/default.svg',
+                              }))}
+                              onRowClick={(id) => console.log('지원 현황 클릭:', id)}
+                            />
+                        )}
+                      </>
+                    );
+                  })()}
+                </>
+              ) : null}
             </div>
           </motion.div>
         )}

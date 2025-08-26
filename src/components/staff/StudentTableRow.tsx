@@ -4,12 +4,20 @@ import { StudentSpec } from '../../mocks/staffStudentsData';
 
 interface StudentTableRowProps {
   student: StudentSpec;
+  openMenuId: string | null;
+  onToggleMenu: (id: string) => void;
+  onCheckDetailedSpec: (student: StudentSpec) => void;
+  onCheckApplicationStatus: (student: StudentSpec) => void;
   onOpenDetailDrawer: (student: StudentSpec) => void;
   selectedStudentId: string | null;
 }
 
 const StudentTableRow: React.FC<StudentTableRowProps> = ({
   student,
+  openMenuId,
+  onToggleMenu,
+  onCheckDetailedSpec,
+  onCheckApplicationStatus,
   onOpenDetailDrawer,
   selectedStudentId,
 }) => {

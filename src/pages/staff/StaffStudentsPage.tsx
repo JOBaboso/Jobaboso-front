@@ -15,7 +15,9 @@ import ErrorMessage from '../../components/staff/ErrorMessage';
 import StudentDetailDrawer from '../../components/staff/StudentDetailDrawer';
 
 // API 데이터를 기존 StudentSpec 타입으로 변환하는 함수
-const transformAPIResponseToStudentSpec = (apiStudents: StudentAPIResponse['students']): StudentSpec[] => {
+const transformAPIResponseToStudentSpec = (
+  apiStudents: StudentAPIResponse['students']
+): StudentSpec[] => {
   return apiStudents.map((student, index) => ({
     id: student.student_id || `student-${index}`,
     gender: student.gender === 'M' ? '남성' : student.gender === 'W' ? '여성' : '남성',
@@ -25,7 +27,7 @@ const transformAPIResponseToStudentSpec = (apiStudents: StudentAPIResponse['stud
     totalApplications: student.total_applications,
     status: student.status === '졸업' ? '졸업' : '재학',
     graduationYear: student.graduation_year,
-    
+
     // 기본값으로 채워넣기
     name: `학생${index + 1}`,
     birthDate: '2000년 1월 1일',
@@ -37,12 +39,12 @@ const transformAPIResponseToStudentSpec = (apiStudents: StudentAPIResponse['stud
       admissionYear: '2020년 3월',
       status: student.status === '졸업' ? '졸업' : '재학',
       score: `${student.score.toFixed(1)}/4.5`,
-      graduationYear: student.graduation_year || '2025년 2월'
+      graduationYear: student.graduation_year || '2025년 2월',
     },
     certificates: [],
     activities: [],
     projects: [],
-    skills: []
+    skills: [],
   }));
 };
 
@@ -65,7 +67,7 @@ const StaffStudentsPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  
+
   // Drawer 상태
   const [isDetailDrawerOpen, setIsDetailDrawerOpen] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState<StudentSpec | null>(null);
@@ -79,15 +81,15 @@ const StaffStudentsPage: React.FC = () => {
       try {
         setIsInitialLoading(true);
         setError(null);
-        
+
         const apiParams: StudentAPIParams = {
           sort_by: 'success_rate',
           sort_order: 'desc',
         };
-        
+
         const response = await fetchStudents(apiParams);
         const transformedStudents = transformAPIResponseToStudentSpec(response.students);
-        
+
         setStudents(transformedStudents);
       } catch (err) {
         console.error('학생 데이터 로딩 실패:', err);
@@ -137,11 +139,11 @@ const StaffStudentsPage: React.FC = () => {
   const handleSortSelect = async (newSortOrder: 'high' | 'low' | 'recent') => {
     try {
       setIsLoading(true);
-      
+
       let apiParams: StudentAPIParams = {
         grade: null,
       };
-      
+
       if (newSortOrder === 'high') {
         apiParams = { ...apiParams, sort_by: 'success_rate', sort_order: 'desc' };
       } else if (newSortOrder === 'low') {
@@ -149,10 +151,10 @@ const StaffStudentsPage: React.FC = () => {
       } else if (newSortOrder === 'recent') {
         apiParams = { ...apiParams, sort_by: 'recent_success', sort_order: 'desc' };
       }
-      
+
       const response = await fetchStudents(apiParams);
       const transformedStudents = transformAPIResponseToStudentSpec(response.students);
-      
+
       setStudents(transformedStudents);
       setSortOrder(newSortOrder);
       setOpenSortDropdown(false);
@@ -226,7 +228,7 @@ const StaffStudentsPage: React.FC = () => {
       const timer = setTimeout(() => {
         setIsLoading(false);
       }, 2000);
-      
+
       return () => clearTimeout(timer);
     } else {
       setIsLoading(false);
@@ -234,8 +236,8 @@ const StaffStudentsPage: React.FC = () => {
   }, [aiQuery]);
 
   // AI 쿼리가 있을 때 졸업 필터 적용
-  const finalFilteredStudents = aiQuery 
-    ? filteredStudents.filter(student => student.status === '졸업')
+  const finalFilteredStudents = aiQuery
+    ? filteredStudents.filter((student) => student.status === '졸업')
     : filteredStudents;
 
   // 로딩 상태에 따른 렌더링
@@ -250,10 +252,7 @@ const StaffStudentsPage: React.FC = () => {
   return (
     <div className="relative">
       {/* AI 호출 버튼 */}
-      <AIFloatingButton
-        onClick={handleAICall}
-        scrollY={scrollY}
-      />
+      <AIFloatingButton onClick={handleAICall} scrollY={scrollY} />
 
       {/* AI 모달 */}
       <AIModal
@@ -266,17 +265,19 @@ const StaffStudentsPage: React.FC = () => {
       <StudentDetailDrawer
         isOpen={isDetailDrawerOpen}
         student={selectedStudent}
-        onClose={() => setIsDetailDrawerOpen(false)}
+        onClose={() => {
+          setIsDetailDrawerOpen(false);
+          setSelectedStudent(null);
+        }}
       />
-      <div className="mb-9">
-      <div className='ml-24'>
+      <div className={`transition-all duration-300 ${isDetailDrawerOpen ? 'ml-60' : 'ml-0'}`}>
         {/* 정렬 드롭다운 */}
-      <h2 className="text-gray-700 text-bodyLg">
-        우리 학과 학생 개개인의 스펙을 확인할 수 있어요.
-      </h2>
+        <h2 className="mb-8 mt-8 text-[40px] font-bold text-gray-800">학생 스펙 확인하기</h2>
+        <h2 className="text-bodyLg text-gray-700">
+          우리 학과 학생 개개인의 스펙을 확인할 수 있어요.
+        </h2>
 
-
-        <div className="flex justify-end items-center mb-4">
+        <div className="mb-4 flex items-center justify-end">
           <SortDropdown
             sortOrder={sortOrder}
             onSortSelect={handleSortSelect}
@@ -313,7 +314,6 @@ const StaffStudentsPage: React.FC = () => {
             />
           )}
         </div>
-      </div>
       </div>
     </div>
   );
