@@ -40,10 +40,10 @@ export interface StudentDetailResponse {
     target_job: string;
     target_region: string;
     specs: {
-      skills: string[];
-      projects: string[];
-      activities: string[];
-      certificates: string[];
+      skills: any[];
+      projects: any[];
+      activities: any[];
+      certificates: any[];
     };
   };
 }

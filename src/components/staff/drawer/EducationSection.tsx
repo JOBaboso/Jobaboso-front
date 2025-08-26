@@ -1,65 +1,57 @@
 import React from 'react';
 
 interface EducationSectionProps {
-  schoolName: string;
-  major: string;
-  admissionYear: string;
+  gender: string;
   status: string;
   score: string;
   graduationYear: string;
 }
 
 const EducationSection: React.FC<EducationSectionProps> = ({
-  schoolName,
-  major,
-  admissionYear,
+  gender,
   status,
   score,
   graduationYear,
 }) => {
+  const fields = [
+    { label: '성별', value: gender },
+    { label: '상태', value: status },
+    { label: '학점', value: score },
+    { label: '졸업년도', value: graduationYear },
+  ];
+
+  const leftFields = fields.slice(0, 2);
+  const rightFields = fields.slice(2, 4);
+
   return (
-    <div className="rounded-xl border border-gray-200 p-6 bg-white">
-      <div className="flex items-center mb-4">
-        <img src="/ic_education.svg" alt="학력" className="w-8 h-8 mr-3" />
-        <h3 className="text-lg font-semibold text-gray-800">학력</h3>
+    <div className="rounded-xl border border-gray-300 bg-white p-6">
+      <div className="mb-4 flex items-center">
+        <img src="/ic_education.svg" alt="학력" className="mr-3 h-8 w-8" />
+        <h3 className="text-h2 font-semibold text-gray-800">학력</h3>
       </div>
-      
+
       <div className="grid grid-cols-2 gap-6">
         {/* 열 1 */}
         <div className="space-y-3">
-          {/* 학교명 */}
-          <div className="flex items-center">
-            <div className="rounded-full border border-gray-400 bg-gray-100 px-3 py-1 text-sm">학교명</div>
-            <div className="ml-3 text-sm text-gray-800">{schoolName}</div>
-          </div>
-          {/* 주전공 */}
-          <div className="flex items-center">
-            <div className="rounded-full border border-gray-400 bg-gray-100 px-3 py-1 text-sm">주전공</div>
-            <div className="ml-3 text-sm text-gray-800">{major}</div>
-          </div>
-          {/* 입학년도 */}
-          <div className="flex items-center">
-            <div className="rounded-full border border-gray-400 bg-gray-100 px-3 py-1 text-sm">입학년도</div>
-            <div className="ml-3 text-sm text-gray-800">{admissionYear}</div>
-          </div>
+          {leftFields.map((field, index) => (
+            <div key={index} className="flex items-center">
+              <div className="rounded-full border border-gray-400 bg-gray-100 px-3 py-1 text-sm">
+                {field.label}
+              </div>
+              <div className="ml-3 text-bodyLg text-gray-800">{field.value}</div>
+            </div>
+          ))}
         </div>
         {/* 열 2 */}
         <div className="space-y-3">
-          {/* 상태 */}
-          <div className="flex items-center">
-            <div className="rounded-full border border-gray-400 bg-gray-100 px-3 py-1 text-sm">상태</div>
-            <div className="ml-3 text-sm text-gray-800">{status}</div>
-          </div>
-          {/* 학점 */}
-          <div className="flex items-center">
-            <div className="rounded-full border border-gray-400 bg-gray-100 px-3 py-1 text-sm">학점</div>
-            <div className="ml-3 text-sm text-gray-800">{score}</div>
-          </div>
-          {/* 졸업년도 */}
-          <div className="flex items-center">
-            <div className="rounded-full border border-gray-400 bg-gray-100 px-3 py-1 text-sm">졸업년도</div>
-            <div className="ml-3 text-sm text-gray-800">{graduationYear}</div>
-          </div>
+          {rightFields.map((field, index) => (
+            <div key={index} className="flex items-center">
+              <div className="rounded-full border border-gray-400 bg-gray-100 px-3 py-1 text-sm">
+                {field.label}
+              </div>
+              <div className="ml-3 text-bodyLg text-gray-800">{field.value}</div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

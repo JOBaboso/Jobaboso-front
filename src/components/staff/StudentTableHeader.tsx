@@ -86,7 +86,7 @@ const StudentTableHeader: React.FC<StudentTableHeaderProps> = ({
         
         <th className="px-4 py-3 text-center">
           <div className="flex gap-1 justify-center items-center mx-auto h-6 w-15">
-            <span className="text-base font-normal leading-6 text-gray-500">스펙/지원 정보</span>
+            <span className="text-base font-normal leading-6 text-gray-500">스펙/지원</span>
           </div>
         </th>
       </tr>
