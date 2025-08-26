@@ -48,6 +48,16 @@ export interface StudentDetailResponse {
   };
 }
 
+// 기업 선호도 분포 응답 타입 정의
+export interface CompanyPreferencesResponse {
+  preferences: {
+    company: string;
+    count: number;
+    percentage: number;
+  }[];
+  total_students: number;
+}
+
 // API 파라미터 타입 정의
 export interface StudentAPIParams {
   grade?: number | null;
@@ -58,7 +68,7 @@ export interface StudentAPIParams {
 // 학생 목록 조회 API
 export const fetchStudents = async (params: StudentAPIParams = {}): Promise<StudentAPIResponse> => {
   const queryParams = new URLSearchParams();
-  
+
   if (params.grade !== undefined && params.grade !== null) {
     queryParams.append('grade', params.grade.toString());
   }
@@ -70,7 +80,7 @@ export const fetchStudents = async (params: StudentAPIParams = {}): Promise<Stud
   }
 
   const url = `/university-staff/students${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
-  
+
   const response = await api.get(url);
   return response.data;
 };
@@ -78,5 +88,11 @@ export const fetchStudents = async (params: StudentAPIParams = {}): Promise<Stud
 // 학생 상세 정보 조회 API
 export const fetchStudentDetail = async (studentId: string): Promise<StudentDetailResponse> => {
   const response = await api.get(`/university-staff/student/${studentId}`);
+  return response.data;
+};
+
+// 기업 선호도 분포 조회 API
+export const fetchCompanyPreferences = async (): Promise<CompanyPreferencesResponse> => {
+  const response = await api.get(`/university-staff/company-preferences`);
   return response.data;
 };

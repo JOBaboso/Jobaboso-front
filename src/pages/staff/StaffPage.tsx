@@ -1,21 +1,71 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
+import { fetchCompanyPreferences } from '@apis/staff';
 
 const StaffPage: React.FC = () => {
-  // 도넛 차트 데이터
-  const donutChartOptions = {
-    series: [40, 19, 16, 17, 8],
+  // 도넛 차트 상태
+  const [donutSeries, setDonutSeries] = useState<number[]>([]);
+  const [donutLabels, setDonutLabels] = useState<string[]>([]);
+  const [isLoadingDonut, setIsLoadingDonut] = useState<boolean>(true);
+  const [showDonutChart, setShowDonutChart] = useState<boolean>(false);
+  const [donutError, setDonutError] = useState<string | null>(null);
+
+  // 데이터 로드
+  useEffect(() => {
+    const loadPreferences = async () => {
+      try {
+        setIsLoadingDonut(true);
+        setDonutError(null);
+        const res = await fetchCompanyPreferences();
+        const labels = res.preferences.map((p) => p.company);
+        const series = res.preferences.map((p) => Number(p.percentage));
+        setDonutLabels(labels);
+        setDonutSeries(series);
+        setShowDonutChart(false);
+        setTimeout(() => setShowDonutChart(true), 50);
+      } catch (e) {
+        console.error(e);
+        setDonutError('기업 선호도 데이터를 불러오지 못했습니다.');
+        // 기본값 (하드코딩)으로 폴백
+        setDonutLabels(['대기업', '공기업', '중견기업', '스타트업', '기타']);
+        setDonutSeries([40, 19, 16, 17, 8]);
+        setShowDonutChart(false);
+        setTimeout(() => setShowDonutChart(true), 50);
+      } finally {
+        setIsLoadingDonut(false);
+      }
+    };
+    loadPreferences();
+  }, []);
+
+  // 도넛 차트 옵션 (메모화)
+  const donutChartOptions = useMemo(() => ({
+    series: donutSeries,
     chart: {
       type: 'donut' as const,
       background: 'transparent',
       stroke: {
         width: 0,
       },
+      animations: {
+        enabled: true,
+        easing: 'easeinout',
+        speed: 800,
+        animateGradually: {
+          enabled: true,
+          delay: 80,
+        },
+        dynamicAnimation: {
+          enabled: true,
+          speed: 400,
+        },
+      },
     },
-    labels: ['대기업', '공기업', '중견기업', '스타트업', '기타'],
+    labels: donutLabels,
     colors: ['#1779FA', '#00228B', '#1153AA', '#85BAFF', '#00B1FF'],
     plotOptions: {
       pie: {
+        expandOnClick: true,
         stroke: {
           width: 0,
         },
@@ -78,7 +128,7 @@ const StaffPage: React.FC = () => {
     },
     legend: {
       position: 'right' as const,
-      offsetY: 40,
+      offsetY: 100,
       labels: {
         colors: '#fff',
         fontSize: '12px',
@@ -109,7 +159,7 @@ const StaffPage: React.FC = () => {
         },
       },
     ],
-  };
+  }), [donutLabels, donutSeries]);
 
   return (
     <div className="mx-auto w-[1360px]">
@@ -212,16 +262,27 @@ const StaffPage: React.FC = () => {
 
         {/* 목표 기업 분포 */}
         <div className="px-6 pt-6 bg-gray-600 rounded-xl">
-          <div className="mb-4 text-white text-h3">목표 기업 분포</div>
+          <div className="mb-2 text-white text-h3">목표 기업 분포</div>
           <div className="flex justify-center">
-            <div className="[&_.apexcharts-legend-marker]:!border-radius-[6px] [&_.apexcharts-legend-marker]:!width-[9px] [&_.apexcharts-legend-marker]:!height-[9px] [&_.apexcharts-legend-marker]:!border-radius-[6px] [&_.apexcharts-datalabel]:!text-shadow-none [&_.apexcharts-datalabel]:!box-shadow-none [&_text]:!text-shadow-none [&_text]:!box-shadow-none [&_.apexcharts-arc]:!stroke-none [&_.apexcharts-datalabel]:!drop-shadow-none [&_.apexcharts-datalabel]:!filter-none [&_.apexcharts-donut]:!stroke-none [&_.apexcharts-legend-marker]:!overflow-hidden [&_.apexcharts-legend-marker]:!rounded-md [&_.apexcharts-legend-marker]:!border-[1.5px] [&_.apexcharts-legend-marker]:!border-white [&_.apexcharts-pie]:!stroke-none [&_.apexcharts-slice]:!stroke-none [&_circle]:!stroke-none [&_path]:!stroke-none [&_text]:!drop-shadow-none [&_text]:!filter-none">
-              <ReactApexChart
-                options={donutChartOptions}
-                series={donutChartOptions.series}
-                type="donut"
-                width={345}
-                height={345}
-              />
+            <div className="m-2 [&_.apexcharts-legend-marker]:!border-radius-[6px] [&_.apexcharts-legend-marker]:!width-[9px] [&_.apexcharts-legend-marker]:!height-[9px] [&_.apexcharts-legend-marker]:!border-radius-[6px] [&_.apexcharts-datalabel]:!text-shadow-none [&_.apexcharts-datalabel]:!box-shadow-none [&_text]:!text-shadow-none [&_text]:!box-shadow-none [&_.apexcharts-arc]:!stroke-none [&_.apexcharts-datalabel]:!drop-shadow-none [&_.apexcharts-datalabel]:!filter-none [&_.apexcharts-donut]:!stroke-none [&_.apexcharts-legend-marker]:!overflow-hidden [&_.apexcharts-legend-marker]:!rounded-md [&_.apexcharts-legend-marker]:!border-[1.5px] [&_.apexcharts-legend-marker]:!border-white [&_.apexcharts-pie]:!stroke-none [&_.apexcharts-slice]:!stroke-none [&_circle]:!stroke-none [&_path]:!stroke-none [&_text]:!drop-shadow-none [&_text]:!filter-none">
+              {isLoadingDonut ? (
+                <div style={{ width: 345, height: 345 }} />
+              ) : donutError ? (
+                <div className="flex justify-center items-center text-white" style={{ width: 345, height: 345 }}>
+                  {donutError}
+                </div>
+              ) : showDonutChart ? (
+                <ReactApexChart
+                  key={`donut-${donutSeries.join(',')}-${donutLabels.join(',')}`}
+                  options={donutChartOptions}
+                  series={donutSeries}
+                  type="donut"
+                  width={345}
+                  height={345}
+                />
+              ) : (
+                <div style={{ width: 345, height: 345 }} />
+              )}
             </div>
           </div>
         </div>
