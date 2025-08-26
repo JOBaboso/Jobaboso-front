@@ -7,7 +7,7 @@ const LandingPage = () => {
 
   return (
     <div
-      className="flex relative justify-center items-center min-h-screen"
+      className="relative flex items-center justify-center min-h-screen"
       style={{
         background:
           'linear-gradient(0deg, #FFFFFF -17.62%, #8BBCFD 40.52%, #519BFB 69.59%, #1779FA 98.67%)',
@@ -20,7 +20,7 @@ const LandingPage = () => {
       />
 
       {/* 버튼들 */}
-      <div className="absolute left-80 top-[650px] flex gap-4">
+      <div className="absolute left-[18.7rem] top-[39rem] flex gap-4">
         <Button
           onClick={() => navigate('/auth/signin')}
           variant="secondary"
