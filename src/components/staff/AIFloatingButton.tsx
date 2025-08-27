@@ -3,9 +3,10 @@ import React from 'react';
 interface AIFloatingButtonProps {
   onClick: () => void;
   scrollY: number;
+  offsetX?: number;
 }
 
-const AIFloatingButton: React.FC<AIFloatingButtonProps> = ({ onClick, scrollY }) => {
+const AIFloatingButton: React.FC<AIFloatingButtonProps> = ({ onClick, scrollY, offsetX = 0 }) => {
   return (
     <button
       onClick={onClick}
@@ -13,6 +14,7 @@ const AIFloatingButton: React.FC<AIFloatingButtonProps> = ({ onClick, scrollY })
       style={{
         boxSizing: 'border-box',
         bottom: `calc(6rem + ${scrollY * 0.05}px)`,
+        right: offsetX ? `calc(12rem + ${offsetX}px)` : undefined,
         transform: 'none',
       }}
     >

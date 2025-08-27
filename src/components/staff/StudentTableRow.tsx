@@ -25,8 +25,7 @@ const StudentTableRow: React.FC<StudentTableRowProps> = ({
 
   return (
          <tr className={`border-b border-gray-100 hover:bg-gray-50 ${
-       isSelected ? 'bg-gray-100' : ''
-     }`}>
+       isSelected ? 'bg-gray-50' : ''}`}>
       <td className="px-4 py-4 text-gray-600 text-bodyLg">{student.gender}</td>
       <td className="px-4 py-4 text-gray-600 text-bodyLg">{student.gpa}</td>
       <td className="px-4 py-4 text-gray-600 text-bodyLg">
@@ -40,7 +39,7 @@ const StudentTableRow: React.FC<StudentTableRowProps> = ({
         }
       </td>
       <td className="px-4 py-4 text-center">
-        <div className="flex relative justify-center gap-2">
+        <div className="flex relative gap-2 justify-center">
           {/* 상세 정보 보기 버튼 */}
           <button
             onClick={() => onOpenDetailDrawer(student)}

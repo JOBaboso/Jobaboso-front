@@ -34,20 +34,20 @@ const AbilitySection: React.FC<AbilitySectionProps> = ({
   return (
     <div className="space-y-6">
       {/* 보유역량 1/2 */}
-      <div className="rounded-xl border border-gray-300 p-6 bg-white">
+      <div className="p-6 bg-white border border-gray-300 rounded-xl">
         <div className="flex items-center mb-4">
           <img
             src="/ic_skill_1.svg"
             alt="보유역량 1"
             className="w-8 h-8 mr-3"
           />
-          <h3 className="text-h2 font-semibold text-gray-800">보유역량</h3>
+          <h3 className="font-semibold text-gray-800 text-h2">보유역량</h3>
         </div>
 
-        <div >
+        <div>
           {/* 자격증 */}
           <div>
-            <p className="mb-4 text-bodyLg font-medium text-gray-800">자격증</p>
+            <p className="mb-4 font-medium text-gray-800 text-bodyLg">자격증</p>
             {certificates.length > 0 ? (
               certificates.map((cert, index) => (
                 <div
@@ -58,29 +58,29 @@ const AbilitySection: React.FC<AbilitySectionProps> = ({
                       : 'border-x-0 border-b-[1.5px] border-t-0 border-gray-300'
                   }`}
                 >
-                                     <div className="text-bodyLg text-gray-700">
+                                     <div className="text-gray-700 text-bodyLg">
                      {(cert.certificate_date || cert.date || '').replace(/\d{4}/g, (match) => match.slice(-2))}
                    </div>
-                  <div className="text-bodyLg text-gray-700">
+                  <div className="text-gray-700 text-bodyLg">
                     {cert.cert_name || cert.name || ''}
                   </div>
-                  <div className="text-bodyLg text-gray-700">
+                  <div className="text-gray-700 text-bodyLg">
                     {cert.score || cert.issuer || ''}
                   </div>
                 </div>
               ))
             ) : (
               <div className="grid grid-cols-3 gap-4 border-x-0 border-y-[1.5px] border-gray-300 bg-gray-50 px-6 py-4">
-                <div className="text-bodyLg text-gray-700">-</div>
-                <div className="text-bodyLg text-gray-700">-</div>
-                <div className="text-bodyLg text-gray-700">-</div>
+                <div className="text-gray-700 text-bodyLg">-</div>
+                <div className="text-gray-700 text-bodyLg">-</div>
+                <div className="text-gray-700 text-bodyLg">-</div>
               </div>
             )}
           </div>
 
           {/* 인턴 및 대외활동 */}
           <div>
-            <p className="mb-4 mt-4 text-bodyLg font-medium text-gray-800">인턴 및 대외활동</p>
+            <p className="mt-4 mb-4 font-medium text-gray-800 text-bodyLg">인턴 및 대외활동</p>
             {activities.length > 0 ? (
               activities.map((activity, index) => (
                 <div
@@ -91,11 +91,11 @@ const AbilitySection: React.FC<AbilitySectionProps> = ({
                       : 'border-x-0 border-b-[1.5px] border-t-0 border-gray-300'
                   }`}
                 >
-                                     <div className="text-bodyLg text-gray-700">
+                                     <div className="text-gray-700 text-bodyLg">
                      {activity.activity_date ? activity.activity_date.replace(/\d{4}/g, (match) => match.slice(-2)) : ''}
                    </div>
-                  <div className="text-bodyLg text-gray-700">{activity.title || ''}</div>
-                  <div className="text-bodyLg text-gray-700">
+                  <div className="text-gray-700 text-bodyLg">{activity.title || ''}</div>
+                  <div className="text-gray-700 text-bodyLg">
                     {activity.type === 'intern'
                       ? '인턴'
                       : activity.type === 'club'
@@ -108,16 +108,16 @@ const AbilitySection: React.FC<AbilitySectionProps> = ({
               ))
             ) : (
               <div className="grid grid-cols-3 gap-4 border-x-0 border-y-[1.5px] border-gray-300 bg-gray-50 px-6 py-4">
-                <div className="text-bodyLg text-gray-700">-</div>
-                <div className="text-bodyLg text-gray-700">-</div>
-                <div className="text-bodyLg text-gray-700">-</div>
+                <div className="text-gray-700 text-bodyLg">-</div>
+                <div className="text-gray-700 text-bodyLg">-</div>
+                <div className="text-gray-700 text-bodyLg">-</div>
               </div>
             )}
           </div>
 
           {/* 프로젝트 */}
           <div>
-            <p className="mb-4 mt-4 text-bodyLg font-medium text-gray-800">프로젝트</p>
+            <p className="mt-4 mb-4 font-medium text-gray-800 text-bodyLg">프로젝트</p>
             {projects && projects.length > 0 ? (
               projects.map((project, index) => (
                 <div
@@ -128,22 +128,22 @@ const AbilitySection: React.FC<AbilitySectionProps> = ({
                       : 'border-x-0 border-b-[1.5px] border-t-0 border-gray-300'
                   }`}
                 >
-                                     <div className="text-bodyLg text-gray-700">
+                                     <div className="text-gray-700 text-bodyLg">
                      {project.start_date && project.end_date
                        ? `${project.start_date.replace(/\d{4}/, (match) => match.slice(-2))} ~ ${project.end_date.replace(/\d{4}/, (match) => match.slice(-2))}`
                        : project.period ? project.period.replace(/\d{4}/g, (match) => match.slice(-2)) : ''}
                    </div>
-                  <div className="text-bodyLg text-gray-700">
+                  <div className="text-gray-700 text-bodyLg">
                     {project.project_name || project.name || ''}
                   </div>
-                  <div className="text-bodyLg text-gray-700">{project.description || ''}</div>
+                  <div className="text-gray-700 text-bodyLg">{project.description || ''}</div>
                 </div>
               ))
             ) : (
               <div className="grid grid-cols-3 gap-4 border-x-0 border-y-[1.5px] border-gray-300 bg-gray-50 px-6 py-4">
-                <div className="text-bodyLg text-gray-700">-</div>
-                <div className="text-bodyLg text-gray-700">-</div>
-                <div className="text-bodyLg text-gray-700">-</div>
+                <div className="text-gray-700 text-bodyLg">-</div>
+                <div className="text-gray-700 text-bodyLg">-</div>
+                <div className="text-gray-700 text-bodyLg">-</div>
               </div>
             )}
           </div>
@@ -151,27 +151,27 @@ const AbilitySection: React.FC<AbilitySectionProps> = ({
       </div>
 
       {/* 보유역량 2/2 */}
-      <div className="rounded-xl border border-gray-300 p-6 bg-white">
+      <div className="p-6 bg-white border border-gray-300 rounded-xl">
         <div className="flex items-center mb-4">
           <img
             src="/ic_skill_2.svg"
             alt="보유역량 2"
             className="w-8 h-8 mr-3"
           />
-          <h3 className="text-h2 font-semibold text-gray-800">보유역량</h3>
+          <h3 className="font-semibold text-gray-800 text-h2">보유역량</h3>
         </div>
-        <div className="my-4">
+        <div className="my-4 ml-10">
           {skills.length > 0 ? (
             skills.map((skill, index) => (
               <span
                 key={index}
-                className="mr-4 inline-block items-center gap-1 rounded-xl border border-blue-600 bg-blue-50 px-4 py-2 text-sm font-medium text-blue-600 shadow-none"
+                className="items-center inline-block gap-1 px-4 py-2 mr-4 text-sm font-medium text-blue-600 border border-blue-600 shadow-none rounded-xl bg-blue-50"
               >
                 {skill}
               </span>
             ))
           ) : (
-            <span className="text-bodyLg text-gray-500">보유 스킬이 없습니다</span>
+            <span className="text-gray-500 text-bodyLg">보유 스킬이 없습니다</span>
           )}
         </div>
       </div>

@@ -24,21 +24,21 @@ const EducationSection: React.FC<EducationSectionProps> = ({
   const rightFields = fields.slice(2, 4);
 
   return (
-    <div className="rounded-xl border border-gray-300 bg-white p-6">
-      <div className="mb-4 flex items-center">
-        <img src="/ic_education.svg" alt="학력" className="mr-3 h-8 w-8" />
-        <h3 className="text-h2 font-semibold text-gray-800">학력</h3>
+    <div className="p-6 bg-white border border-gray-300 rounded-xl">
+      <div className="flex items-center mb-4">
+        <img src="/ic_education.svg" alt="학력" className="w-8 h-8 mr-3" />
+        <h3 className="font-semibold text-gray-800 text-h2">학력</h3>
       </div>
 
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-2 gap-6 ml-10">
         {/* 열 1 */}
         <div className="space-y-3">
           {leftFields.map((field, index) => (
             <div key={index} className="flex items-center">
-              <div className="rounded-full border border-gray-400 bg-gray-100 px-3 py-1 text-sm">
+              <div className="px-3 py-1 text-sm bg-gray-100 border border-gray-400 rounded-full">
                 {field.label}
               </div>
-              <div className="ml-3 text-bodyLg text-gray-800">{field.value}</div>
+              <div className="ml-3 text-gray-800 text-bodyLg">{field.value}</div>
             </div>
           ))}
         </div>
@@ -46,10 +46,10 @@ const EducationSection: React.FC<EducationSectionProps> = ({
         <div className="space-y-3">
           {rightFields.map((field, index) => (
             <div key={index} className="flex items-center">
-              <div className="rounded-full border border-gray-400 bg-gray-100 px-3 py-1 text-sm">
+              <div className="px-3 py-1 text-sm bg-gray-100 border border-gray-400 rounded-full">
                 {field.label}
               </div>
-              <div className="ml-3 text-bodyLg text-gray-800">{field.value}</div>
+              <div className="ml-3 text-gray-800 text-bodyLg">{field.value}</div>
             </div>
           ))}
         </div>

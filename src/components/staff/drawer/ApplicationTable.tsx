@@ -19,13 +19,13 @@ interface ApplicationTableProps {
 
 export const ApplicationTable: React.FC<ApplicationTableProps> = ({ rows, onRowClick }) => {
   return (
-    <div className="rounded-xl border border-gray-300 bg-white p-6">
-      <div className="mb-4 flex items-center">
-        <BriefcaseIcon className="mr-3 h-8 w-8 text-mainBlue" />
-        <h3 className="text-h2 font-semibold text-gray-800">지원 현황</h3>
+    <div className="p-6 bg-white border border-gray-300 rounded-xl">
+      <div className="flex items-center mb-4">
+        <BriefcaseIcon className="w-8 h-8 mr-3 text-mainBlue" />
+        <h3 className="font-semibold text-gray-800 text-h2">지원 현황</h3>
       </div>
       <div className="overflow-hidden">
-        <table className="w-full border-b border-t border-gray-400 text-left text-h4 text-gray-800">
+        <table className="w-full text-left text-gray-800 border-t border-b border-gray-400 text-h4">
           <thead className="bg-gray-100">
             <tr>
               <th className="h-[50px] px-4 align-middle text-bodyLg">기업명</th>
@@ -37,9 +37,9 @@ export const ApplicationTable: React.FC<ApplicationTableProps> = ({ rows, onRowC
           <tbody>
             {rows.map((row) => (
               <tr key={row.id} className="border-t border-gray-400">
-                <td className="p-4 text-bodyLg font-medium text-gray-800">{row.company}</td>
-                <td className="p-4 text-bodyLg text-gray-700">{row.position}</td>
-                <td className="p-4 text-bodyLg text-gray-700">{row.date}</td>
+                <td className="p-4 font-medium text-gray-800 text-bodyLg">{row.company}</td>
+                <td className="p-4 text-gray-700 text-bodyLg">{row.position}</td>
+                <td className="p-4 text-gray-700 text-bodyLg">{row.date}</td>
                 <td className="p-4 text-bodyLg">
                   <span
                     className={`rounded-full border px-3 py-1 ${

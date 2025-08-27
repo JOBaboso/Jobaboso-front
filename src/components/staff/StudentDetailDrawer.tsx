@@ -54,32 +54,32 @@ const StudentDetailDrawer: React.FC<StudentDetailDrawerProps> = ({ isOpen, stude
         {isOpen && (
           <motion.div
             key="student-drawer"
-            initial={{ x: -600, opacity: 0 }}
+            initial={{ x: 600, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
-            exit={{ x: -600, opacity: 0 }}
+            exit={{ x: 600, opacity: 0 }}
             transition={{
               type: 'tween',
               ease: [0.25, 0.46, 0.45, 0.94],
               duration: 0.3,
             }}
-            className="fixed left-0 top-[104px] z-30 h-[calc(100vh-104px)] w-[700px] overflow-y-auto border-r border-gray-200 bg-gray-200 shadow-md"
+            className="fixed right-0 top-[104px] z-30 h-[calc(100vh-104px)] w-[700px] overflow-y-auto border-l border-gray-200 bg-gray-50 shadow-md"
           >
             {/* Header */}
-            <div className="sticky top-0 flex items-center justify-between border-b border-gray-200 bg-gray-50 p-6">
-              <h3 className="ml-2 text-h2 font-semibold text-gray-900">
+            <div className="flex sticky top-0 justify-between items-center p-6 bg-gray-100 border-b border-gray-200">
+              <h3 className="ml-2 font-semibold text-gray-900 text-h2">
                 학생 스펙 및 지원 현황 정보
               </h3>
               <button
                 onClick={onClose}
-                className="z-40 rounded-full p-2 transition-colors hover:bg-gray-200"
+                className="z-40 p-2 rounded-full transition-colors hover:bg-gray-200"
                 title="닫기"
               >
-                <XMarkIcon className="h-6 w-6 text-gray-600" />
+                <XMarkIcon className="w-6 h-6 text-gray-600" />
               </button>
             </div>
 
             {/* Content */}
-            <div className="space-y-6 p-6">
+            <div className="p-6 space-y-6">
               {isLoading ? (
                 <div className="flex justify-center py-8">
                   <LoadingSpinner message="학생 상세 정보를 불러오는 중..." />
@@ -152,12 +152,12 @@ const StudentDetailDrawer: React.FC<StudentDetailDrawerProps> = ({ isOpen, stude
 
                     if (!hasSpecs) {
                       return (
-                        <div className="rounded-xl border border-gray-200 bg-white p-12 text-center">
+                        <div className="p-12 text-center bg-white rounded-xl border border-gray-200">
                           <div className="mb-4">
                             <img
                               src="/ic_empty.svg"
                               alt="정보 없음"
-                              className="mx-auto h-16 w-16 opacity-50"
+                              className="mx-auto w-16 h-16 opacity-50"
                             />
                           </div>
                           <h3 className="mb-2 text-lg font-medium text-gray-700">

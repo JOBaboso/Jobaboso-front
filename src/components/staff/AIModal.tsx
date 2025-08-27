@@ -7,9 +7,10 @@ interface AIModalProps {
   isOpen: boolean;
   onClose: () => void;
   buttonPosition: { x: number; y: number };
+  offsetX?: number;
 }
 
-const AIModal: React.FC<AIModalProps> = ({ isOpen, onClose, buttonPosition }) => {
+const AIModal: React.FC<AIModalProps> = ({ isOpen, onClose, buttonPosition, offsetX = 0 }) => {
   const [message, setMessage] = useState('');
   const [chatMessages, setChatMessages] = useState<string[]>([]);
   const navigate = useNavigate();
@@ -55,6 +56,7 @@ const AIModal: React.FC<AIModalProps> = ({ isOpen, onClose, buttonPosition }) =>
               top: 'calc(61% - 45px)',
               transform: 'translateY(-50%)',
               transformOrigin: 'right bottom',
+              right: offsetX ? `calc(12rem + ${offsetX}px)` : undefined,
             }}
             initial={{
               scale: 0,
@@ -86,7 +88,7 @@ const AIModal: React.FC<AIModalProps> = ({ isOpen, onClose, buttonPosition }) =>
           >
             {/* X 버튼 */}
             <div className="mb-14">
-              <div className="flex justify-center items-center my-6 w-12 h-12">
+              <div className="flex items-center justify-center w-12 h-12 my-6">
                 <img src="/staff/ai.svg" alt="AI" className="w-12 h-12" />
               </div>
               <div className="space-y-1">
@@ -98,7 +100,7 @@ const AIModal: React.FC<AIModalProps> = ({ isOpen, onClose, buttonPosition }) =>
             </div>
             <button
               onClick={onClose}
-              className="flex absolute top-6 right-6 z-10 justify-center items-center w-8 h-8 text-gray-500 rounded-full transition-colors hover:bg-gray-100 hover:text-gray-700"
+              className="absolute z-10 flex items-center justify-center w-8 h-8 text-gray-500 transition-colors rounded-full top-6 right-6 hover:bg-gray-100 hover:text-gray-700"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
@@ -118,11 +120,11 @@ const AIModal: React.FC<AIModalProps> = ({ isOpen, onClose, buttonPosition }) =>
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="무엇이든 물어보세요. 예시 : 부산 기업에 합격한 23년도 졸업생을 보여줘"
-                  className="px-4 py-3 pr-14 w-full rounded-lg border border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg pr-14 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <button
                   type="submit"
-                  className="flex absolute right-2 top-1/2 justify-center items-center w-8 h-8 bg-gray-200 rounded-full transition-colors -translate-y-1/2 group hover:bg-blue-600"
+                  className="absolute flex items-center justify-center w-8 h-8 transition-colors -translate-y-1/2 bg-gray-200 rounded-full right-2 top-1/2 group hover:bg-blue-600"
                 >
                   <ArrowRightIcon className="w-4 h-4 font-bold text-gray-400 group-hover:text-white" />
                 </button>
