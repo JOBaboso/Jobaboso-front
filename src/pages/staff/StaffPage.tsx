@@ -179,7 +179,7 @@ const StaffPage: React.FC = () => {
         {/* 졸업년도별 취업률 */}
         <div className="p-6 bg-gray-600 rounded-xl">
           <div className="mb-2 text-white text-h3">졸업년도별 취업률</div>
-          <div className="flex justify-between items-center mb-6">
+          <div className="flex items-center justify-between mb-6">
             <div className="flex gap-2">
               <img src="/staff/ic_loading.svg"></img>
               <div className="text-white text-bodyMd">
@@ -194,7 +194,7 @@ const StaffPage: React.FC = () => {
                 기준
               </div>
             </div>
-            <div className="flex gap-2 items-center px-2 py-1 bg-gray-400 rounded-lg cursor-pointer">
+            <div className="flex items-center gap-2 px-2 py-1 bg-gray-400 rounded-lg cursor-pointer">
               <span className="text-white text-bodySm">2025년</span>
               <svg
                 className="w-4 h-4 text-white"
@@ -213,7 +213,7 @@ const StaffPage: React.FC = () => {
           </div>
           <div className="grid grid-cols-3 gap-3">
             {/* 전체 */}
-            <div className="px-6 pt-6 pb-8 bg-gradient-to-b from-white to-gray-100 rounded-lg">
+            <div className="px-6 pt-6 pb-8 rounded-lg bg-gradient-to-b from-white to-gray-100">
               <div className="mb-8 text-gray-700 text-h4">전체</div>
               <div className="flex justify-end">
                 <div className="text-bodySm">200명 중</div>
@@ -224,7 +224,7 @@ const StaffPage: React.FC = () => {
               </div>
             </div>
             {/* 남자 */}
-            <div className="px-6 pt-6 pb-8 bg-gradient-to-b from-white to-gray-100 rounded-lg">
+            <div className="px-6 pt-6 pb-8 rounded-lg bg-gradient-to-b from-white to-gray-100">
               <div className="mb-8 text-gray-700 text-h4">남자</div>
               <div className="flex justify-end">
                 <div className="text-bodySm">150명 중</div>
@@ -235,7 +235,7 @@ const StaffPage: React.FC = () => {
               </div>
             </div>
             {/* 여자 */}
-            <div className="px-6 pt-6 pb-8 bg-gradient-to-b from-white to-gray-100 rounded-lg">
+            <div className="px-6 pt-6 pb-8 rounded-lg bg-gradient-to-b from-white to-gray-100">
               <div className="mb-8 text-gray-700 text-h4">여자</div>
               <div className="flex justify-end">
                 <div className="text-bodySm">50명 중</div>
@@ -266,9 +266,9 @@ const StaffPage: React.FC = () => {
           <div className="flex justify-center">
             <div className="m-2 [&_.apexcharts-legend-marker]:!border-radius-[6px] [&_.apexcharts-legend-marker]:!width-[9px] [&_.apexcharts-legend-marker]:!height-[9px] [&_.apexcharts-legend-marker]:!border-radius-[6px] [&_.apexcharts-datalabel]:!text-shadow-none [&_.apexcharts-datalabel]:!box-shadow-none [&_text]:!text-shadow-none [&_text]:!box-shadow-none [&_.apexcharts-arc]:!stroke-none [&_.apexcharts-datalabel]:!drop-shadow-none [&_.apexcharts-datalabel]:!filter-none [&_.apexcharts-donut]:!stroke-none [&_.apexcharts-legend-marker]:!overflow-hidden [&_.apexcharts-legend-marker]:!rounded-md [&_.apexcharts-legend-marker]:!border-[1.5px] [&_.apexcharts-legend-marker]:!border-white [&_.apexcharts-pie]:!stroke-none [&_.apexcharts-slice]:!stroke-none [&_circle]:!stroke-none [&_path]:!stroke-none [&_text]:!drop-shadow-none [&_text]:!filter-none">
               {isLoadingDonut ? (
-                <div style={{ width: 345, height: 345 }} />
+                <div style={{ width: 345, height: 115 }} />
               ) : donutError ? (
-                <div className="flex justify-center items-center text-white" style={{ width: 345, height: 345 }}>
+                <div className="flex items-center justify-center text-white" style={{ width: 345, height: 115 }}>
                   {donutError}
                 </div>
               ) : showDonutChart ? (
@@ -281,7 +281,7 @@ const StaffPage: React.FC = () => {
                   height={345}
                 />
               ) : (
-                <div style={{ width: 345, height: 345 }} />
+                <div style={{ width: 345, height: 245 }} />
               )}
             </div>
           </div>
@@ -289,7 +289,7 @@ const StaffPage: React.FC = () => {
       </div>
 
       {/* 제목 2행 */}
-      <div className="items-center mt-14 mb-8">
+      <div className="items-center mb-8 mt-14">
         <div className="mb-4 mt-8 font-['Pretendard'] text-[24px] font-bold leading-[34px] tracking-[0%] text-gray-800">
           취업 선호도 분석
         </div>
@@ -302,29 +302,29 @@ const StaffPage: React.FC = () => {
       <div className="mt-8 grid h-[310px] grid-cols-[370px_972px] gap-4">
         {/* 기업 지역 분포 */}
         <div className="p-6 bg-gray-100 rounded-xl">
-          <div className="flex justify-between items-center mb-4">
+          <div className="flex items-center justify-between mb-4">
             <div className="text-gray-700 text-h3">기업 지역 분포</div>
             <div className="text-gray-700 text-bodySm">자세히 보기 ﹥</div>
           </div>
           <div className="mb-6 text-gray-700 text-bodyMd">
             전체 학생들의 합격 기업의 지역 분포예요.
           </div>
-          <div className="flex justify-between items-center px-5 py-3 mb-3 bg-gradient-to-r from-gray-50 to-blue-50 rounded-lg">
-            <div className="flex gap-2 items-center">
+          <div className="flex items-center justify-between px-5 py-3 mb-3 rounded-lg bg-gradient-to-r from-gray-50 to-blue-50">
+            <div className="flex items-center gap-2">
               <img src="/staff/ic_gold_medal.svg"></img>
               <div className="text-[16px] font-medium text-gray-700">서울특별시</div>
             </div>
             <div className="text-gray-700 text-bodySm">41.2%</div>
           </div>
-          <div className="flex justify-between items-center px-5 py-3 mb-3 bg-gradient-to-r from-gray-50 to-blue-50 rounded-lg">
-            <div className="flex gap-2 items-center">
+          <div className="flex items-center justify-between px-5 py-3 mb-3 rounded-lg bg-gradient-to-r from-gray-50 to-blue-50">
+            <div className="flex items-center gap-2">
               <img src="/staff/ic_silver_medal.svg"></img>
               <div className="text-[16px] font-medium text-gray-700">경기도 성남시</div>
             </div>
             <div className="text-gray-700 text-bodySm">12.1%</div>
           </div>
-          <div className="flex justify-between items-center px-5 py-3 bg-gradient-to-r from-gray-50 to-blue-50 rounded-lg">
-            <div className="flex gap-2 items-center">
+          <div className="flex items-center justify-between px-5 py-3 rounded-lg bg-gradient-to-r from-gray-50 to-blue-50">
+            <div className="flex items-center gap-2">
               <img src="/staff/ic_bronze_medal.svg"></img>
               <div className="text-[16px] font-medium text-gray-700">부산광역시</div>
             </div>
@@ -334,7 +334,7 @@ const StaffPage: React.FC = () => {
 
         {/* 선호 기업 */}
         <div className="p-6 text-gray-700 bg-gray-100 rounded-xl">
-          <div className="flex justify-between items-center mb-4">
+          <div className="flex items-center justify-between mb-4">
             <div className="text-gray-700 text-h3">선호 기업</div>
             <div className="text-gray-700 text-bodySm">자세히 보기 ﹥</div>
           </div>
@@ -352,8 +352,8 @@ const StaffPage: React.FC = () => {
               <div key={index}>
                 <img src={company.imgUrl} className="w-[500px] h-[125px] px-8 py-12 bg-white rounded-t-2xl border-t border-r border-l border-gray-300" />
                 <div className="w-full border border-gray-300"></div>
-                <div className="p-3 bg-white rounded-b-2xl border-r border-b border-l border-gray-300">
-                  <div className="flex gap-2 items-center w-full">
+                <div className="p-3 bg-white border-b border-l border-r border-gray-300 rounded-b-2xl">
+                  <div className="flex items-center w-full gap-2">
                     <img src={company.imgUrl} className="w-[20px] h-[20px] rounded-full object-cover" />
                     <div className="text-[12px]">{company.name}</div>
                   </div>
@@ -382,7 +382,7 @@ const StaffPage: React.FC = () => {
       <div className="mt-8 grid h-[310px] grid-cols-[972px_370px] gap-4">
         {/* 선호 직군 */}
         <div className="p-6 text-gray-700 bg-gray-100 rounded-xl">
-          <div className="flex justify-between items-center mb-4">
+          <div className="flex items-center justify-between mb-4">
             <div className="text-gray-700 text-h3">선호 직군</div>
             <div className="text-gray-700 text-bodySm">자세히 보기 ﹥</div>
           </div>
@@ -411,29 +411,29 @@ const StaffPage: React.FC = () => {
         
         {/* 희망 기업 분포 */}
         <div className="p-6 bg-gray-100 rounded-xl">
-          <div className="flex justify-between items-center mb-4">
+          <div className="flex items-center justify-between mb-4">
             <div className="text-gray-700 text-h3">기업 지역 분포</div>
             <div className="text-gray-700 text-bodySm">자세히 보기 ﹥</div>
           </div>
           <div className="mb-6 text-gray-700 text-bodyMd">
             우리 학과 학생들이 취업하고 싶은 직군이에요.
           </div>
-          <div className="flex justify-between items-center px-5 py-3 mb-3 bg-gradient-to-r from-gray-50 to-blue-50 rounded-lg">
-            <div className="flex gap-2 items-center">
+          <div className="flex items-center justify-between px-5 py-3 mb-3 rounded-lg bg-gradient-to-r from-gray-50 to-blue-50">
+            <div className="flex items-center gap-2">
               <img src="/staff/ic_gold_medal.svg"></img>
               <div className="text-[16px] font-medium text-gray-700">서울특별시</div>
             </div>
             <div className="text-gray-700 text-bodySm">62.8%</div>
           </div>
-          <div className="flex justify-between items-center px-5 py-3 mb-3 bg-gradient-to-r from-gray-50 to-blue-50 rounded-lg">
-            <div className="flex gap-2 items-center">
+          <div className="flex items-center justify-between px-5 py-3 mb-3 rounded-lg bg-gradient-to-r from-gray-50 to-blue-50">
+            <div className="flex items-center gap-2">
               <img src="/staff/ic_silver_medal.svg"></img>
               <div className="text-[16px] font-medium text-gray-700">부산광역시</div>
             </div>
             <div className="text-gray-700 text-bodySm">24.2%</div>
           </div>
-          <div className="flex justify-between items-center px-5 py-3 bg-gradient-to-r from-gray-50 to-blue-50 rounded-lg">
-            <div className="flex gap-2 items-center">
+          <div className="flex items-center justify-between px-5 py-3 rounded-lg bg-gradient-to-r from-gray-50 to-blue-50">
+            <div className="flex items-center gap-2">
               <img src="/staff/ic_bronze_medal.svg"></img>
               <div className="text-[16px] font-medium text-gray-700">경기도 성남시</div>
             </div>
@@ -445,7 +445,7 @@ const StaffPage: React.FC = () => {
 
       {/* 학생 비교 파트 */}
       <div className="px-20 py-5 mt-24 mb-10 bg-gray-100 rounded-xl">
-        <div className="flex justify-between items-center">
+        <div className="flex items-center justify-between">
           <div className="flex items-center">
             <img src="/staff/ic_arrow.svg"></img>
             <div className="ml-8 text-gray-700 text-h2">
