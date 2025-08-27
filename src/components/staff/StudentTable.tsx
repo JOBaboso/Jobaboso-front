@@ -30,8 +30,8 @@ const StudentTable: React.FC<StudentTableProps> = ({
   onOpenDetailDrawer,
   selectedStudentId,
 }) => {
-  // AI 쿼리가 있을 때는 상위 3개만 표시
-  const displayStudents = aiQuery ? students.slice(0, 3) : students;
+  // API 결과를 그대로 표시
+  const displayStudents = students;
 
   return (
     <table className="w-full">

@@ -65,6 +65,12 @@ export interface StudentAPIParams {
   sort_order?: string | null;
 }
 
+// AI 검색 API 파라미터 타입 정의
+export interface StaffAISearchParams {
+  query: string;
+  limit?: number;
+}
+
 // 학생 목록 조회 API
 export const fetchStudents = async (params: StudentAPIParams = {}): Promise<StudentAPIResponse> => {
   const queryParams = new URLSearchParams();
@@ -94,5 +100,14 @@ export const fetchStudentDetail = async (studentId: string): Promise<StudentDeta
 // 기업 선호도 분포 조회 API
 export const fetchCompanyPreferences = async (): Promise<CompanyPreferencesResponse> => {
   const response = await api.get(`/university-staff/company-preferences`);
+  return response.data;
+};
+
+// AI 검색 API
+export const staffAISearch = async (params: StaffAISearchParams): Promise<StudentAPIResponse> => {
+  const response = await api.post('/api/staff-ai-search', {
+    query: params.query,
+    limit: params.limit || 100
+  });
   return response.data;
 };
