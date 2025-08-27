@@ -1,6 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { fetchStudents, StudentAPIParams, StudentAPIResponse } from '../../apis/staff';
+import {
+  fetchStudents,
+  StudentAPIParams,
+  StudentAPIResponse,
+  staffAISearch,
+} from '../../apis/staff';
 import { StudentSpec } from '../../mocks/staffStudentsData';
 import { useStudentFilters, Filter } from '../../components/staff/useStudentFilters';
 
@@ -162,6 +167,7 @@ const StaffStudentsPage: React.FC = () => {
       // URL에 정렬 쿼리 추가
       const newSearchParams = new URLSearchParams(searchParams);
       newSearchParams.set('sort_query', newSortOrder);
+      newSearchParams.delete('ai_query'); // AI 검색 상태 해제
       setSearchParams(newSearchParams);
     } catch (err) {
       console.error('정렬 데이터 로딩 실패:', err);
@@ -215,30 +221,62 @@ const StaffStudentsPage: React.FC = () => {
     addFilter(columnName, value);
   };
 
-  const handleClearAIQuery = () => {
+  const handleClearAIQuery = async () => {
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.delete('ai_query');
     setSearchParams(newSearchParams);
-  };
 
-  // AI 쿼리 변경 시 로딩 처리
-  useEffect(() => {
-    if (aiQuery) {
+    // 원래 데이터로 복원
+    try {
       setIsLoading(true);
-      const timer = setTimeout(() => {
-        setIsLoading(false);
-      }, 2000);
+      setError(null);
 
-      return () => clearTimeout(timer);
-    } else {
+      const apiParams: StudentAPIParams = {
+        sort_by: 'success_rate',
+        sort_order: 'desc',
+      };
+
+      const response = await fetchStudents(apiParams);
+      const transformedStudents = transformAPIResponseToStudentSpec(response.students);
+
+      setStudents(transformedStudents);
+    } catch (err) {
+      console.error('데이터 복원 실패:', err);
+      setError('데이터를 불러오는데 실패했습니다.');
+    } finally {
       setIsLoading(false);
     }
+  };
+
+  // AI 쿼리 변경 시 AI 검색 API 호출
+  useEffect(() => {
+    const handleAISearch = async () => {
+      if (aiQuery) {
+        try {
+          setIsLoading(true);
+          setError(null);
+
+          const response = await staffAISearch({
+            query: aiQuery,
+            limit: 100,
+          });
+
+          const transformedStudents = transformAPIResponseToStudentSpec(response.students);
+          setStudents(transformedStudents);
+        } catch (err) {
+          console.error('AI 검색 실패:', err);
+          setError('AI 검색에 실패했습니다. 다시 시도해주세요.');
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    handleAISearch();
   }, [aiQuery]);
 
-  // AI 쿼리가 있을 때 졸업 필터 적용
-  const finalFilteredStudents = aiQuery
-    ? filteredStudents.filter((student) => student.status === '졸업')
-    : filteredStudents;
+  // AI 검색 결과와 일반 검색 결과 모두에 필터링 적용
+  const finalFilteredStudents = filteredStudents;
 
   // 로딩 상태에 따른 렌더링
   if (isInitialLoading) {
@@ -252,7 +290,11 @@ const StaffStudentsPage: React.FC = () => {
   return (
     <div className="relative">
       {/* AI 호출 버튼 */}
-      <AIFloatingButton onClick={handleAICall} scrollY={scrollY} offsetX={isDetailDrawerOpen ? 550 : 0} />
+      <AIFloatingButton
+        onClick={handleAICall}
+        scrollY={scrollY}
+        offsetX={isDetailDrawerOpen ? 550 : 0}
+      />
 
       {/* AI 모달 */}
       <AIModal
@@ -271,14 +313,16 @@ const StaffStudentsPage: React.FC = () => {
           setSelectedStudent(null);
         }}
       />
-      <div className={`transition-transform duration-300 ${isDetailDrawerOpen ? '-translate-x-[345px]' : 'translate-x-0'}`}>
+      <div
+        className={`transition-transform duration-300 ${isDetailDrawerOpen ? '-translate-x-[345px]' : 'translate-x-0'}`}
+      >
         {/* 정렬 드롭다운 */}
         <h2 className="mb-8 mt-8 text-[40px] font-bold text-gray-800">학생 스펙 확인하기</h2>
-        <h2 className="text-gray-700 text-bodyLg">
+        <h2 className="text-bodyLg text-gray-700">
           우리 학과 학생 개개인의 스펙을 확인할 수 있어요.
         </h2>
 
-        <div className="flex justify-end items-center mb-4">
+        <div className="mb-4 flex items-center justify-end">
           <SortDropdown
             sortOrder={sortOrder}
             onSortSelect={handleSortSelect}
